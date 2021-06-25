@@ -1,12 +1,14 @@
-const express = 'express';
+const express = require("express");
 // TODO: Add middleware Route here
 
-
-const {createRoomById} = require('../controllers/room.controllers')
+const {
+  createRoomById,
+  getRoomByID,
+} = require("../controllers/room.controllers");
 const router = express.Router();
 
+router.route("/").post(createRoomById);
+router.route("/:id").get(getRoomByID);
 
-
-
-router.route('/').post(createRoomById);
+module.exports = router;
 // router.route('/:id').get();
