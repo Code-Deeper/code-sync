@@ -1,9 +1,17 @@
 const asyncHandler = require("express-async-handler");
 const Room = require("../models/room.model");
 
-// const getRoomByID = asyncHandler(async (req, res) => {
+const getRoomByID = asyncHandler(async (req, res) => {
 
-// });
+    const roomIID = req.params.id
+    const room = await Room.find({room_id :roomIID })
+    if(room){
+        res.status(400).json(room);
+    }else{
+        res.status(400);
+        throw new Error("Room Not Found!!");
+    }
+});
 
 const createRoomById = asyncHandler(async (req, res) => {
   const { room_id, room_title, room_body } = req.body;
@@ -24,4 +32,4 @@ const createRoomById = asyncHandler(async (req, res) => {
 });
 
 
-module.exports = {createRoomById}
+module.exports = {createRoomById ,getRoomByID}
