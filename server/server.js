@@ -19,8 +19,8 @@ const app = express()
 app.use(express.json());
 
 
-// Routes
-
+// Controllers
+app.use('/api/room',require('./routes/room.route'));
 
 
 
