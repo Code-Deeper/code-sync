@@ -12,6 +12,12 @@ const Room = mongoose.model("Room", {
   room_body: {
     type: String,
   },
+  room_language : {
+    type : String
+  },
+  room_input : {
+    type : String
+  }
 });
 
 module.exports = Room;
