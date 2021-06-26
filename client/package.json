@@ -1,14 +1,20 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "homepage": "https://github.com/DE-PROJECT/code-sync",
-  "private": false,
+  "proxy": "http://127.0.0.1:5000/",
+  "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "ace-builds": "^1.4.12",
+    "axios": "^0.21.1",
     "react": "^17.0.2",
+    "react-ace": "^9.4.1",
+    "react-bootstrap": "^1.6.1",
     "react-dom": "^17.0.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
   },

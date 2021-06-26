@@ -4,9 +4,9 @@ const Room = require("../models/room.model");
 const getRoomByID = asyncHandler(async (req, res) => {
 
     const roomIID = req.params.id
-    const room = await Room.find({room_id :roomIID })
+    const room = await Room.findOne({room_id :roomIID })
     if(room){
-        res.status(400).json(room);
+        res.status(200).json(room);
     }else{
         res.status(400);
         throw new Error("Room Not Found!!");
