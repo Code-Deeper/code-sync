@@ -21,6 +21,7 @@ const createRoomById = asyncHandler(async (req, res) => {
     return;
   }
 
+
   const newRoom = new Room({
     room_id,
     room_title,
