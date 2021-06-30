@@ -31,7 +31,9 @@ function Room(props) {
   const [submissionId, setSubmissionId] = useState("");
   const [submissionIdChecker, setSubmissionIdChecker] = useState(null);
 
-  const API_KEY = "guest";
+
+  // const API_KEY = "guest";
+
 
 
 
@@ -61,7 +63,9 @@ function Room(props) {
 
   useEffect(() => {
     const updateSubmission = async () => {
-      if (submissionIdChecker && submissionState == completedState) {
+
+      if (submissionIdChecker && submissionState === completedState) {
+
         // clearInterval(submissionIdChecker);
         setSubmissionIdChecker(null);
         const params = new URLSearchParams({
@@ -87,7 +91,8 @@ function Room(props) {
 
 
   const submitHandler = () => {
-    if (submissionState == runningState) return;
+
+    if (submissionState === runningState) return;
     setSubmissionState(runningState);
 
     // console.log("language" + language);
@@ -163,7 +168,9 @@ function Room(props) {
 
             {languages.map((lang, index) => {
               return (
-                <option key={index} value={lang} selected={lang == language}>
+
+                <option key={index} value={lang} selected={lang === language}>
+
                   {lang}
                 </option>
               );

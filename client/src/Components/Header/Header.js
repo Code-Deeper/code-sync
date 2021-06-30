@@ -1,6 +1,21 @@
-import React from "react";
-import {Link} from 'react-router-dom'
-function Header() {
+import React, { useState } from "react";
+import { Link, RouteComponentProps, withRouter, useHistory } from 'react-router-dom'
+function Header(props) {
+
+  const [roomId, setRoomId] = useState('');
+
+  const submitHandler = () => {
+    // const {history} = props
+    if (roomId) {
+      console.log(roomId);
+      props.history.push(`/room/${roomId}`)
+
+    } else {
+      alert('Please Enter Room Name');
+      props.history.push('/');
+    }
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -26,12 +41,12 @@ function Header() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/">
+              <Link className="nav-link active" aria-current="page" to="/newRoom">
                 New Room
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/">
+              <Link className="nav-link active" aria-current="page" to="/joinRoom">
                 Join Room
               </Link>
             </li>
@@ -42,8 +57,13 @@ function Header() {
               type="search"
               placeholder="Room id"
               aria-label="Search"
+              value={roomId}
+              onChange={(e) => setRoomId(e.target.value)}
             />
-            <button className="btn btn-outline-success" type="submit">
+            {console.log(roomId)}
+            <button className="btn btn-outline-success" type="submit"
+              onClick={submitHandler}
+            >
               Join
             </button>
           </form>
@@ -53,4 +73,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default withRouter(Header);
