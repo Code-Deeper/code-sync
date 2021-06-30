@@ -15,6 +15,7 @@ const getRoomByID = asyncHandler(async (req, res) => {
 const createRoomById = asyncHandler(async (req, res) => {
   const { room_id, room_title, room_body, room_language , room_input } = req.body;
   // Edge Case room_id room_title null
+
   // if (room_id == null || room_title == null) {
   //   res.status(400);
   //   throw new Error("Please Enter room id and name!");
@@ -30,6 +31,7 @@ const createRoomById = asyncHandler(async (req, res) => {
   });
   const createRoom = await newRoom.save();
   res.status(201).json(createRoom);
+
 });
 
 const updateRoomById = asyncHandler(async (req, res) => {
