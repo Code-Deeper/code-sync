@@ -37,6 +37,9 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
+  socket.on('joinroom', (roomId) => {
+    socket.join(roomId);
+  });
   socket.on('updateBody', (value) => {
     io.emit('updateBody', value);
   });

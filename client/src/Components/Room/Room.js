@@ -59,6 +59,10 @@ function Room(props) {
     const { id } = props.match.params;
     // console.log("id is" + id);
     setRoomId(id);
+
+    socket.emit('joinroom', id);
+
+
     const url = `/api/room/${id}`;
     const fetchData = async () => {
       const { data } = await axios.get(url);
@@ -96,7 +100,7 @@ function Room(props) {
         const { stdout, stderr } = data;
         console.log('stdout' + stdout);
 
-        socket.emit('updateOutput', `${stdout}${stderr}`);
+        socket.emit('updateOutput', { value: `${stdout}${stderr}`, roomId: roomId });
 
       }
     };
@@ -172,11 +176,11 @@ function Room(props) {
   }
 
   const handleUpdateBody = (value) => {
-    socket.emit('updateBody', value);
+    socket.emit('updateBody', {value , roomId});
   };
 
   const handleUpdateInput = (value) => {
-    socket.emit('updateInput', value);
+    socket.emit('updateInput', {value , roomId});
   };
   return (
     <div>
@@ -185,7 +189,7 @@ function Room(props) {
           <label>Choose Language</label>
           <select
             className="form-select"
-            onChange={(event) => socket.emit('updateLanguage', event.target.value)}
+            onChange={(event) => socket.emit('updateLanguage', { value :event.target.value , roomId})}
           >
 
             {languages.map((lang, index) => {
