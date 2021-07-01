@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Editor from "../Editor/Editor";
+import socket from '../socket.io'
+
 
 function Room(props) {
   const languageToEditorMode = {
@@ -40,6 +42,20 @@ function Room(props) {
   // Once room will be created then this effect will triggered when ever props id changed
   // Props id means router id example /room/:id
   useEffect(() => {
+
+    socket.on('updateBody', (roomBody) => {
+      setRoomBody(roomBody);
+    });
+    socket.on('updateInput', (input) => {
+      setInput(input);
+    });
+    socket.on('updateLanguage', (language) => {
+      setLanguage(language);
+    });
+    socket.on('updateOutput', (output) => {
+      setOutput(output);
+    });
+
     const { id } = props.match.params;
     // console.log("id is" + id);
     setRoomId(id);
@@ -71,8 +87,8 @@ function Room(props) {
         const params = new URLSearchParams({
           id: submissionId,
           api_key: 'guest'
-      });
-      const querystring = params.toString();
+        });
+        const querystring = params.toString();
         const { data } = await axios.get(
           `http://api.paiza.io/runners/get_details?${querystring}`
         );
@@ -80,7 +96,7 @@ function Room(props) {
         const { stdout, stderr } = data;
         console.log('stdout' + stdout);
 
-        setOutput(`${stdout}${stderr}`);
+        socket.emit('updateOutput', `${stdout}${stderr}`);
 
       }
     };
@@ -102,7 +118,7 @@ function Room(props) {
       room_body: roomBody,
       room_title: roomTitle,
       room_input: input,
-      room_language: language ,
+      room_language: language,
     })
       .then((res) => {
         // TODO:
@@ -113,12 +129,12 @@ function Room(props) {
         setSubmissionState(errorState);
         return;
       });
-      // console.log("l"+language);
-      const params = new URLSearchParams({
-        source_code: roomBody,
-        language: language,
-        input: input,
-        api_key: 'guest'
+    // console.log("l"+language);
+    const params = new URLSearchParams({
+      source_code: roomBody,
+      language: language,
+      input: input,
+      api_key: 'guest'
     });
     const querystring = params.toString();
     console.log('before Input ' + input);
@@ -145,8 +161,8 @@ function Room(props) {
     const params = new URLSearchParams({
       id: submissionId,
       api_key: 'guest'
-  });
-  const querystring = params.toString();
+    });
+    const querystring = params.toString();
     axios.get(`http://api.paiza.io/runners/get_status?${querystring}`).then((res) => {
       const { status } = res.data
       setSubmissionState(status)
@@ -155,7 +171,13 @@ function Room(props) {
     })
   }
 
+  const handleUpdateBody = (value) => {
+    socket.emit('updateBody', value);
+  };
 
+  const handleUpdateInput = (value) => {
+    socket.emit('updateInput', value);
+  };
   return (
     <div>
       <div className="row container-fluid">
@@ -163,7 +185,7 @@ function Room(props) {
           <label>Choose Language</label>
           <select
             className="form-select"
-            onChange={(event) => setLanguage(event.target.value)}
+            onChange={(event) => socket.emit('updateLanguage', event.target.value)}
           >
 
             {languages.map((lang, index) => {
@@ -214,12 +236,12 @@ function Room(props) {
         <div className="col-6">
           <h5>Code Here</h5>
           {/* {console.log("language" + languageToEditorMode[language])} */}
-          {console.log('room body is ' +output)}
+          {console.log('room body is ' + output)}
           <Editor
             theme={theme}
             language={languageToEditorMode[language]}
             body={roomBody}
-            setBody={setRoomBody}
+            setBody={handleUpdateBody}
           />
 
         </div>
@@ -229,7 +251,7 @@ function Room(props) {
             theme={theme}
             language={''}
             body={input}
-            setBody={setInput}
+            setBody={handleUpdateInput}
             height={'35vh'}
           />
           <h5>Output</h5>
