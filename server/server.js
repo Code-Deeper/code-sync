@@ -4,16 +4,23 @@ const http = require('http')
 const connectDB = require('./config/db')
 const cors = require('cors')
 const dotenv = require('dotenv')
-dotenv.config({ path: __dirname + '/.env' });
-const app = express()
+var morgan = require('morgan')
+const path = require('path')
 
+
+const app = express()
+dotenv.config('../.env');
+const server = http.createServer(app);
 const port = process.env.DEVELOPMENT_PORT || 5000
 app.set('port', port);
-const server = http.createServer(app);
-
 // DB Connection    
 connectDB()
 
+// Production API LOG
+
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 // Middleware
 app.use(express.json());
@@ -54,8 +61,17 @@ io.on('connection', (socket) => {
   });
 });
 
+// Production Settings
+if(process.env.NODE_ENV==='production')
+{
+  // Set Value
+  app.use(express.static('client/build'))
 
+  app.get('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+  })
 
+}
 server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

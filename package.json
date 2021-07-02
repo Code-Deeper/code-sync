@@ -2,12 +2,13 @@
   "name": "code-sync",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server/server",
     "server": "nodemon server/server",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "deployment-script" : "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "mongoose": "^5.12.14",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.7",
     "socket.io": "^4.1.2"
   }
