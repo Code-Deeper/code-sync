@@ -1,30 +1,77 @@
 const express = require('express')
 var colors = require('colors');
+const http = require('http')
 const connectDB = require('./config/db')
 const cors = require('cors')
 const dotenv = require('dotenv')
-dotenv.config({path:__dirname+'/.env'});
+var morgan = require('morgan')
+const path = require('path')
 
-const port =  process.env.DEVELOPMENT_PORT || 5000
 
+const app = express()
+dotenv.config('../.env');
+const server = http.createServer(app);
+const port = process.env.DEVELOPMENT_PORT || 5000
+app.set('port', port);
 // DB Connection    
 connectDB()
 
-const app = express()
+// Production API LOG
+
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 // Middleware
 app.use(express.json());
 app.use(
-    cors({
-        allowedHeaders: ['Content-Type'],
-        credentials: true,
-        origin: ['http://localhost:3000']
-    })
+  cors({
+    allowedHeaders: ['Content-Type'],
+    credentials: true,
+    origin: ['http://localhost:3000']
+  })
 );
 
 // Controllers
-app.use('/api/room/',require('./routes/room.route'));
+app.use('/api/room/', require('./routes/room.route'));
 
-app.listen(port, () => {
+// Socket.io
+const { Server, Socket } = require('socket.io');
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000'
+  }
+});
+
+io.on('connection', (socket) => {
+  socket.on('joinroom', (roomId) => {
+    socket.join(roomId);
+  });
+  socket.on('updateBody', (value) => {
+    io.emit('updateBody', value);
+  });
+  socket.on('updateInput', (value) => {
+    io.emit('updateInput', value);
+  });
+  socket.on('updateLanguage', (value) => {
+    io.emit('updateLanguage', value);
+  });
+  socket.on('updateOutput', (value) => {
+    io.emit('updateOutput', value);
+  });
+});
+
+// Production Settings
+if(process.env.NODE_ENV==='production')
+{
+  // Set Value
+  app.use(express.static('client/build'))
+
+  app.get('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+  })
+
+}
+server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

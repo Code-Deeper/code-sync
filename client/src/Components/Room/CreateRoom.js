@@ -10,7 +10,8 @@ import { white } from 'colors';
 function CreateRoom({ history }) {
     const [roomName, setRoomName] = useState('');
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
+
         // uuid.v4()
         const uID = await uuidv4();
         console.log(uID);
@@ -26,7 +27,6 @@ function CreateRoom({ history }) {
             console.log(err);
         })
     }
-
 
     return (
         <div className="container-fluid">
