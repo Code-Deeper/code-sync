@@ -176,11 +176,11 @@ function Room(props) {
   }
 
   const handleUpdateBody = (value) => {
-    socket.emit('updateBody', {value , roomId});
+    socket.emit('updateBody', { value, roomId });
   };
 
   const handleUpdateInput = (value) => {
-    socket.emit('updateInput', {value , roomId});
+    socket.emit('updateInput', { value, roomId });
   };
   return (
     <div>
@@ -189,7 +189,7 @@ function Room(props) {
           <label>Choose Language</label>
           <select
             className="form-select"
-            onChange={(event) => socket.emit('updateLanguage', { value :event.target.value , roomId})}
+            onChange={(event) => socket.emit('updateLanguage', { value: event.target.value, roomId })}
           >
 
             {languages.map((lang, index) => {
@@ -245,7 +245,7 @@ function Room(props) {
             theme={theme}
             language={languageToEditorMode[language]}
             body={roomBody}
-            setBody={handleUpdateBody}
+            setBody={setRoomBody}
           />
 
         </div>
@@ -255,14 +255,15 @@ function Room(props) {
             theme={theme}
             language={''}
             body={input}
-            setBody={handleUpdateInput}
+            setBody={setInput}
             height={'35vh'}
           />
           <h5>Output</h5>
+          {console.log(output)}
           <Editor
             theme={theme}
             language={''}
-            body={output}
+            body={output.value}
             setBody={setOutput}
             readOnly={true}
             height={'40vh'}
