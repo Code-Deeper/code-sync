@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Editor from "../Editor/Editor";
 import socket from '../socket.io'
-
+import _, { debounce } from 'lodash';
 
 function Room(props) {
   const languageToEditorMode = {
@@ -36,7 +36,7 @@ function Room(props) {
 
   // const API_KEY = "guest";
 
-
+  const SOCKET_SPEED = 100;
 
 
   // Once room will be created then this effect will triggered when ever props id changed
@@ -44,7 +44,8 @@ function Room(props) {
   useEffect(() => {
 
     socket.on('updateBody', (roomBody) => {
-      setRoomBody(roomBody.value);
+      console.log(roomBody)
+      setRoomBody(roomBody);
     });
     socket.on('updateInput', (input) => {
       setInput(input.value);
@@ -53,7 +54,7 @@ function Room(props) {
       setLanguage(language.value);
     });
     socket.on('updateOutput', (output) => {
-      setOutput(output);
+      setOutput(output.value);
     });
 
     const { id } = props.match.params;
@@ -96,12 +97,14 @@ function Room(props) {
         const { data } = await axios.get(
           `http://api.paiza.io/runners/get_details?${querystring}`
         );
-
-        const { stdout, stderr } = data;
-        console.log('stdout' + stdout);
-
-        socket.emit('updateOutput', { value: `${stdout}${stderr}`, roomId: roomId });
-
+        const { stdout, stderr, build_stderr } = data;
+        // console.log('stdout' + stdout);
+        let output = "";
+        if (stdout) output += stdout;
+        if (stderr) output += stderr;
+        if (build_stderr) output += build_stderr;
+        setOutput(output)
+        socket.emit('updateOutput', { value: output, roomId: roomId });
       }
     };
     updateSubmission();
@@ -126,7 +129,12 @@ function Room(props) {
     })
       .then((res) => {
         // TODO:
-        // console.log("submit handler " + res.room_language);
+        console.log({ res });
+        const { data } = res;
+        setRoomTitle(data.room_title);
+        setRoomBody(data.room_body);
+        setInput(data.room_input)
+        setLanguage(data.room_language);
       })
       .catch((err) => {
         console.log("handler error");
@@ -177,13 +185,13 @@ function Room(props) {
 
   const handleUpdateBody = (value) => {
     setRoomBody(value)
-    socket.emit('updateBody', { value, roomId });
+    debounce(() => socket.emit('updateBody', { value, roomId }), SOCKET_SPEED)();
   };
 
   const handleUpdateInput = (value) => {
     // let val = toString(value);
     setInput(value)
-    socket.emit('updateInput', { value, roomId });
+    debounce(() => socket.emit('updateInput', { value, roomId }), SOCKET_SPEED)();
   };
   return (
     <div>
@@ -243,7 +251,7 @@ function Room(props) {
         <div className="col-6">
           <h5>Code Here</h5>
           {/* {console.log("language" + languageToEditorMode[language])} */}
-          {console.log('room body is ' + output)}
+          {/* {console.log('room body is ' + output)} */}
           <Editor
             theme={theme}
             language={languageToEditorMode[language]}
@@ -266,7 +274,7 @@ function Room(props) {
           <Editor
             theme={theme}
             language={''}
-            body={output.value}
+            body={output}
             setBody={setOutput}
             readOnly={true}
             height={'40vh'}
