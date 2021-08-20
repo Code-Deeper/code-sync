@@ -47,28 +47,28 @@ io.on('connection', (socket) => {
   socket.on('joinroom', (roomId) => {
     socket.join(roomId);
   });
-  socket.on('updateBody', (value) => {
-    io.emit('updateBody', value);
+  socket.on('updateBody', ({ value, roomId }) => {
+    // console.log({ value, roomId });
+    socket.broadcast.to(roomId).emit('updateBody', value);
   });
-  socket.on('updateInput', (value) => {
-    io.emit('updateInput', value);
+  socket.on('updateInput', ({ value, roomId }) => {
+    socket.broadcast.to(roomId).emit('updateInput', value);
   });
-  socket.on('updateLanguage', (value) => {
-    io.emit('updateLanguage', value);
+  socket.on('updateLanguage', ({ value, roomId }) => {
+    socket.broadcast.to(roomId).emit('updateLanguage', value);
   });
-  socket.on('updateOutput', (value) => {
-    io.emit('updateOutput', value);
+  socket.on('updateOutput', ({ value, roomId }) => {
+    socket.broadcast.to(roomId).emit('updateOutput', value);
   });
 });
 
 // Production Settings
-if(process.env.NODE_ENV==='production')
-{
+if (process.env.NODE_ENV === 'production') {
   // Set Value
   app.use(express.static('client/build'))
 
-  app.get('*',(req,res)=>{
-    res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   })
 
 }
