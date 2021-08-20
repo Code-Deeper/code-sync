@@ -44,13 +44,13 @@ function Room(props) {
   useEffect(() => {
 
     socket.on('updateBody', (roomBody) => {
-      setRoomBody(roomBody);
+      setRoomBody(roomBody.value);
     });
     socket.on('updateInput', (input) => {
-      setInput(input);
+      setInput(input.value);
     });
     socket.on('updateLanguage', (language) => {
-      setLanguage(language);
+      setLanguage(language.value);
     });
     socket.on('updateOutput', (output) => {
       setOutput(output);
@@ -176,10 +176,13 @@ function Room(props) {
   }
 
   const handleUpdateBody = (value) => {
+    setRoomBody(value)
     socket.emit('updateBody', { value, roomId });
   };
 
   const handleUpdateInput = (value) => {
+    // let val = toString(value);
+    setInput(value)
     socket.emit('updateInput', { value, roomId });
   };
   return (
@@ -245,7 +248,7 @@ function Room(props) {
             theme={theme}
             language={languageToEditorMode[language]}
             body={roomBody}
-            setBody={setRoomBody}
+            setBody={handleUpdateBody}
           />
 
         </div>
@@ -255,7 +258,7 @@ function Room(props) {
             theme={theme}
             language={''}
             body={input}
-            setBody={setInput}
+            setBody={handleUpdateInput}
             height={'35vh'}
           />
           <h5>Output</h5>
