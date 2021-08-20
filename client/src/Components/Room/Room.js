@@ -176,13 +176,16 @@ function Room(props) {
   }
 
   const handleUpdateBody = (value) => {
+
     setRoomBody(value)
+
     socket.emit('updateBody', { value, roomId });
   };
 
   const handleUpdateInput = (value) => {
-    // let val = toString(value);
+
     setInput(value)
+
     socket.emit('updateInput', { value, roomId });
   };
   return (
@@ -248,7 +251,7 @@ function Room(props) {
             theme={theme}
             language={languageToEditorMode[language]}
             body={roomBody}
-            setBody={handleUpdateBody}
+            setBody={setRoomBody}
           />
 
         </div>
@@ -258,7 +261,7 @@ function Room(props) {
             theme={theme}
             language={''}
             body={input}
-            setBody={handleUpdateInput}
+            setBody={setInput}
             height={'35vh'}
           />
           <h5>Output</h5>
