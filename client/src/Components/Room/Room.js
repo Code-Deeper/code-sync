@@ -256,7 +256,7 @@ function Room(props) {
             theme={theme}
             language={languageToEditorMode[language]}
             body={roomBody}
-            setBody={handleUpdateBody}
+            setBody={setRoomBody}
           />
 
         </div>
@@ -266,7 +266,7 @@ function Room(props) {
             theme={theme}
             language={''}
             body={input}
-            setBody={handleUpdateInput}
+            setBody={setInput}
             height={'35vh'}
           />
           <h5>Output</h5>
@@ -274,7 +274,7 @@ function Room(props) {
           <Editor
             theme={theme}
             language={''}
-            body={output}
+            body={output.value}
             setBody={setOutput}
             readOnly={true}
             height={'40vh'}
