@@ -44,13 +44,13 @@ function Room(props) {
   useEffect(() => {
 
     socket.on('updateBody', (roomBody) => {
-      setRoomBody(roomBody);
+      setRoomBody(roomBody.value);
     });
     socket.on('updateInput', (input) => {
-      setInput(input);
+      setInput(input.value);
     });
     socket.on('updateLanguage', (language) => {
-      setLanguage(language);
+      setLanguage(language.value);
     });
     socket.on('updateOutput', (output) => {
       setOutput(output);
@@ -176,10 +176,16 @@ function Room(props) {
   }
 
   const handleUpdateBody = (value) => {
+
+    setRoomBody(value)
+
     socket.emit('updateBody', { value, roomId });
   };
 
   const handleUpdateInput = (value) => {
+
+    setInput(value)
+
     socket.emit('updateInput', { value, roomId });
   };
   return (
