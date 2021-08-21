@@ -1,0 +1,27 @@
+.form-container{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.ip-op-editor{
+    display: flex;
+    
+}
+.text-ip-op{
+    display: flex;
+    text-align: center;
+}
+/* .editor-1{
+    padding-top: 5px;
+}
+.editor-2{
+    padding-top: 5px;
+} */
+
+.Output{
+    padding-top: 5px;
+}
+.Input{
+    padding-top: 5px;
+}

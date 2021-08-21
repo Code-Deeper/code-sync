@@ -3,6 +3,8 @@ import axios from "axios";
 import Editor from "../Editor/Editor";
 import socket from '../socket.io'
 import _, { debounce } from 'lodash';
+import { BaseURL } from '../../BaseURL'
+import './Room.css';
 
 function Room(props) {
   const languageToEditorMode = {
@@ -195,8 +197,8 @@ function Room(props) {
   };
   return (
     <div>
-      <div className="row container-fluid">
-        <div className="form-group col-4">
+      <div className="row container-fluid text-center justify-content-center">
+        <div className="form-group col-3">
           <label>Choose Language</label>
           <select
             className="form-select"
@@ -215,7 +217,7 @@ function Room(props) {
 
           </select>
         </div>
-        <div className="form-group col-4">
+        <div className="form-group col-3">
           <label>Choose Theme</label>
           <select
             className="form-select"
@@ -230,7 +232,18 @@ function Room(props) {
             })}
           </select>
         </div>
-        <div className="form-group col-2">
+        <div className="form-group col">
+          <br />
+          <button
+            className="btn btn-secondary"
+            onClick={() => {
+              navigator.clipboard.writeText(`${BaseURL}/room/${roomTitle}`);
+            }}
+          >
+            Copy room link
+          </button>
+        </div>
+        <div className="form-group col">
           <br />
           <button
             className="btn btn-primary"
@@ -247,38 +260,54 @@ function Room(props) {
       </div>
 
       <hr />
-      <div className="row p-0 m-0 text-center">
-        <div className="col-6">
-          <h5>Code Here</h5>
-          {/* {console.log("language" + languageToEditorMode[language])} */}
-          {/* {console.log('room body is ' + output)} */}
-          <Editor
-            theme={theme}
-            language={languageToEditorMode[language]}
-            body={roomBody}
-            setBody={setRoomBody}
-          />
+      <div className="form-container">
+        <div className="">
+          <div className="col-12 center">
+            <h5 className='center-form'>Code Here</h5>
+            {/* {console.log("language" + languageToEditorMode[language])} */}
+            {/* {console.log('room body is ' + output)} */}
+            <Editor
+              theme={theme}
+              language={languageToEditorMode[language]}
+              body={roomBody}
+              setBody={setRoomBody}
+              width={"100%"}
+            />
 
-        </div>
-        <div className="col-6 text-center">
-          <h5>Input</h5>
-          <Editor
-            theme={theme}
-            language={''}
-            body={input}
-            setBody={setInput}
-            height={'35vh'}
-          />
-          <h5>Output</h5>
-          {console.log(output)}
-          <Editor
-            theme={theme}
-            language={''}
-            body={output.value}
-            setBody={setOutput}
-            readOnly={true}
-            height={'40vh'}
-          />
+          </div>
+          <div className='text-ip-op'>
+            <div className="col-6 text-center ">
+              <h5 className="Input">Input</h5>
+            </div>
+            <div className="col-6 text-center ">
+              <h5 className="Output">Output</h5>
+            </div>
+          </div>
+          <div className="col-12 text-center ip-op-editor">
+            {/* <h5>Input</h5> */}
+            <Editor
+              className="editor-1"
+              theme={theme}
+              language={''}
+              body={input}
+              setBody={setInput}
+              height={'35vh'}
+              width={"100%"}
+
+            />
+            {/* <h5>Output</h5> */}
+            {console.log(output)}
+            <Editor className="editor-2"
+              theme={theme}
+              language={''}
+              body={output.value}
+              setBody={setOutput}
+              readOnly={true}
+              height={'35vh'}
+              width={"100%"}
+
+            />
+          </div>
         </div>
       </div>
     </div>

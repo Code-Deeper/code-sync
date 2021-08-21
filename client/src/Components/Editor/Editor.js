@@ -10,14 +10,14 @@ import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/theme-solarized_dark";
 import "ace-builds/src-noconflict/theme-dracula";
 import "ace-builds/src-noconflict/theme-monokai";
-function Editor({ language, theme, body, setBody, height, readOnly }) {
+function Editor({ language, theme, body, setBody, height, readOnly, width }) {
   return (
     <AceEditor
       mode={language}
       theme={theme}
       onChange={(value) => setBody(value)}
       value={body}
-      width="100%"
+      width={width}
       height={height ? height : "78.7vh"}
       readOnly={readOnly ? readOnly : false}
       fontSize={17}
