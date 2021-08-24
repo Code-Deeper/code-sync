@@ -60,6 +60,16 @@ io.on('connection', (socket) => {
   socket.on('updateOutput', ({ value, roomId }) => {
     socket.broadcast.to(roomId).emit('updateOutput', value);
   });
+  socket.on('joinAudioRoom', (roomId, userId) => {
+    console.log({ roomId, userId });
+    socket.broadcast.to(roomId).emit('userJoinedAudio', userId);
+
+    socket.on('leaveAudioRoom', () => {
+      socket.broadcast.to(roomId).emit('userLeftAudio', userId);
+    });
+  });
+
+
 });
 
 // Production Settings
