@@ -5,8 +5,8 @@ import socket from '../socket.io'
 import _, { debounce } from 'lodash';
 import { BaseURL } from '../../BaseURL'
 import Peer from 'peerjs';
+import { decode as base64_decode, encode as base64_encode } from 'base-64';
 import './Room.css';
-
 var myPeer = Peer
 var audios = {}
 var peers = {}
@@ -17,7 +17,6 @@ function Room(props) {
     c: "c_cpp",
     cpp: "c_cpp",
     python: "python",
-    python3: "python",
     java: "java",
     javascript: "javascript",
   };
@@ -53,10 +52,13 @@ function Room(props) {
   const [submissionIdChecker, setSubmissionIdChecker] = useState(null);
   const [inAudio, setInAudio] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  // const [token , setToken] = useState(null)
   // const API_KEY = "guest";
 
   const SOCKET_SPEED = 100;
-
+  const JAUDGE_API_KEY = process.env.REACT_APP_JAUDGE_API_KEY;
+  const JAUDGE_HOST_LINK = process.env.REACT_APP_JAUDGE_LINK_HOST;
+  const JAUDGE_API_URL = process.env.REACT_APP_API_URL
   useEffect(() => {
     localStorage.setItem('theme', theme);
   }, [theme]);
@@ -67,7 +69,6 @@ function Room(props) {
   // Once room will be created then this effect will triggered when ever props id changed
   // Props id means router id example /room/:id
   useEffect(() => {
-
     socket.on('updateBody', (roomBody) => {
       console.log(roomBody)
       setRoomBody(roomBody);
@@ -81,9 +82,7 @@ function Room(props) {
     socket.on('updateOutput', (output) => {
       setOutput(output.value);
     });
-
     const { id } = props.match.params;
-    // console.log("id is" + id);
     setRoomId(id);
 
     socket.emit('joinroom', id);
@@ -118,47 +117,20 @@ function Room(props) {
     setInAudio(false);
   }, [roomId]);
 
-  useEffect(() => {
-    const updateSubmission = async () => {
-
-      if (submissionIdChecker && submissionState === completedState) {
-
-        // clearInterval(submissionIdChecker);
-        setSubmissionIdChecker(null);
-        const params = new URLSearchParams({
-          id: submissionId,
-          api_key: 'guest'
-        });
-        const querystring = params.toString();
-        const { data } = await axios.get(
-          `https://api.paiza.io/runners/get_details?${querystring}`
-        );
-        const { stdout, stderr, build_stderr } = data;
-        // console.log('stdout' + stdout);
-        let output = "";
-        console.log("stdout", stdout);
-        console.log("stderr" , stderr);
-        console.log("build_stderr", build_stderr);
-        if (stdout) output += stdout;
-        if (stderr) output += stderr;
-        if (build_stderr) output += build_stderr;
-        setOutput(output)
-        console.log("output", output)
-        socket.emit('updateOutput', { value: output, roomId: roomId });
-      }
-    };
-    updateSubmission();
-  }, [submissionState]);
-
-
-
+  const GiveMeLanguageCode = () => {
+    switch (language) {
+      case "c": return 49; break;
+      case "cpp": return 53; break;
+      case "python": return 71; break;
+      case "java": return 62; break;
+      case "javascript": return 63; break;
+    }
+  }
 
   const submitHandler = () => {
 
     if (submissionState === runningState) return;
     setSubmissionState(runningState);
-
-    // console.log("language" + language);
 
     axios.patch(`/api/room/${roomId}`, {
       room_id: roomId,
@@ -169,7 +141,7 @@ function Room(props) {
     })
       .then((res) => {
         // TODO:
-        console.log({ res });
+        // console.log({ res });
         const { data } = res;
         setRoomTitle(data.room_title);
         setRoomBody(data.room_body);
@@ -181,47 +153,63 @@ function Room(props) {
         setSubmissionState(errorState);
         return;
       });
-    // console.log("l"+language);
-    const params = new URLSearchParams({
-      source_code: roomBody,
-      language: language,
-      input: input,
-      api_key: 'guest'
-    });
-    const querystring = params.toString();
-    console.log('before Input ' + input);
-    axios.post(`https://api.paiza.io/runners/create?${querystring}`).then((res) => {
-      const { id, status } = res.data;
-      console.log("response id and status " + res.data.id);
-      setSubmissionId(id);
-      setSubmissionState(status);
-    }).catch((err) => {
-      // const { errorStatus } = err
+    let language_code = parseInt(GiveMeLanguageCode(language))
+    console.log("lag" , language_code ,language);
+    const encode_input = base64_encode(input)
+    const encode_body = base64_encode(roomBody)
+    var options = {
+      method: 'POST',
+      url: `${JAUDGE_API_URL}/submissions`,
+      params: { base64_encoded: 'true', wait: 'false', fields: '*' },
+      headers: {
+        'content-type': 'application/json',
+        'x-rapidapi-host': JAUDGE_HOST_LINK,
+        'x-rapidapi-key': JAUDGE_API_KEY
+      },
+      data: {
+        language_id: language_code,
+        source_code: encode_body,
+        stdin: encode_input
+      }
+    };
+    axios.request(options).then(function (response) {
+      console.log("res", response.data);
+      let token = response.data.token
+      console.log("url", `${JAUDGE_API_URL}/submissions/${token}`)
+      setTimeout(() => {
+        const ipString = `${JAUDGE_API_URL}/submissions/${token}`.toString();
+        var ip = {
+          method: 'GET',
+          url: ipString,
+          params: { base64_encoded: 'true', fields: '*' },
+          headers: {
+            'x-rapidapi-host': JAUDGE_HOST_LINK,
+            'x-rapidapi-key': JAUDGE_API_KEY
+          }
+        };
+        axios.request(ip).then(function (res) {
+          console.log(res.data);
+          if (res.data.status.description == "Accepted") {
+            let decoded = base64_decode(res.data.stdout);
+            console.log('decoded', decoded);
+            setOutput(decoded);
+          } else {
+            let decoded = base64_decode(res.data.compile_output);
+            console.log('decoded', decoded);
+            setOutput(decoded);
+          }
+          setSubmissionState("DONE");
+        }).catch(function (err) {
+          console.error(err);
+          setSubmissionState(err)
+        });
+      }, 5000)
+    }).catch(function (error) {
+      console.error(error);
+      setSubmissionState(error)
 
-      console.log("something wrong here!!!");
-      setSubmissionId("");
-      setSubmissionState(errorState);
-    })
+    });
   };
-
-  useEffect(() => {
-    if (submissionId) {
-      setSubmissionIdChecker(setInterval(() => updateSubmissionStatus(), 1000))
-    }
-  }, [submissionId])
-  const updateSubmissionStatus = () => {
-    const params = new URLSearchParams({
-      id: submissionId,
-      api_key: 'guest'
-    });
-    const querystring = params.toString();
-    axios.get(`https://api.paiza.io/runners/get_status?${querystring}`).then((res) => {
-      const { status } = res.data
-      setSubmissionState(status)
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
 
   const handleUpdateBody = (value) => {
     setRoomBody(value)
@@ -229,7 +217,6 @@ function Room(props) {
   };
 
   const handleUpdateInput = (value) => {
-    // let val = toString(value);
     setInput(value)
     debounce(() => socket.emit('updateInput', { value, roomId }), SOCKET_SPEED)();
   };
@@ -355,7 +342,15 @@ function Room(props) {
     }
   }, [isMuted]);
 
-
+  const handleLanguage = (event) => {
+    event.preventDefault();
+    setLanguage(event.target.value)
+    socket.emit('updateLanguage', { value: event.target.value, roomId })
+  }
+  // const 
+  useEffect(() => {
+    console.log(language)
+  }, [language])
   return (
     <div>
       <div className="row container-fluid text-center justify-content-center">
@@ -364,11 +359,11 @@ function Room(props) {
           <select
             className="form-select"
             defaultValue={language}
-            onChange={(event) => socket.emit('updateLanguage', { value: event.target.value, roomId })}
+            onChange={handleLanguage}
           >
             {languages.map((lang, index) => {
               return (
-                <option key={index} value={lang} selected={lang === language}>
+                <option key={index} value={lang} selected={lang === language} >
                   {lang}
                 </option>
               );
