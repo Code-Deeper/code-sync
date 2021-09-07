@@ -136,10 +136,14 @@ function Room(props) {
         const { stdout, stderr, build_stderr } = data;
         // console.log('stdout' + stdout);
         let output = "";
+        console.log("stdout", stdout);
+        console.log("stderr" , stderr);
+        console.log("build_stderr", build_stderr);
         if (stdout) output += stdout;
         if (stderr) output += stderr;
         if (build_stderr) output += build_stderr;
         setOutput(output)
+        console.log("output", output)
         socket.emit('updateOutput', { value: output, roomId: roomId });
       }
     };
@@ -493,7 +497,7 @@ function Room(props) {
             <Editor className="editor-2"
               theme={theme}
               language={''}
-              body={output.value}
+              body={output}
               setBody={setOutput}
               readOnly={true}
               height={'35vh'}
