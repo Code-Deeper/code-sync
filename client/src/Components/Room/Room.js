@@ -7,6 +7,7 @@ import { BaseURL } from '../../BaseURL'
 import Peer from 'peerjs';
 import { decode as base64_decode, encode as base64_encode } from 'base-64';
 import './Room.css';
+import Whiteboard from "../WhiteBoard/Whiteboard";
 var myPeer = Peer
 var audios = {}
 var peers = {}
@@ -192,10 +193,12 @@ function Room(props) {
           if (res.data.status.description == "Accepted") {
             let decoded = base64_decode(res.data.stdout);
             console.log('decoded', decoded);
+            socket.emit('updateOutput', { value: decoded, roomId: roomId });
             setOutput(decoded);
           } else {
             let decoded = base64_decode(res.data.compile_output);
             console.log('decoded', decoded);
+            socket.emit('updateOutput', { value: decoded, roomId: roomId });
             setOutput(decoded);
           }
           setSubmissionState("DONE");
@@ -466,6 +469,7 @@ function Room(props) {
               body={roomBody}
               setBody={setRoomBody}
               width={"100%"}
+              height={'50vh'}
             />
           </div>
           <div className='text-ip-op'>
@@ -502,6 +506,10 @@ function Room(props) {
         </div>
       </div>
     </div>
+    // <>
+    //   <Whiteboard />
+    
+    // </>
   );
 }
 
