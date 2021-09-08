@@ -11,6 +11,7 @@
 .text-ip-op{
     display: flex;
     text-align: center;
+    width: 200%;
 }
 /* .editor-1{
     padding-top: 5px;
@@ -24,4 +25,21 @@
 }
 .Input{
     padding-top: 5px;
+}
+.ide-container{
+    /* display: flex; */
+    width: 50%;
+}
+.wt-board{
+    width: 50%;
+}
+.main-conatiner{
+    display: flex;
+    flex-direction: row;
+
+
+}
+
+.ide-low{
+    width: 200%;
 }

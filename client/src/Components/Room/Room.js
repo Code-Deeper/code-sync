@@ -7,6 +7,7 @@ import { BaseURL } from '../../BaseURL'
 import Peer from 'peerjs';
 import { decode as base64_decode, encode as base64_encode } from 'base-64';
 import './Room.css';
+import Whiteboard from "../WhiteBoard/Whiteboard";
 var myPeer = Peer
 var audios = {}
 var peers = {}
@@ -70,22 +71,24 @@ function Room(props) {
   // Props id means router id example /room/:id
   useEffect(() => {
     socket.on('updateBody', (roomBody) => {
-      console.log(roomBody)
+      console.log("we", roomBody)
       setRoomBody(roomBody);
     });
     socket.on('updateInput', (input) => {
-      setInput(input.value);
+      setInput(input);
     });
     socket.on('updateLanguage', (language) => {
-      setLanguage(language.value);
+      console.log("FL", language);
+      setLanguage(language);
     });
     socket.on('updateOutput', (output) => {
-      setOutput(output.value);
+      setOutput(output);
     });
+
     const { id } = props.match.params;
     setRoomId(id);
-
     socket.emit('joinroom', id);
+
 
 
     const url = `/api/room/${id}`;
@@ -105,6 +108,19 @@ function Room(props) {
 
     return () => {
       console.log('called');
+      socket.off('updateBody', (roomBody) => {
+        console.log(roomBody)
+        setRoomBody(roomBody);
+      });
+      socket.off('updateInput', (input) => {
+        setInput(input.value);
+      });
+      socket.off('updateLanguage', (language) => {
+        setLanguage(language.value);
+      });
+      socket.off('updateOutput', (output) => {
+        setOutput(output.value);
+      });
       if (myPeer) {
         socket.emit('leaveAudioRoom', myPeer.id);
         destroyConnection();
@@ -192,10 +208,12 @@ function Room(props) {
           if (res.data.status.description == "Accepted") {
             let decoded = base64_decode(res.data.stdout);
             console.log('decoded', decoded);
+            socket.emit('updateOutput', { value: decoded, roomId: roomId });
             setOutput(decoded);
           } else {
             let decoded = base64_decode(res.data.compile_output);
             console.log('decoded', decoded);
+            socket.emit('updateOutput', { value: decoded, roomId: roomId });
             setOutput(decoded);
           }
           setSubmissionState("DONE");
@@ -219,6 +237,10 @@ function Room(props) {
   const handleUpdateInput = (value) => {
     setInput(value)
     debounce(() => socket.emit('updateInput', { value, roomId }), SOCKET_SPEED)();
+  };
+  const HandleUpdateOutput = (value) => {
+    setOutput(value)
+    debounce(() => socket.emit('updateOutput', { value, roomId }), SOCKET_SPEED)();
   };
   const getAudioStream = () => {
     const myNavigator =
@@ -345,163 +367,182 @@ function Room(props) {
   const handleLanguage = (event) => {
     event.preventDefault();
     setLanguage(event.target.value)
-    socket.emit('updateLanguage', { value: event.target.value, roomId })
+    debounce(() => socket.emit('updateLanguage', { value: event.target.value, roomId }), SOCKET_SPEED)();
+
   }
   // const 
   useEffect(() => {
     console.log(language)
   }, [language])
   return (
-    <div>
-      <div className="row container-fluid text-center justify-content-center">
-        <div className="form-group col-3">
-          <label>Choose Language</label>
-          <select
-            className="form-select"
-            defaultValue={language}
-            onChange={handleLanguage}
-          >
-            {languages.map((lang, index) => {
-              return (
-                <option key={index} value={lang} selected={lang === language} >
-                  {lang}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-        <div className="form-group col-3">
-          <label>Choose Theme</label>
-          <select
-            className="form-select"
-            defaultValue={theme}
-            onChange={(event) => setTheme(event.target.value)}
-          >
-            {themes.map((theme, index) => {
-              return (
-                <option key={index} value={theme}>
-                  {theme}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-        <div className="form-group col">
-          <br />
-          <button
-            className="btn btn-secondary"
-            onClick={() => {
-              navigator.clipboard.writeText(`${BaseURL}/room/${roomTitle}`);
-            }}
-          >
-            Copy room link
-          </button>
-        </div>
-        <div className="form-group col">
-          <br />
-          {/* <button
+    <>
+      <div>
+        <div className="row container-fluid text-center justify-content-center">
+          <div className="form-group col-3">
+            <label>Choose Language</label>
+            <select
+              className="form-select"
+              defaultValue={language}
+              onChange={handleLanguage}
+            >
+              {languages.map((lang, index) => {
+                return (
+                  <option key={index} value={lang} selected={lang === language} >
+                    {lang}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className="form-group col-3">
+            <label>Choose Theme</label>
+            <select
+              className="form-select"
+              defaultValue={theme}
+              onChange={(event) => setTheme(event.target.value)}
+            >
+              {themes.map((theme, index) => {
+                return (
+                  <option key={index} value={theme}>
+                    {theme}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className="form-group col">
+            <br />
+            <button
+              className="btn btn-secondary"
+              onClick={() => {
+                navigator.clipboard.writeText(`${BaseURL}/room/${roomTitle}`);
+              }}
+            >
+              Copy room link
+            </button>
+          </div>
+          <div className="form-group col">
+            <br />
+            {/* <button
             className="btn btn-primary"
             onClick={submitHandler}
             disabled={submissionState === runningState}
           >
             Save and Run
           </button> */}
-          <button
-            // className="btn btn-primary"
-            className={`btn btn-${inAudio ? 'primary' : 'secondary'}`}
-            onClick={() => setInAudio(!inAudio)}
-          >
-            {inAudio ? 'Leave Audio' : 'Join Audio'} Room
-          </button>
-        </div>
-        {inAudio ? (
-          <div className="form-group col">
-            <br />
             <button
-              className={`btn btn-${!isMuted ? 'primary' : 'secondary'}`}
-              onClick={() => setIsMuted(!isMuted)}
+              // className="btn btn-primary"
+              className={`btn btn-${inAudio ? 'primary' : 'secondary'}`}
+              onClick={() => setInAudio(!inAudio)}
             >
-              {isMuted ? 'Muted' : 'Speaking'}
+              {inAudio ? 'Leave Audio' : 'Join Audio'} Room
             </button>
           </div>
-        ) : (
-          <div className="form-group col" />
-        )}
-        <div className="form-group col-2">
-          <br />
-          <label>Status: {submissionState}</label>
-        </div>
-      </div>
-      <hr />
-      <div className="form-container">
-        <div className="">
-          <div className="col-12 center">
-            <div className="row mb-1">
-              <h5 className="col">Code Here</h5>
-              <div className="form-group col">
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => {
-                    navigator.clipboard.writeText(roomBody);
-                  }}
-                >
-                  Copy Code
-                </button>
-              </div>
-              <div className="form-group col">
-                <button
-                  className="btn btn-primary"
-                  onClick={submitHandler}
-                  disabled={submissionState === runningState}
-                >
-                  Save and Run
-                </button>
-              </div>
+          {inAudio ? (
+            <div className="form-group col">
+              <br />
+              <button
+                className={`btn btn-${!isMuted ? 'primary' : 'secondary'}`}
+                onClick={() => setIsMuted(!isMuted)}
+              >
+                {isMuted ? 'Muted' : 'Speaking'}
+              </button>
             </div>
-            {/* {console.log("language" + languageToEditorMode[language])} */}
-            {/* {console.log('room body is ' + output)} */}
-            <Editor
-              theme={theme}
-              language={languageToEditorMode[language]}
-              body={roomBody}
-              setBody={setRoomBody}
-              width={"100%"}
-            />
+          ) : (
+            <div className="form-group col" />
+          )}
+          <div className="form-group col-2">
+            <br />
+            <label>Status: {submissionState}</label>
           </div>
-          <div className='text-ip-op'>
-            <div className="col-6 text-center ">
-              <h5 className="Input">Input</h5>
-            </div>
-            <div className="col-6 text-center ">
+        </div>
+        <hr />
+        <div className="main-conatiner">
+          <div className="form-container">
+            <div className="ide-container">
+              <div className="col-24 center ide-low">
+                <div className="row mb-1">
+                  <h5 className="col">Code Here</h5>
+                  <div className="form-group col">
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        navigator.clipboard.writeText(roomBody);
+                      }}
+                    >
+                      Copy Code
+                    </button>
+                  </div>
+                  <div className="form-group col">
+                    <button
+                      className="btn btn-primary"
+                      onClick={submitHandler}
+                      disabled={submissionState === runningState}
+                    >
+                      Save and Run
+                    </button>
+                  </div>
+                </div>
+                {/* {console.log("language" + languageToEditorMode[language])} */}
+                {/* {console.log('room body is ' + output)} */}
+                <Editor
+                  theme={theme}
+                  language={languageToEditorMode[language]}
+                  body={roomBody}
+                  setBody={handleUpdateBody}
+                  width={"100%"}
+                  height={'65vh'}
+                />
+             
+              <div className='text-ip-op'>
+                <div className="col-6 text-center ">
+                  <h5 className="Input">Input</h5>
+                </div>
+                {/* <div className="col-6 text-center ">
               <h5 className="Output">Output</h5>
+            </div> */}
+              </div>
+              <div className=" text-center ip-op-editor">
+                {/* <h5>Input</h5> */}
+                <Editor
+                  className="editor-1"
+                  theme={theme}
+                  language={''}
+                  body={input}
+                  setBody={handleUpdateInput}
+                  height={'35vh'}
+                  width={"200%"}
+                />
+                {/* <h5>Output</h5> */}
+                {console.log(output)}
+                <Editor className="editor-2"
+                  theme={theme}
+                  language={''}
+                  body={output}
+                  setBody={HandleUpdateOutput}
+                  readOnly={true}
+                  height={'35vh'}
+                  width={"200%"}
+                />
+                </div>
+              </div>
             </div>
+
+
+
+
+
           </div>
-          <div className="col-12 text-center ip-op-editor">
-            {/* <h5>Input</h5> */}
-            <Editor
-              className="editor-1"
-              theme={theme}
-              language={''}
-              body={input}
-              setBody={setInput}
-              height={'35vh'}
-              width={"100%"}
-            />
-            {/* <h5>Output</h5> */}
-            {console.log(output)}
-            <Editor className="editor-2"
-              theme={theme}
-              language={''}
-              body={output}
-              setBody={setOutput}
-              readOnly={true}
-              height={'35vh'}
-              width={"100%"}
-            />
+          <div className="wt-board">
+            <Whiteboard />
           </div>
         </div>
       </div>
-    </div>
+    </>
+    // <>
+    //   
+
+    // </>
   );
 }
 
