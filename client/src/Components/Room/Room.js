@@ -154,7 +154,7 @@ function Room(props) {
         return;
       });
     let language_code = parseInt(GiveMeLanguageCode(language))
-    console.log("lag" , language_code ,language);
+    console.log("lag", language_code, language);
     const encode_input = base64_encode(input)
     const encode_body = base64_encode(roomBody)
     var options = {
