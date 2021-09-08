@@ -28,7 +28,7 @@ app.use(
   cors({
     allowedHeaders: ['Content-Type'],
     credentials: true,
-    origin: ['http://localhost:3000/']
+    origin: ['http://localhost:3000']
   })
 );
 // Controllers
@@ -38,21 +38,26 @@ app.use('/api/room/', require('./routes/room.route'));
 const { Server, Socket } = require('socket.io');
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000/'
+    origin: 'http://localhost:3000',
+    // methods: ["GET", "POST","PUT","PATCH"]
   }
 });
 io.on('connection', (socket) => {
   socket.on('joinroom', (roomId) => {
     socket.join(roomId);
   });
+  socket.on('canvas-data', (data) => {
+    socket.broadcast.emit('canvas-data', data);
+
+  })
   socket.on('updateBody', ({ value, roomId }) => {
-    console.log({ value, roomId });
     socket.broadcast.to(roomId).emit('updateBody', value);
   });
   socket.on('updateInput', ({ value, roomId }) => {
     socket.broadcast.to(roomId).emit('updateInput', value);
   });
   socket.on('updateLanguage', ({ value, roomId }) => {
+    console.log({ value, roomId })
     socket.broadcast.to(roomId).emit('updateLanguage', value);
   });
   socket.on('updateOutput', ({ value, roomId }) => {

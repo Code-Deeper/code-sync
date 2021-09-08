@@ -3,7 +3,7 @@ import Container from './Container/Container'
 
 function Whiteboard() {
     return (
-        <div>
+        <div style={{height: "66%"}}>
             < Container />
         </div>
     )
