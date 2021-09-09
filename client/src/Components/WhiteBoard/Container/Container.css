@@ -29,3 +29,11 @@
     margin-top: 1%;
     background: white;
 }
+.eraser-color-container{
+    size : 50%;
+    margin-left: 10px;
+}
+
+.eraser-img{
+    width: 30px;
+}
