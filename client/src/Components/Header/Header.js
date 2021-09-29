@@ -1,9 +1,15 @@
-import React, { useState } from "react";
-import { Link, RouteComponentProps, withRouter, useHistory } from 'react-router-dom'
+import { Avatar } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { connect , useDispatch } from "react-redux";
+import decode from 'jwt-decode'
+import { Link, RouteComponentProps, withRouter, useHistory ,useLocation} from 'react-router-dom'
+import { removeUser } from "../../Action/UserAction";
 function Header(props) {
-
+  const history = useHistory(props);
+  const location = useLocation();
+  const dispatch = useDispatch();
   const [roomId, setRoomId] = useState('');
-
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('authUser')) || props?.authUser || null);
   const submitHandler = () => {
     // const {history} = props
     if (roomId) {
@@ -15,7 +21,24 @@ function Header(props) {
       props.history.push('/');
     }
   }
-
+  const logoutHandler = () => {
+    dispatch(removeUser(null))
+    setUser(null);
+    history.push('/login');
+  }
+  useEffect(async () => {
+    const token = user?.token;
+    if (token) {
+      const decodedToken = decode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        await logoutHandler()
+      }
+    }
+    setUser(JSON.parse(localStorage.getItem('authUser')) || props?.authUser || null)
+  },[location])
+  useEffect(() => {
+    console.log(user);
+  },[user])
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -68,9 +91,26 @@ function Header(props) {
             </button>
           </form>
         </div>
+        {user && <>
+          <button className="btn btn-outline-success" type="submit"
+            onClick={logoutHandler}
+          >
+            logout
+          </button>
+        </>}
+        <div>
+          {/* {console.log(props.authUser)} */}
+          <Avatar src={user?.result?.imageUrl} alt={user?.result?.name || "codesync"}></Avatar>
+        </div>
       </div>
     </nav>
   );
 }
 
-export default withRouter(Header);
+
+const mapStateToProps = state => ({
+  authUser: state.user.data
+})
+
+export default connect(mapStateToProps)(Header)
+

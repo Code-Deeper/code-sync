@@ -93,7 +93,11 @@ function Room(props) {
 
     const url = `/api/room/${id}`;
     const fetchData = async () => {
-      const { data } = await axios.get(url);
+      const { data } = await axios.get(url, {
+        headers: {
+          Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('authUser'))
+        }
+      });
       const { room_title, room_body, room_language, room_input } = data;
       setRoomTitle(room_title);
       setInput(room_input);
@@ -493,56 +497,50 @@ function Room(props) {
                   width={"100%"}
                   height={'65vh'}
                 />
-             
-              <div className='text-ip-op'>
-                <div className="col-6 text-center ">
-                  <h5 className="Input">Input</h5>
-                </div>
-                {/* <div className="col-6 text-center ">
+
+                <div className='text-ip-op'>
+                  <div className="col-6 text-center ">
+                    <h5 className="Input">Input</h5>
+                  </div>
+                  {/* <div className="col-6 text-center ">
               <h5 className="Output">Output</h5>
             </div> */}
-              </div>
-              <div className=" text-center ip-op-editor">
-                {/* <h5>Input</h5> */}
-                <Editor
-                  className="editor-1"
-                  theme={theme}
-                  language={''}
-                  body={input}
-                  setBody={handleUpdateInput}
-                  height={'35vh'}
-                  width={"200%"}
-                />
-                {/* <h5>Output</h5> */}
-                {console.log(output)}
-                <Editor className="editor-2"
-                  theme={theme}
-                  language={''}
-                  body={output}
-                  setBody={HandleUpdateOutput}
-                  readOnly={true}
-                  height={'35vh'}
-                  width={"200%"}
-                />
+                </div>
+                <div className=" text-center ip-op-editor">
+                  {/* <h5>Input</h5> */}
+                  <Editor
+                    className="editor-1"
+                    theme={theme}
+                    language={''}
+                    body={input}
+                    setBody={handleUpdateInput}
+                    height={'35vh'}
+                    width={"200%"}
+                  />
+                  {/* <h5>Output</h5> */}
+                  {console.log(output)}
+                  <Editor className="editor-2"
+                    theme={theme}
+                    language={''}
+                    body={output}
+                    setBody={HandleUpdateOutput}
+                    readOnly={true}
+                    height={'35vh'}
+                    width={"200%"}
+                  />
                 </div>
               </div>
             </div>
-
-
-
-
-
           </div>
           <div className="wt-board">
             <Whiteboard />
           </div>
         </div>
       </div>
+      <div>
+        editor is herer
+      </div>
     </>
-    // <>
-    //   
-
-    // </>
   );
 }
 
