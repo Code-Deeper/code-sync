@@ -13,9 +13,9 @@ import ProtectedRoute from './Protected'
 const cookies = new Cookies();
 const isAuthenticated = localStorage.getItem("authUser");
 function App() {
-  useEffect(() => {
-    console.log({ cookies });
-  })
+  // useEffect(() => {
+  //   console.log({ cookies });
+  // })
   const [loginUser , setLoginUser] = useState(null)
   return (
     <Router >

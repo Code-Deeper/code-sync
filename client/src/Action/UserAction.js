@@ -53,7 +53,7 @@ export const registerUser = (formData, history) =>
     async dispatch => {
         try {
             const {data} = await axios.post('/api/user/register', formData);
-            console.log({data})
+            // console.log({data})
             dispatch({
                 type: AUTHORIZATION,
                 payload: data

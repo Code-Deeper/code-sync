@@ -13,7 +13,7 @@ function Header(props) {
   const submitHandler = () => {
     // const {history} = props
     if (roomId) {
-      console.log(roomId);
+      // console.log(roomId);
       props.history.push(`/room/${roomId}`)
 
     } else {
@@ -37,7 +37,7 @@ function Header(props) {
     setUser(JSON.parse(localStorage.getItem('authUser')) || props?.authUser || null)
   },[location])
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
   },[user])
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -83,7 +83,7 @@ function Header(props) {
               value={roomId}
               onChange={(e) => setRoomId(e.target.value)}
             />
-            {console.log(roomId)}
+            {/* {console.log(roomId)} */}
             <button className="btn btn-outline-success" type="submit"
               onClick={submitHandler}
             >

@@ -14,17 +14,17 @@ function CreateRoom({ history }) {
 
         // uuid.v4()
         const uID = await uuidv4();
-        console.log(uID);
+        // console.log(uID);
         axios.post('/api/room', {
             room_id: uID,
             room_title: roomName,
             room_body: "", room_language: "", room_input: ""
         }).then((res) => {
-            console.log(res);
+            // console.log(res);
             history.push(`/room/${res.data.data.room_id}`)
         }).catch((err) => {
             alert('Room Not Created!! axaError!!!');
-            console.log(err);
+            // console.log(err);
         })
     }
 

@@ -5,17 +5,18 @@ import Input from '../../Input/Input'
 import { Link } from 'react-router-dom'
 import GoogleLogin from 'react-google-login';
 import Icon from '../Register/Icon'
-import dotenv from 'dotenv'
+// import dotenv from 'dotenv'
 import { useDispatch } from 'react-redux'
 import { addUser, loginUser } from '../../../Action/UserAction'
 import { useHistory } from 'react-router-dom'
-
+// import dotenv from 'dotenv'
+// dotenv.config()
 const initialState = {
     email: "",
     password: "",
 }
 
-dotenv.config()
+// dotenv.config()
 function LoginPage() {
 
     const history = useHistory()
@@ -28,7 +29,7 @@ function LoginPage() {
     const submitHandler = (e) => {
         ///TODO:
         e.preventDefault()
-        console.log({ formData })
+        // console.log({ formData })
         dispatch(loginUser(formData, history));
     }
     const handleChange = (e) => {
@@ -40,7 +41,7 @@ function LoginPage() {
     }
     const googleSuccess = async (res) => {
         // TODO:
-        console.log(res)
+        // console.log(res)
         const result = res?.profileObj
         const token = res?.tokenId
 
@@ -86,9 +87,10 @@ function LoginPage() {
                                 Log In
                             </Button>
                             <div className='google-button'>
+                                {/* {console.log("google ID", process.env.REACT_APP_GOOGLE_CLIENT_API_KEY)} */}
                                 <GoogleLogin
 
-                                    clientId={process.env.REACT_GOOGLE_CLIENT_API_KEY}
+                                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_API_KEY}
                                     render={
                                         (renderProps) => (
                                             <>

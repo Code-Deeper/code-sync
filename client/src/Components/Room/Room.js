@@ -71,14 +71,14 @@ function Room(props) {
   // Props id means router id example /room/:id
   useEffect(() => {
     socket.on('updateBody', (roomBody) => {
-      console.log("we", roomBody)
+      // console.log("we", roomBody)
       setRoomBody(roomBody);
     });
     socket.on('updateInput', (input) => {
       setInput(input);
     });
     socket.on('updateLanguage', (language) => {
-      console.log("FL", language);
+      // console.log("FL", language);
       setLanguage(language);
     });
     socket.on('updateOutput', (output) => {
