@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Input from '../../Input/Input'
 import { Grid, TextField, Button, Stack } from '@mui/material'
 import { Link } from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import GoogleLogin from 'react-google-login';
 import Icon from './Icon'
 import { registerUser } from '../../../Action/UserAction';
@@ -13,7 +13,7 @@ const initialState = {
     lastname: "",
     email: "",
     password: "",
-    confirmpassword : ""
+    confirmpassword: ""
 
 }
 function Register() {
@@ -88,7 +88,7 @@ function Register() {
                                     Register User
                                 </Button>
                             </div>
-                            
+
                         </Grid>
                         <div> Already Registered? account !! <Link to='/login'>Login Here</Link></div>
                     </form>

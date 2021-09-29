@@ -50,12 +50,10 @@ function LoginPage() {
         } catch (err) {
             console.log(err)
         }
-
-
     }
     const googleFailure = (res) => {
         // TODO:
-        console.log('Failed while google login!!!', res)
+        console.log('Failed while google login!!!')
     }
 
     return (
@@ -63,23 +61,6 @@ function LoginPage() {
             <div className="login-container">
                 <form onSubmit={submitHandler}>
                     <Grid container spacing={2}>
-                        {/* { isLogin && <div>
-                            <Input
-                                name="firstname"
-                                label="firstname"
-                                handleChange={handleChange}
-                                autoFocus={true}
-                                half
-                            />
-                            <Input
-                                name="lastname"
-                                label="lastname"
-                                handleChange={handleChange}
-                                autoFocus={true}
-                                half
-                            />
-                        </div>
-                        } */}
                         <Input
                             name="email"
                             label='Email Address'
@@ -94,19 +75,6 @@ function LoginPage() {
                             type={showPassword ? 'text' : 'password'}
                             handleShowPassword={handleShowPassword}
                         />
-
-                        {/* 
-                        
-                        confirm password
-
-                        <Input
-                            name="confirmpassword"
-                            label='Repeat Password'
-                            handleChange={handleChange}
-                            type="password"
-                        />
-                        
-                        */}
                         <div className="submit-buttons">
                             <Button
                                 type="submit"
@@ -138,7 +106,6 @@ function LoginPage() {
                                             </>
                                         )
                                     }
-                                    // buttonText="Login"
                                     onSuccess={googleSuccess}
                                     onFailure={googleFailure}
                                     cookiePolicy={'single_host_origin'}
