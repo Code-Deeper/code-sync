@@ -1,9 +1,9 @@
 # Requierment File
-- [ ] Authantication
-  - [ ] OTP Auth
-  - [ ] Google auth /O Auth
-  - [ ] Email Auth
-  - [ ] JWT Auth
+- [x] Authantication
+  - [x] OTP Auth
+  - [x] Google auth /O Auth
+  - [x] Email Auth
+  - [x] JWT Auth
 - [ ] Room CRUD
   - [ ] Create Room
   - [ ] Delete Room
@@ -11,9 +11,9 @@
   - [ ] Modify Room Details
   - [ ] Image For Org **(NEW)**
 - [ ] IDE 
-  - [ ] Design IDE
-  - [ ] Auto Formate
-  - [ ] Real Time Communication
+  - [x] Design IDE
+  - [x] Auto Formate
+  - [x] Real Time Communication
   - [ ] Font Size Selector
   - [ ] Theme Selector
   - [ ] Language Selector
