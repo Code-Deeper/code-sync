@@ -1,9 +1,10 @@
-const jwt = require('jsonwebtoken') 
-
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+dotenv.config()
 const authMiddleware = async (req, res, next) => {
 
     try {
-        const token = req?.header?.get('Authorization')?.split(' ')?.[1]
+        const token = req.headers.authorization?.split(' ')?.[1]
         if (!token) {
             res.status(401)
             throw new Error('Not authorized , Token Miss found')
@@ -15,18 +16,14 @@ const authMiddleware = async (req, res, next) => {
             decodedData = jwt.verify(token, process.env.JWT_SECRET_KEY)
             req.userId = decodedData?.id;
         } else {
-            decodedData = jwt.verify(token)
+            decodedData = jwt.decode(token)
             req.userId = decodedData?.sub;
         }
         next();
     } catch (err) {
-        res.status(401)
-        throw new Error('Not authorized , Token Miss found')
+        // res.status(401)
+        res.status(401).send(err);
+        throw new Error(err)
     }
-    if (!token) {
-        res.status(401)
-        throw new Error('Not authorized , Token Miss found')
-    }
-
 }
 module.exports = authMiddleware
