@@ -1,0 +1,18 @@
+
+.login-container{
+    margin-top: 18%;
+    margin-left: 65%;
+    text-align: center;
+    width: 25%;
+    height: 50% !important;
+}
+.submit-buttons {
+    /* margin-left: ; */
+        width: 100%;
+    margin-top: 5%;
+    margin-left: 4%;
+
+}
+.google-button{
+    margin-top: 2%;
+}

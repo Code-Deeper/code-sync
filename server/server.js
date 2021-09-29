@@ -33,6 +33,7 @@ app.use(
 );
 // Controllers
 app.use('/api/room/', require('./routes/room.route'));
+app.use('/api/user/' , require('./routes/user.route'));
 
 // Socket.io
 const { Server, Socket } = require('socket.io');

@@ -2,6 +2,10 @@ const asyncHandler = require("express-async-handler");
 const Room = require("../models/room.model");
 
 const getRoomByID = asyncHandler(async (req, res) => {
+
+  if (!req.userId) {
+    return res.status(401).json({ status: 404, message: "UnAuthorized user!!" })
+  }
   const roomIID = req.params.id;
   const room = await Room.findOne({ room_id: roomIID });
   if (room) {
@@ -13,7 +17,13 @@ const getRoomByID = asyncHandler(async (req, res) => {
 });
 
 const createRoomById = asyncHandler(async (req, res) => {
-  const { room_id, room_title, room_body, room_language , room_input } = req.body;
+
+
+  if (!req.userId) {
+    return res.status(401).json({ status: 404, message: "UnAuthorized user!!" })
+  }
+
+  const { room_id, room_title, room_body, room_language, room_input } = req.body;
   // Edge Case room_id room_title null
 
   // if (room_id == null || room_title == null) {
@@ -35,6 +45,9 @@ const createRoomById = asyncHandler(async (req, res) => {
 });
 
 const updateRoomById = asyncHandler(async (req, res) => {
+  if (!req.userId) {
+    return res.status(401).json({ status: 404, message: "UnAuthorized user!!" })
+  }
   const newRoomData = req.body;
   const rm_id = req.params.id;
 
@@ -42,7 +55,7 @@ const updateRoomById = asyncHandler(async (req, res) => {
     { room_id: rm_id },
     newRoomData
   );
-  const returnData = await  Room.findOne({ room_id: rm_id });
+  const returnData = await Room.findOne({ room_id: rm_id });
   if (!returnData) {
     res.status(400).send("Not Update User!");
     return;
