@@ -5,12 +5,12 @@
   - [x] Email Auth
   - [x] JWT Auth
 - [ ] Room CRUD
-  - [ ] Create Room
+  - [x] Create Room
   - [ ] Delete Room
   - [ ] Show History of room
   - [ ] Modify Room Details
   - [ ] Image For Org **(NEW)**
-- [ ] IDE 
+- [x] IDE 
   - [x] Design IDE
   - [x] Auto Formate
   - [x] Real Time Communication
@@ -19,8 +19,8 @@
   - [ ] Language Selector
   - [ ] Download code
   - [ ] Share Code **(New)**
-- [ ] Compiler 
-  - [ ] [ ALT API](https://rapidapi.com/judge0-official/api/judge0-ce/)
+- [x] Compiler 
+  - [x] [ ALT API](https://rapidapi.com/judge0-official/api/judge0-ce/)
 - [ ] Drawing Board
    - [ ] Color Picker
    - [ ] Clear Dashboard
@@ -32,7 +32,7 @@
    - [ ] Chat
    - [ ] Try - Notification Chat
    - [ ]  Chat with IMG
-- [ ] Audio
+- [x] Audio
 - [ ] Recording Opetion / Opetional
 
 
