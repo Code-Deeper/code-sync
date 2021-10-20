@@ -14,7 +14,7 @@ const cookies = new Cookies();
 const isAuthenticated = localStorage.getItem("authUser");
 function App() {
   useEffect(() => {
-    console.log({ cookies });
+    console.log({authroot : isAuthenticated });
   })
   const [loginUser , setLoginUser] = useState(null)
   return (

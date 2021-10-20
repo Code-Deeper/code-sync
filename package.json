@@ -35,5 +35,10 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7",
     "socket.io": "^4.1.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.8.8",
+    "postcss": "^7.0.39",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
   }
 }
