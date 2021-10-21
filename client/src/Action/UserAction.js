@@ -1,6 +1,7 @@
 import React from 'react'
 import { ADD_USER, REMOVE_USER, ADD_USER_ERROR, REMOVE_USER_ERROR, AUTHORIZATION} from '../Constant/UserConst'
 import axios from 'axios'
+import { push } from 'react-router-redux'
 
 export const addUser = (data) =>
     async dispatch => {
@@ -32,20 +33,23 @@ export const removeUser = () =>
         }
     }
 
-export const loginUser = (formData , history) =>
+export const loginUser = (formData, push) =>
     async dispatch => {
         try {
            
-            const { data } = await axios.post('/api/user/login', formData);
-            console.log(data)
+            // const { data } = await axios.post('/api/user/login', formData);
+            console.log(formData)
             dispatch({
                 type: AUTHORIZATION,
-                payload: data
+                payload: formData
             })
-            history.push('/room')
+            // history.push('/room')
+            // console.log(push)
+            // console.log("hererer")
+            // push('/room')
         } catch (err) {
-            
-            history.push('/')
+            console.log(err)
+            push('/')
         }
     }
 

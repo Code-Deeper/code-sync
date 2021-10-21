@@ -8,6 +8,7 @@ import Peer from 'peerjs';
 import { decode as base64_decode, encode as base64_encode } from 'base-64';
 import './Room.css';
 import Whiteboard from "../WhiteBoard/Whiteboard";
+
 var myPeer = Peer
 var audios = {}
 var peers = {}
@@ -381,7 +382,8 @@ function Room(props) {
   return (
     <>
       <div>
-        <div className="row container-fluid text-center justify-content-center">
+        {/* className=" row container-fluid text-center justify-content-center" */}
+        <div className=" flex flex-row justify-content-center">
           <div className="form-group col-3">
             <label>Choose Language</label>
             <select
@@ -417,7 +419,7 @@ function Room(props) {
           <div className="form-group col">
             <br />
             <button
-              className="btn btn-secondary"
+              className="bg-blue-700 hover:bg-blue-500 text-white-100 font-bold py-2 px-4 rounded "
               onClick={() => {
                 navigator.clipboard.writeText(`${BaseURL}/room/${roomTitle}`);
               }}
@@ -461,8 +463,8 @@ function Room(props) {
           </div>
         </div>
         <hr />
-        <div className="row m0">
-             <div className="col-md-6">
+        <div className="grid grid-flow-row grid-cols-2 m0">
+             <div className="">
                 <div className="form-container">
                    <div className="ide-container">
                       <div className="center ide-low">
@@ -528,7 +530,7 @@ function Room(props) {
                     </div>
                  </div>
              </div>
-              <div className="col-md-6">
+              <div className="">
                   <div className="wt-board">
                     <Whiteboard />
                   </div>
