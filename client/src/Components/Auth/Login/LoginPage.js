@@ -202,15 +202,15 @@ function LoginPage(props) {
 
                                             >Login</button>
                                         </div>
-                                        <div className='ml-12 mr-12'>
+                                        <div className='ml-12 mr-12 text-center'>
                                             <GoogleLogin
-                                                className='pt-5'
+                                                className='pt-5 '
                                                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_API_KEY}
                                                 render={
                                                     (renderProps) => (
                                                         <>
                                                             <Button
-                                                                className='google-button'
+                                                                className='google-btn block w-full max-w-xs mx-auto bg-blue-500 hover:bg-blue-700 focus:bg-indigo-700 text-gray-100 rounded-lg px-3 py-3 font-semibold'
                                                                 color="primary"
                                                                 fullWidth
                                                                 onClick={renderProps.onClick}

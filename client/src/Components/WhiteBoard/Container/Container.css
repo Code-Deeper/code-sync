@@ -4,36 +4,22 @@
     width: 85%;
     height: 100%;
     background:#303542;
+    border-radius: 20px;
 }
 
-.color-picker-container {
-    text-align: center;
-    display: inline;
-    color: white;
-}
+.color-picker-container {padding:0 10px;display: flex;float: right;color: white;}
+.color-picker-container label{display: flex;margin:3px 7px 0 0; }
+.color-picker-container input[type=color]{display: flex;width: 30px;height: 30px;border-radius: 20px;overflow: hidden;border: 1px solid #fff;outline: none;justify-content: flex-end;}
 
-.brushsize-container {
-    display: inline;
-    color: white;
-    margin-left: 12px;
-}
+.brushsize-container {padding:0 10px;display: flex;float: right;}
+.brushsize-container label{display: flex;margin:3px 7px 0 0;color: #fff;}
+.brushsize-container select{width: 60px;height: 30px;border-radius: 20px;padding: 0 10px;}
 
-.tools-section {
-    text-align: center;
-}
+.tools-section {text-align: center;display: block;padding: 10px 0;}
 
-.board-container {
-    width: 90%;
-    height: 90%;
-    margin: auto;
-    margin-top: 1%;
-    background: white;
-}
-.eraser-color-container{
-    size : 50%;
-    margin-left: 10px;
-}
+.board-container {width: 98%;height: 68vh;margin: auto;background: white;border-radius: 10px;}
+.eraser-color-container{margin-left: 10px;display: block; width: 30px;height: 30px;background-color: #fff;padding: 5px;border-radius: 20px;overflow: hidden;}
 
 .eraser-img{
-    width: 30px;
+    width: 100%;
 }

@@ -16,3 +16,16 @@
 .google-button{
     margin-top: 2%;
 }
+
+.google-btn {
+    background: #3b82f6 !important;
+color: #fff !important;
+width: 88% !important;
+margin: 0 auto !important;
+padding: 12px 0 !important;
+border-radius: 7px !important;
+}
+
+.google-btn:hover{
+    background: rgb(29, 78, 216) !important;
+}

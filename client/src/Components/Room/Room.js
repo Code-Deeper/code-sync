@@ -463,81 +463,80 @@ function Room(props) {
           </div>
         </div>
         <hr />
-        <div className="main-conatiner">
-          <div className="form-container">
-            <div className="ide-container">
-              <div className="col-24 center ide-low">
-                <div className="row mb-1">
-                  <h5 className="col">Code Here</h5>
-                  <div className="form-group col">
-                    <button
-                      className="btn btn-secondary"
-                      onClick={() => {
-                        navigator.clipboard.writeText(roomBody);
-                      }}
-                    >
-                      Copy Code
-                    </button>
-                  </div>
-                  <div className="form-group col">
-                    <button
-                      className="btn btn-primary"
-                      onClick={submitHandler}
-                      disabled={submissionState === runningState}
-                    >
-                      Save and Run
-                    </button>
-                  </div>
-                </div>
-                {/* {console.log("language" + languageToEditorMode[language])} */}
-                {/* {console.log('room body is ' + output)} */}
-                <Editor
-                  theme={theme}
-                  language={languageToEditorMode[language]}
-                  body={roomBody}
-                  setBody={handleUpdateBody}
-                  width={"100%"}
-                  height={'65vh'}
-                />
+        <div className="grid grid-flow-row grid-cols-2 m0">
+             <div className="">
+                <div className="form-container">
+                   <div className="ide-container">
+                      <div className="center ide-low">
+                        <div className="ide-header">
+                          <h5 className="">Code Here</h5>
+                          <button
+                              className="btn btn-primary btn-save-run"
+                              onClick={submitHandler}
+                              disabled={submissionState === runningState}
+                            >
+                              Save and Run
+                            </button>
+                            <button
+                              className="btn btn-secondary btn-copy"
+                              onClick={() => {
+                                navigator.clipboard.writeText(roomBody);
+                              }}
+                            >
+                              Copy Code
+                            </button>
+                        </div>
+                        {/* {console.log("language" + languageToEditorMode[language])} */}
+                        {/* {console.log('room body is ' + output)} */}
+                        <Editor
+                          theme={theme}
+                          language={languageToEditorMode[language]}
+                          body={roomBody}
+                          setBody={handleUpdateBody}
+                          width={"100%"}
+                          height={'50vh'}
+                        />
 
-                <div className='text-ip-op'>
-                  <div className="col-6 text-center ">
-                    <h5 className="Input">Input</h5>
+                        <div className='text-ip-op'>
+                          <div className="row">
+                            <div className="col-6 text-center ">
+                              <h5 className="Input">Input</h5>
+                            </div>
+                            <div className="col-6 text-center ">
+                              <h5 className="Output">Output</h5>
+                            </div> 
+                          </div>
+                        </div>
+                        <div className=" text-center ip-op-editor">
+                          {/* <h5>Input</h5> */}
+                          <Editor
+                            className="editor-1"
+                            theme={theme}
+                            language={''}
+                            body={input}
+                            setBody={handleUpdateInput}
+                          />
+                          {/* <h5>Output</h5> */}
+                          {console.log(output)}
+                          <Editor className="editor-2"
+                            theme={theme}
+                            language={''}
+                            body={output}
+                            setBody={HandleUpdateOutput}
+                            readOnly={true}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+             </div>
+              <div className="">
+                  <div className="wt-board">
+                    <Whiteboard />
                   </div>
-                  {/* <div className="col-6 text-center ">
-              <h5 className="Output">Output</h5>
-            </div> */}
-                </div>
-                <div className=" text-center ip-op-editor">
-                  {/* <h5>Input</h5> */}
-                  <Editor
-                    className="editor-1"
-                    theme={theme}
-                    language={''}
-                    body={input}
-                    setBody={handleUpdateInput}
-                    height={'35vh'}
-                    width={"200%"}
-                  />
-                  {/* <h5>Output</h5> */}
-                  {console.log(output)}
-                  <Editor className="editor-2"
-                    theme={theme}
-                    language={''}
-                    body={output}
-                    setBody={HandleUpdateOutput}
-                    readOnly={true}
-                    height={'35vh'}
-                    width={"200%"}
-                  />
-                </div>
               </div>
-            </div>
-          </div>
-          <div className="wt-board">
-            <Whiteboard />
-          </div>
         </div>
+        
       </div>
       <div>
         editor is herer
