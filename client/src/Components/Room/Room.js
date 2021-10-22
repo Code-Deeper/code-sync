@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Editor from "../Editor/Editor";
-import socket from '../socket.io'
-import _, { debounce } from 'lodash';
-import { BaseURL } from '../../BaseURL'
-import Peer from 'peerjs';
-import { decode as base64_decode, encode as base64_encode } from 'base-64';
-import './Room.css';
+import socket from "../socket.io";
+import _, { debounce } from "lodash";
+import { BaseURL } from "../../BaseURL";
+import { VscLink } from "react-icons/vsc";
+import { MdRecordVoiceOver, MdVoiceOverOff } from "react-icons/md";
+import { BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
+import Peer from "peerjs";
+import { decode as base64_decode, encode as base64_encode } from "base-64";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import "./Room.css";
 import Whiteboard from "../WhiteBoard/Whiteboard";
 
-var myPeer = Peer
-var audios = {}
-var peers = {}
+var myPeer = Peer;
+var audios = {};
+var peers = {};
 var myAudio = MediaStream | null;
 
 function Room(props) {
@@ -24,16 +29,31 @@ function Room(props) {
   };
   const languages = Object.keys(languageToEditorMode);
   const themes = [
-    'monokai',
-    'github',
-    'solarized_dark',
-    'dracula',
-    'eclipse',
-    'tomorrow_night',
-    'tomorrow_night_blue',
-    'xcode',
-    'ambiance',
-    'solarized_light'
+    "monokai",
+    "github",
+    "solarized_dark",
+    "dracula",
+    "eclipse",
+    "tomorrow_night",
+    "tomorrow_night_blue",
+    "xcode",
+    "ambiance",
+    "solarized_light",
+  ];
+  const fontSizes = [
+    "8",
+    "10",
+    "12",
+    "14",
+    "16",
+    "18",
+    "20",
+    "22",
+    "24",
+    "26",
+    "28",
+    "30",
+    "32",
   ];
 
   const [roomTitle, setRoomTitle] = useState("");
@@ -41,9 +61,13 @@ function Room(props) {
   const [roomBody, setRoomBody] = useState("");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
-  const [language, setLanguage] = useState(localStorage.getItem('language') ?? 'c');
-  const [theme, setTheme] = useState(localStorage.getItem('theme') ?? 'monokai');
-
+  const [language, setLanguage] = useState(
+    localStorage.getItem("language") ?? "c"
+  );
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") ?? "monokai"
+  );
+  const [fontSize, setFontSize] = useState(12);
   const idealState = "Idle";
   const runningState = "running";
   const completedState = "completed";
@@ -60,44 +84,43 @@ function Room(props) {
   const SOCKET_SPEED = 100;
   const JAUDGE_API_KEY = process.env.REACT_APP_JAUDGE_API_KEY;
   const JAUDGE_HOST_LINK = process.env.REACT_APP_JAUDGE_LINK_HOST;
-  const JAUDGE_API_URL = process.env.REACT_APP_API_URL
+  const JAUDGE_API_URL = process.env.REACT_APP_API_URL;
   useEffect(() => {
-    localStorage.setItem('theme', theme);
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   useEffect(() => {
-    localStorage.setItem('language', language);
+    localStorage.setItem("language", language);
   }, [language]);
   // Once room will be created then this effect will triggered when ever props id changed
   // Props id means router id example /room/:id
   useEffect(() => {
-    socket.on('updateBody', (roomBody) => {
-      console.log("we", roomBody)
+    socket.on("updateBody", (roomBody) => {
+      console.log("we", roomBody);
       setRoomBody(roomBody);
     });
-    socket.on('updateInput', (input) => {
+    socket.on("updateInput", (input) => {
       setInput(input);
     });
-    socket.on('updateLanguage', (language) => {
+    socket.on("updateLanguage", (language) => {
       console.log("FL", language);
       setLanguage(language);
     });
-    socket.on('updateOutput', (output) => {
+    socket.on("updateOutput", (output) => {
       setOutput(output);
     });
 
     const { id } = props.match.params;
     setRoomId(id);
-    socket.emit('joinroom', id);
-
-
+    socket.emit("joinroom", id);
 
     const url = `/api/room/${id}`;
     const fetchData = async () => {
       const { data } = await axios.get(url, {
         headers: {
-          Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('authUser'))
-        }
+          Authorization:
+            "Bearer " + JSON.parse(localStorage.getItem("authUser")),
+        },
       });
       const { room_title, room_body, room_language, room_input } = data;
       setRoomTitle(room_title);
@@ -112,22 +135,22 @@ function Room(props) {
     fetchData();
 
     return () => {
-      console.log('called');
-      socket.off('updateBody', (roomBody) => {
-        console.log(roomBody)
+      console.log("called");
+      socket.off("updateBody", (roomBody) => {
+        console.log(roomBody);
         setRoomBody(roomBody);
       });
-      socket.off('updateInput', (input) => {
+      socket.off("updateInput", (input) => {
         setInput(input.value);
       });
-      socket.off('updateLanguage', (language) => {
+      socket.off("updateLanguage", (language) => {
         setLanguage(language.value);
       });
-      socket.off('updateOutput', (output) => {
+      socket.off("updateOutput", (output) => {
         setOutput(output.value);
       });
       if (myPeer) {
-        socket.emit('leaveAudioRoom', myPeer.id);
+        socket.emit("leaveAudioRoom", myPeer.id);
         destroyConnection();
       }
       myAudio = null;
@@ -140,33 +163,43 @@ function Room(props) {
 
   const GiveMeLanguageCode = () => {
     switch (language) {
-      case "c": return 49; break;
-      case "cpp": return 53; break;
-      case "python": return 71; break;
-      case "java": return 62; break;
-      case "javascript": return 63; break;
+      case "c":
+        return 49;
+        break;
+      case "cpp":
+        return 53;
+        break;
+      case "python":
+        return 71;
+        break;
+      case "java":
+        return 62;
+        break;
+      case "javascript":
+        return 63;
+        break;
     }
-  }
+  };
 
   const submitHandler = () => {
-
     if (submissionState === runningState) return;
     setSubmissionState(runningState);
 
-    axios.patch(`/api/room/${roomId}`, {
-      room_id: roomId,
-      room_body: roomBody,
-      room_title: roomTitle,
-      room_input: input,
-      room_language: language,
-    })
+    axios
+      .patch(`/api/room/${roomId}`, {
+        room_id: roomId,
+        room_body: roomBody,
+        room_title: roomTitle,
+        room_input: input,
+        room_language: language,
+      })
       .then((res) => {
         // TODO:
         // console.log({ res });
         const { data } = res;
         setRoomTitle(data.room_title);
         setRoomBody(data.room_body);
-        setInput(data.room_input)
+        setInput(data.room_input);
         setLanguage(data.room_language);
       })
       .catch((err) => {
@@ -174,78 +207,92 @@ function Room(props) {
         setSubmissionState(errorState);
         return;
       });
-    let language_code = parseInt(GiveMeLanguageCode(language))
+    let language_code = parseInt(GiveMeLanguageCode(language));
     console.log("lag", language_code, language);
-    const encode_input = base64_encode(input)
-    const encode_body = base64_encode(roomBody)
+    const encode_input = base64_encode(input);
+    const encode_body = base64_encode(roomBody);
     var options = {
-      method: 'POST',
+      method: "POST",
       url: `${JAUDGE_API_URL}/submissions`,
-      params: { base64_encoded: 'true', wait: 'false', fields: '*' },
+      params: { base64_encoded: "true", wait: "false", fields: "*" },
       headers: {
-        'content-type': 'application/json',
-        'x-rapidapi-host': JAUDGE_HOST_LINK,
-        'x-rapidapi-key': JAUDGE_API_KEY
+        "content-type": "application/json",
+        "x-rapidapi-host": JAUDGE_HOST_LINK,
+        "x-rapidapi-key": JAUDGE_API_KEY,
       },
       data: {
         language_id: language_code,
         source_code: encode_body,
-        stdin: encode_input
-      }
+        stdin: encode_input,
+      },
     };
-    axios.request(options).then(function (response) {
-      console.log("res", response.data);
-      let token = response.data.token
-      console.log("url", `${JAUDGE_API_URL}/submissions/${token}`)
-      setTimeout(() => {
-        const ipString = `${JAUDGE_API_URL}/submissions/${token}`.toString();
-        var ip = {
-          method: 'GET',
-          url: ipString,
-          params: { base64_encoded: 'true', fields: '*' },
-          headers: {
-            'x-rapidapi-host': JAUDGE_HOST_LINK,
-            'x-rapidapi-key': JAUDGE_API_KEY
-          }
-        };
-        axios.request(ip).then(function (res) {
-          console.log(res.data);
-          if (res.data.status.description == "Accepted") {
-            let decoded = base64_decode(res.data.stdout);
-            console.log('decoded', decoded);
-            socket.emit('updateOutput', { value: decoded, roomId: roomId });
-            setOutput(decoded);
-          } else {
-            let decoded = base64_decode(res.data.compile_output);
-            console.log('decoded', decoded);
-            socket.emit('updateOutput', { value: decoded, roomId: roomId });
-            setOutput(decoded);
-          }
-          setSubmissionState("DONE");
-        }).catch(function (err) {
-          console.error(err);
-          setSubmissionState(err)
-        });
-      }, 5000)
-    }).catch(function (error) {
-      console.error(error);
-      setSubmissionState(error)
-
-    });
+    axios
+      .request(options)
+      .then(function (response) {
+        console.log("res", response.data);
+        let token = response.data.token;
+        console.log("url", `${JAUDGE_API_URL}/submissions/${token}`);
+        setTimeout(() => {
+          const ipString = `${JAUDGE_API_URL}/submissions/${token}`.toString();
+          var ip = {
+            method: "GET",
+            url: ipString,
+            params: { base64_encoded: "true", fields: "*" },
+            headers: {
+              "x-rapidapi-host": JAUDGE_HOST_LINK,
+              "x-rapidapi-key": JAUDGE_API_KEY,
+            },
+          };
+          axios
+            .request(ip)
+            .then(function (res) {
+              console.log(res.data);
+              if (res.data.status.description == "Accepted") {
+                let decoded = base64_decode(res.data.stdout);
+                console.log("decoded", decoded);
+                socket.emit("updateOutput", { value: decoded, roomId: roomId });
+                setOutput(decoded);
+              } else {
+                let decoded = base64_decode(res.data.compile_output);
+                console.log("decoded", decoded);
+                socket.emit("updateOutput", { value: decoded, roomId: roomId });
+                setOutput(decoded);
+              }
+              setSubmissionState("DONE");
+            })
+            .catch(function (err) {
+              console.error(err);
+              setSubmissionState(err);
+            });
+        }, 5000);
+      })
+      .catch(function (error) {
+        console.error(error);
+        setSubmissionState(error);
+      });
   };
 
   const handleUpdateBody = (value) => {
-    setRoomBody(value)
-    debounce(() => socket.emit('updateBody', { value, roomId }), SOCKET_SPEED)();
+    setRoomBody(value);
+    debounce(
+      () => socket.emit("updateBody", { value, roomId }),
+      SOCKET_SPEED
+    )();
   };
 
   const handleUpdateInput = (value) => {
-    setInput(value)
-    debounce(() => socket.emit('updateInput', { value, roomId }), SOCKET_SPEED)();
+    setInput(value);
+    debounce(
+      () => socket.emit("updateInput", { value, roomId }),
+      SOCKET_SPEED
+    )();
   };
   const HandleUpdateOutput = (value) => {
-    setOutput(value)
-    debounce(() => socket.emit('updateOutput', { value, roomId }), SOCKET_SPEED)();
+    setOutput(value);
+    debounce(
+      () => socket.emit("updateOutput", { value, roomId }),
+      SOCKET_SPEED
+    )();
   };
   const getAudioStream = () => {
     const myNavigator =
@@ -259,7 +306,7 @@ function Room(props) {
   const createAudio = (data) => {
     const { id, stream } = data;
     if (!audios[id]) {
-      const audio = document.createElement('audio');
+      const audio = document.createElement("audio");
       audio.id = id;
       audio.srcObject = stream;
       if (myPeer && id == myPeer.id) {
@@ -268,7 +315,7 @@ function Room(props) {
       }
       audio.autoplay = true;
       audios[id] = data;
-      console.log('Adding audio: ', id);
+      console.log("Adding audio: ", id);
     } // } else {
     //     console.log('adding audio: ', id);
     //     // @ts-ignore
@@ -283,7 +330,7 @@ function Room(props) {
   };
 
   const destroyConnection = () => {
-    console.log('distroying', audios, myPeer.id);
+    console.log("distroying", audios, myPeer.id);
     if (audios[myPeer.id]) {
       const myMediaTracks = audios[myPeer.id].stream.getTracks();
       myMediaTracks.forEach((track) => {
@@ -291,21 +338,20 @@ function Room(props) {
       });
     }
     // if (myPeer) myPeer.destroy();
-    console.log('distroyed', audios, myPeer.id);
-
+    console.log("distroyed", audios, myPeer.id);
   };
 
   const setPeersListeners = (stream) => {
-    myPeer.on('call', (call) => {
+    myPeer.on("call", (call) => {
       call.answer(stream);
-      call.on('stream', (userAudioStream) => {
+      call.on("stream", (userAudioStream) => {
         createAudio({ id: call.metadata.id, stream: userAudioStream });
       });
-      call.on('close', () => {
+      call.on("close", () => {
         removeAudio(call.metadata.id);
       });
-      call.on('error', () => {
-        console.log('peer error');
+      call.on("error", () => {
+        console.log("peer error");
         if (!myPeer.destroyed) removeAudio(call.metadata.id);
       });
       peers[call.metadata.id] = call;
@@ -313,16 +359,16 @@ function Room(props) {
   };
 
   const newUserConnection = (stream) => {
-    socket.on('userJoinedAudio', (userId) => {
+    socket.on("userJoinedAudio", (userId) => {
       const call = myPeer.call(userId, stream, { metadata: { id: myPeer.id } });
-      call.on('stream', (userAudioStream) => {
+      call.on("stream", (userAudioStream) => {
         createAudio({ id: userId, stream: userAudioStream });
       });
-      call.on('close', () => {
+      call.on("close", () => {
         removeAudio(userId);
       });
-      call.on('error', () => {
-        console.log('peer error');
+      call.on("error", () => {
+        console.log("peer error");
         if (!myPeer.destroyed) removeAudio(userId);
       });
       peers[userId] = call;
@@ -332,29 +378,29 @@ function Room(props) {
   useEffect(() => {
     if (inAudio) {
       myPeer = new Peer();
-      myPeer.on('open', (userId) => {
-        console.log('opened');
+      myPeer.on("open", (userId) => {
+        console.log("opened");
         getAudioStream().then((stream) => {
-          socket.emit('joinAudioRoom', roomId, userId);
+          socket.emit("joinAudioRoom", roomId, userId);
           stream.getAudioTracks()[0].enabled = !isMuted;
           newUserConnection(stream);
           setPeersListeners(stream);
           createAudio({ id: myPeer.id, stream });
         });
       });
-      myPeer.on('error', (err) => {
-        console.log('peerjs error: ', err);
+      myPeer.on("error", (err) => {
+        console.log("peerjs error: ", err);
         if (!myPeer.destroyed) myPeer.reconnect();
       });
-      socket.on('userLeftAudio', (userId) => {
-        console.log('user left aiudio:', userId);
+      socket.on("userLeftAudio", (userId) => {
+        console.log("user left aiudio:", userId);
         if (peers[userId]) peers[userId].close();
         removeAudio(userId);
       });
     } else {
-      console.log('leaving', myPeer);
+      console.log("leaving", myPeer);
       if (myPeer) {
-        socket.emit('leaveAudioRoom', myPeer.id);
+        socket.emit("leaveAudioRoom", myPeer.id);
         destroyConnection();
       }
       myAudio = null;
@@ -371,64 +417,101 @@ function Room(props) {
 
   const handleLanguage = (event) => {
     event.preventDefault();
-    setLanguage(event.target.value)
-    debounce(() => socket.emit('updateLanguage', { value: event.target.value, roomId }), SOCKET_SPEED)();
-
-  }
-  // const 
+    setLanguage(event.target.value);
+    toast.success(`✨ Language changed to ${event.target.value} ✨`)
+    debounce(
+      () =>
+        socket.emit("updateLanguage", { value: event.target.value, roomId }),
+      SOCKET_SPEED
+    )();
+  };
+  // const
   useEffect(() => {
-    console.log(language)
-  }, [language])
+    console.log(language);
+  }, [language]);
   return (
     <>
       <div>
         {/* className=" row container-fluid text-center justify-content-center" */}
         <div className=" flex flex-row justify-content-center">
-          <div className="form-group col-3">
-            <label>Choose Language</label>
-            <select
-              className="form-select"
-              defaultValue={language}
-              onChange={handleLanguage}
-            >
-              {languages.map((lang, index) => {
-                return (
-                  <option key={index} value={lang} selected={lang === language} >
-                    {lang}
-                  </option>
-                );
-              })}
-            </select>
+          <div className="ml-2 mt-3">
+            <div className="relative inline-flex">
+              <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero" /></svg>
+
+              {/* <label>Choose Language</label> */}
+              <select
+                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-gray-100 hover:border-gray-400 focus:outline-none appearance-none"
+                defaultValue={language}
+                onChange={handleLanguage}
+              >
+                {languages.map((lang, index) => {
+                  return (
+                    <option key={index} value={lang} selected={lang === language}>
+                      {lang}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
           </div>
-          <div className="form-group col-3">
-            <label>Choose Theme</label>
-            <select
-              className="form-select"
-              defaultValue={theme}
-              onChange={(event) => setTheme(event.target.value)}
-            >
-              {themes.map((theme, index) => {
-                return (
-                  <option key={index} value={theme}>
-                    {theme}
-                  </option>
-                );
-              })}
-            </select>
+          <div className="ml-2 mt-3">
+            <div className="relative inline-flex">
+              <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero" /></svg>
+
+              {/* <label>Choose Theme</label> */}
+              <select
+                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-gray-100 hover:border-gray-400 focus:outline-none appearance-none"
+                defaultValue={theme}
+                onChange={(event) => {
+                  setTheme(event.target.value)
+                  toast.success(`🚀 Theme changed to ${event.target.value} 🚀`)
+                }}
+              >
+                {themes.map((theme, index) => {
+                  return (
+                    <option key={index} value={theme}>
+                      {theme}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
           </div>
-          <div className="form-group col">
-            <br />
+          <div className="ml-2 mt-3">
+            {/* <label>Font Size</label> */}
+            <div className="relative inline-flex">
+              <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero" /></svg>
+
+              <select
+                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-gray-100 hover:border-gray-400 focus:outline-none appearance-none"
+                defaultValue={fontSize}
+                onChange={(event) => setFontSize(event.target.value)}
+              >
+                {fontSizes.map((fontSize, index) => {
+                  return (
+                    <option key={index} value={fontSize}>
+                      {fontSize}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
+          
+          <div className="ml-2">
+            {/* <br /> */}
             <button
-              className="bg-blue-700 hover:bg-blue-500 text-white-100 font-bold py-2 px-4 rounded "
+              className="bg-gray-300 hover:bg-gray-100 text-white-100 font-bold py-2 px-4 rounded mt-3 "
               onClick={() => {
                 navigator.clipboard.writeText(`${BaseURL}/room/${roomTitle}`);
+                toast.success(`🔥 Room Link has been Copied 🔥`)
               }}
             >
-              Copy room link
+              <VscLink  style={{width :"22px", height : "22px"}} />
             </button>
           </div>
-          <div className="form-group col">
-            <br />
+          <div className=" ml-2">
+            {/* <br /> */}
             {/* <button
             className="btn btn-primary"
             onClick={submitHandler}
@@ -438,109 +521,111 @@ function Room(props) {
           </button> */}
             <button
               // className="btn btn-primary"
-              className={`btn btn-${inAudio ? 'primary' : 'secondary'}`}
+              className={`${inAudio ?"bg-red-600 hover:bg-red-300 " :"bg-gray-300 hover:bg-gray-100 " }text-white-100 font-bold py-2 px-4 rounded mt-3`}
               onClick={() => setInAudio(!inAudio)}
             >
-              {inAudio ? 'Leave Audio' : 'Join Audio'} Room
+              {/* {inAudio ? "Leave Audio" : "Join Audio"} Room */}
+              {inAudio ? <MdVoiceOverOff style={{ width: "22px", height: "22px" }} /> : <MdRecordVoiceOver style={{ width: "22px", height: "22px" }}/>}
             </button>
           </div>
           {inAudio ? (
-            <div className="form-group col">
-              <br />
+            <div className="ml-2">
+              {/* <br /> */}
               <button
-                className={`btn btn-${!isMuted ? 'primary' : 'secondary'}`}
+                className={`${isMuted ? "bg-red-600 hover:bg-red-300 " : "bg-gray-300 hover:bg-gray-100 "}text-white-100 font-bold py-2 px-4 rounded mt-3`}
                 onClick={() => setIsMuted(!isMuted)}
               >
-                {isMuted ? 'Muted' : 'Speaking'}
+                {isMuted ? <BsFillMicMuteFill style={{ width: "22px", height: "22px" }} /> : <BsFillMicFill style={{ width: "22px", height: "22px" }} />}
               </button>
             </div>
           ) : (
             <div className="form-group col" />
           )}
-          <div className="form-group col-2">
-            <br />
+          <div className="ml-3 mt-5">
+            {/* <br /> */}
             <label>Status: {submissionState}</label>
           </div>
         </div>
-        <hr />
+        <hr className="mt-1" />
         <div className="grid grid-flow-row grid-cols-2 m0">
-             <div className="">
-                <div className="form-container">
-                   <div className="ide-container">
-                      <div className="center ide-low">
-                        <div className="ide-header">
-                          <h5 className="">Code Here</h5>
-                          <button
-                              className="btn btn-primary btn-save-run"
-                              onClick={submitHandler}
-                              disabled={submissionState === runningState}
-                            >
-                              Save and Run
-                            </button>
-                            <button
-                              className="btn btn-secondary btn-copy"
-                              onClick={() => {
-                                navigator.clipboard.writeText(roomBody);
-                              }}
-                            >
-                              Copy Code
-                            </button>
-                        </div>
-                        {/* {console.log("language" + languageToEditorMode[language])} */}
-                        {/* {console.log('room body is ' + output)} */}
-                        <Editor
-                          theme={theme}
-                          language={languageToEditorMode[language]}
-                          body={roomBody}
-                          setBody={handleUpdateBody}
-                          width={"100%"}
-                          height={'50vh'}
-                        />
+          <div className="">
+            <div className="form-container">
+              <div className="ide-container">
+                <div className="center ide-low">
+                  <div className="ide-header">
+                    <h5 className="">Code Here</h5>
+                    <button
+                      className="btn btn-primary btn-save-run"
+                      onClick={submitHandler}
+                      disabled={submissionState === runningState}
+                    >
+                      Save and Run
+                    </button>
+                    <button
+                      className="btn btn-secondary btn-copy"
+                      onClick={() => {
+                        navigator.clipboard.writeText(roomBody);
+                      }}
+                    >
+                      Copy Code
+                    </button>
+                  </div>
+                  {/* {console.log("language" + languageToEditorMode[language])} */}
+                  {/* {console.log('room body is ' + output)} */}
+                  <Editor
+                    theme={theme}
+                    language={languageToEditorMode[language]}
+                    body={roomBody}
+                    setBody={handleUpdateBody}
+                    width={"100%"}
+                    height={"50vh"}
+                    fontSize={fontSize}
+                  />
 
-                        <div className='text-ip-op'>
-                          <div className="row">
-                            <div className="col-6 text-center ">
-                              <h5 className="Input">Input</h5>
-                            </div>
-                            <div className="col-6 text-center ">
-                              <h5 className="Output">Output</h5>
-                            </div> 
-                          </div>
-                        </div>
-                        <div className=" text-center ip-op-editor">
-                          {/* <h5>Input</h5> */}
-                          <Editor
-                            className="editor-1"
-                            theme={theme}
-                            language={''}
-                            body={input}
-                            setBody={handleUpdateInput}
-                          />
-                          {/* <h5>Output</h5> */}
-                          {console.log(output)}
-                          <Editor className="editor-2"
-                            theme={theme}
-                            language={''}
-                            body={output}
-                            setBody={HandleUpdateOutput}
-                            readOnly={true}
-                          />
-                        </div>
+                  <div className="text-ip-op">
+                    <div className="row">
+                      <div className="col-6 text-center ">
+                        <h5 className="Input">Input</h5>
+                      </div>
+                      <div className="col-6 text-center ">
+                        <h5 className="Output">Output</h5>
                       </div>
                     </div>
-                 </div>
-             </div>
-              <div className="">
-                  <div className="wt-board">
-                    <Whiteboard />
                   </div>
+                  <div className=" text-center ip-op-editor">
+                    {/* <h5>Input</h5> */}
+                    <Editor
+                      className="editor-1"
+                      theme={theme}
+                      language={""}
+                      body={input}
+                      setBody={handleUpdateInput}
+                      fontSize={fontSize}
+                    />
+                    {/* <h5>Output</h5> */}
+                    {console.log(output)}
+                    <Editor
+                      className="editor-2"
+                      theme={theme}
+                      language={""}
+                      body={output}
+                      setBody={HandleUpdateOutput}
+                      readOnly={true}
+                      fontSize={fontSize}
+                    />
+                  </div>
+                </div>
               </div>
+            </div>
+          </div>
+          <div className="">
+            <div className="wt-board">
+              <Whiteboard />
+            </div>
+          </div>
         </div>
-        
       </div>
-      <div>
-        editor is herer
-      </div>
+      <ToastContainer />
     </>
   );
 }
