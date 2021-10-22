@@ -17,7 +17,7 @@ import 'ace-builds/src-noconflict/theme-tomorrow_night_blue';
 import 'ace-builds/src-noconflict/theme-xcode';
 import 'ace-builds/src-noconflict/theme-ambiance';
 import 'ace-builds/src-noconflict/theme-solarized_light';
-function Editor({ language, theme, body, setBody, height, readOnly, width }) {
+function Editor({ language, theme, body, setBody, height, readOnly, width, fontSize }) {
   return (
     <AceEditor
       mode={language}
@@ -27,7 +27,7 @@ function Editor({ language, theme, body, setBody, height, readOnly, width }) {
       width={width}
       height={height ? height : "78.7vh"}
       readOnly={readOnly ? readOnly : false}
-      fontSize={17}
+      fontSize={fontSize ? (isNaN(+fontSize) ? 12 : +fontSize) : 12}
       name="UNIQUE_ID_OF_DIV"
       showGutter={true}
       editorProps={{ $blockScrolling: true }}
