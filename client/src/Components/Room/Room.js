@@ -13,7 +13,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./Room.css";
 import Whiteboard from "../WhiteBoard/Whiteboard";
-
+import { EditorState } from 'draft-js'
+import Draft from './RichEditor/Draft'
 var myPeer = Peer;
 var audios = {};
 var peers = {};
@@ -78,6 +79,14 @@ function Room(props) {
   const [submissionIdChecker, setSubmissionIdChecker] = useState(null);
   const [inAudio, setInAudio] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+
+  // Draft
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+
+ 
+
+
+
   // const [token , setToken] = useState(null)
   // const API_KEY = "guest";
 
@@ -95,6 +104,9 @@ function Room(props) {
   // Once room will be created then this effect will triggered when ever props id changed
   // Props id means router id example /room/:id
   useEffect(() => {
+    console.log(editorState);
+  }, [editorState])
+  useEffect(() => {
     socket.on("updateBody", (roomBody) => {
       console.log("we", roomBody);
       setRoomBody(roomBody);
@@ -109,7 +121,8 @@ function Room(props) {
     socket.on("updateOutput", (output) => {
       setOutput(output);
     });
-
+    
+    
     const { id } = props.match.params;
     setRoomId(id);
     socket.emit("joinroom", id);
@@ -149,6 +162,7 @@ function Room(props) {
       socket.off("updateOutput", (output) => {
         setOutput(output.value);
       });
+      
       if (myPeer) {
         socket.emit("leaveAudioRoom", myPeer.id);
         destroyConnection();
@@ -278,6 +292,16 @@ function Room(props) {
       () => socket.emit("updateBody", { value, roomId }),
       SOCKET_SPEED
     )();
+  };
+  // Draft
+  const onEditorStateChange = (editorState) => {
+
+    setEditorState(editorState)
+    console.log(editorState.text)
+    // debounce(
+    //   () => socket.emit("updateRichText", { value: JSON.stringify(editorState) , roomId }),
+    //   SOCKET_SPEED
+    // )();
   };
 
   const handleUpdateInput = (value) => {
@@ -622,6 +646,12 @@ function Room(props) {
             <div className="wt-board">
               <Whiteboard />
             </div>
+          </div>
+          <div className="mt-5 ml-5 mr-5 h-32	">
+            <Draft
+              editorState={editorState}
+              setEditorState={setEditorState}
+              onEditorStateChange={onEditorStateChange} />
           </div>
         </div>
       </div>

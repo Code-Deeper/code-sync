@@ -1,28 +1,31 @@
-import React, { useState } from "react";
-// import { Transition } from "@headlessui/react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState } from "react";
+import { Editor } from "react-draft-wysiwyg";
+import {  EditorState } from 'draft-js'
 const Trial = (props) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+    useEffect(() => {
+        console.log({ editorState });
+    }, [editorState])
+   const onEditorStateChange  = (editorState) => {
+        // console.log(editorState)
+       setEditorState(editorState)
+    };
+
     return (
         <div>
-            <div class="relative inline-flex">
-                <ToastContainer/>
-                <button
-                    onClick={(x) => {
-                        toast.success('🦄 Wow so easy!');
-                    }}
-                >
-
-
-                    test
-                </button>
-                {/* Same as */}
-                <ToastContainer />
-            </div>
-
-
-
+            <Editor
+                editorState={editorState}
+                onEditorStateChange={onEditorStateChange}
+                toolbar={{
+                    inline: { inDropdown: true },
+                    list: { inDropdown: true },
+                    textAlign: { inDropdown: true },
+                    link: { inDropdown: true },
+                    history: { inDropdown: true },
+                    
+                }}
+            />
         </div>
     )
 }
