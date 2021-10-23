@@ -39,8 +39,11 @@ const createRoomById = asyncHandler(async (req, res) => {
     room_language,
     room_input,
   });
-  const createRoom = await newRoom.save();
-  res.status(201).json(createRoom);
+  newRoom.save().then((createRoom) => {
+    res.status(200).json(createRoom);
+  }).catch((err) => {
+    res.status(500).json(err);
+  })
 
 });
 

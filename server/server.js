@@ -72,8 +72,6 @@ io.on('connection', (socket) => {
       socket.broadcast.to(roomId).emit('userLeftAudio', userId);
     });
   });
-
-
 });
 
 // Production Settings

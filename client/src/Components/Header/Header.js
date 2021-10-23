@@ -3,14 +3,19 @@ import { Avatar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 import { connect, useDispatch } from "react-redux";
+import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios'
 import decode from 'jwt-decode'
 import { Link, RouteComponentProps, withRouter, useHistory, useLocation } from 'react-router-dom'
 import { removeUser } from "../../Action/UserAction";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Header(props) {
   const history = useHistory(props);
   const location = useLocation();
   const dispatch = useDispatch();
   const [roomId, setRoomId] = useState('');
+  const [roomName, setRoomName] = useState('');
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('authUser')) || props?.authUser || null);
   const submitHandler = () => {
     // const {history} = props
@@ -39,6 +44,23 @@ function Header(props) {
     setUser(JSON.parse(localStorage.getItem('authUser')) || props?.authUser || null)
   }, [location])
   const [isOpen, setIsOpen] = useState(false);
+  const CreatRoomHandler = async (e) => {
+    e.preventDefault()
+    const uID = await uuidv4();
+    console.log({uID});
+    axios.post('/api/room', {
+      room_id: uID,
+      room_title: roomName || uID,
+      room_body: "", room_language: "", room_input: ""
+    }).then((res) => {
+      console.log(res.data);
+      history.push(`/room/${res?.data?.room_id}`)
+      toast.success("Room Has been Created!");
+    }).catch((err) => {
+      alert('Room Not Created!! axaError!!!');
+      console.log(err);
+    })
+  }
   return (
     <div>
       <div>
@@ -204,18 +226,30 @@ function Header(props) {
                 <p className="text-4xl font-extrabold text-center text-gray-900">Create Your Room </p>
                 {/* <p className="text-2xl font-extrabold text-center" style={{ color: "FE5401" }} >2 hours</p> */}
               </div>
-
               <footer className="flex justify-center">
-                <a
-                  href='/newRoom'
-                  className="bg-indigo-600 flex items-center px-4 py-3 text-xl font-bold text-gray-100 rounded-xl">
-                  <p>Create</p>
-                  <svg className="w-9 h-9" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"></path>
-                  </svg>
-                </a>
+                <form onSubmit={CreatRoomHandler} >
+                  <div className='ml-4 mr-4'>
+                    <input
+                      type="search"
+                      value={roomName}
+                      onChange={(e) => setRoomName(e.target.value)}
+                      className="mb-2 pl-4 appearance-none bg-transparent border-none rounded-full w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Enter Room Name" aria-label="Room Name"></input>
+                  </div>
+                  <div className="flex justify-center mt-3">
+                    <button
+                      // href='/newRoom'
+                      className="flex justify-center bg-indigo-600 flex items-center px-4 py-3 text-xl font-bold text-gray-100 rounded-xl"
+
+                    >
+                      <p>Create</p>
+                      <svg className="w-9 h-9" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clip-rule="evenodd"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </form>
               </footer>
             </section>
           </div>
@@ -239,31 +273,32 @@ function Header(props) {
                 {/* <p className="text-2xl font-extrabold text-center" style={{ color: "FE5401" }} >2 hours</p> */}
               </div>
               <form onSubmit={submitHandler}>
-              <div className='ml-4 mr-4'>
-                <input
-                  type="search"
-                  value={roomId}
-                  onChange={(e) => setRoomId(e.target.value)}
-                  className="mt-2 mb-2 pl-4 appearance-none bg-transparent border-none rounded-full w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="link" placeholder="Enter Room Link" aria-label="Full name"></input>
-              </div>
-              <footer className="flex justify-center">
-                <button
-                  onClick={submitHandler}
-                  className="bg-indigo-600 flex items-center px-4 py-3 text-xl font-bold text-gray-100 rounded-xl mt-3">
-                  <p >Join</p>
+                <div className='ml-4 mr-4'>
+                  <input
+                    type="search"
+                    value={roomId}
+                    onChange={(e) => setRoomId(e.target.value)}
+                    className="mt-2 mb-2 pl-4 appearance-none bg-transparent border-none rounded-full w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="link" placeholder="Enter Room Link" aria-label="Full name"></input>
+                </div>
+                <footer className="flex justify-center">
+                  <button
+                    onClick={submitHandler}
+                    className="bg-indigo-600 flex items-center px-4 py-3 text-xl font-bold text-gray-100 rounded-xl mt-3">
+                    <p >Join</p>
 
-                  <svg className="w-9 h-9" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"></path>
-                  </svg>
-                </button>
-              </footer>
+                    <svg className="w-9 h-9" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                  </button>
+                </footer>
               </form>
             </section>
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
