@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./Room.css";
 import Whiteboard from "../WhiteBoard/Whiteboard";
-import { EditorState } from 'draft-js'
+import { EditorState, convertFromRaw, convertToRaw } from 'draft-js'
 import Draft from './RichEditor/Draft'
 var myPeer = Peer;
 var audios = {};
@@ -121,7 +121,13 @@ function Room(props) {
     socket.on("updateOutput", (output) => {
       setOutput(output);
     });
-    
+    socket.on("updateRichText", (storeRaw) => {
+      console.log("FL", storeRaw);
+      if (storeRaw) {
+        const rawContentFromStore = convertFromRaw(JSON.parse(storeRaw));
+        setEditorState( EditorState.createWithContent(rawContentFromStore));
+      }
+    });
     
     const { id } = props.match.params;
     setRoomId(id);
@@ -297,11 +303,13 @@ function Room(props) {
   const onEditorStateChange = (editorState) => {
 
     setEditorState(editorState)
-    console.log(editorState.text)
-    // debounce(
-    //   () => socket.emit("updateRichText", { value: JSON.stringify(editorState) , roomId }),
-    //   SOCKET_SPEED
-    // )();
+    var contentRaw = convertToRaw(editorState.getCurrentContent());
+    console.log(contentRaw)
+    
+    debounce(
+      () => socket.emit("updateRichText", { value: JSON.stringify(contentRaw), roomId }),
+      SOCKET_SPEED
+    )();
   };
 
   const handleUpdateInput = (value) => {
