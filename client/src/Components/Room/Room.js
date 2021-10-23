@@ -122,7 +122,6 @@ function Room(props) {
       setOutput(output);
     });
     socket.on("updateRichText", (storeRaw) => {
-      console.log("FL", storeRaw);
       if (storeRaw) {
         const rawContentFromStore = convertFromRaw(JSON.parse(storeRaw));
         setEditorState( EditorState.createWithContent(rawContentFromStore));
@@ -310,6 +309,11 @@ function Room(props) {
       () => socket.emit("updateRichText", { value: JSON.stringify(contentRaw), roomId }),
       SOCKET_SPEED
     )();
+   
+    // debounce(
+    //   () => socket.emit("updateRichText", { value: JSON.stringify(editorState) , roomId }),
+    //   SOCKET_SPEED
+    // )();
   };
 
   const handleUpdateInput = (value) => {
