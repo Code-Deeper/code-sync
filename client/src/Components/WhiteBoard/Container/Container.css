@@ -12,3 +12,4 @@
 .board-container {width: 98%;height: 80vh;margin: auto;background: white;border-radius: 10px;}
 .board-container .board-title{position: relative;top: 0;left: 42%;padding: 5px 15px;border:1px solid #eee;border-top: none;border-radius: 0 0 10px 10px;width: 150px;text-align: center;}
 .board-container .board-title h5{width: 100px;}
+
