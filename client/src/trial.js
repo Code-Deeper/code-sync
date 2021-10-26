@@ -1,222 +1,31 @@
-import React, { useState } from "react";
-import { Transition } from "@headlessui/react";
+import React, { useEffect, useState } from "react";
+import { Editor } from "react-draft-wysiwyg";
+import {  EditorState } from 'draft-js'
 const Trial = (props) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+    useEffect(() => {
+        console.log({ editorState });
+    }, [editorState])
+   const onEditorStateChange  = (editorState) => {
+        // console.log(editorState)
+       setEditorState(editorState)
+    };
+
     return (
         <div>
-            <div>
-                <nav className="bg-gray-200	 border-opacity-60	border-black	">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex items-center justify-between h-16">
-                            <div className="flex items-center">
-                                <div className="flex-shrink-0">
-                                    <img
-                                        className="h-8 w-8"
-                                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                                        alt="Workflow"
-                                    />
-                                </div>
-                                <div className="hidden md:block">
-                                    <div className="ml-10 flex items-baseline space-x-4">
-                                        <a
-                                            href="#"
-                                            className="hover:no-underline hover:text-gray-200 hover:bg-indigo-500 text-black px-3 py-2 rounded-md text-base font-semibold	"
-                                        >
-                                            Home
-                                        </a>
-
-                                        <a
-                                            href="#"
-                                            className="hover:no-underline hover:text-gray-200 hover:bg-indigo-500 text-black px-3 py-2 rounded-md text-base font-semibold	"
-                                        >
-                                            Room
-                                        </a>
-                                        <a
-                                            href="#"
-                                            className="hover:no-underline hover:text-gray-200 hover:bg-indigo-500 text-black px-3 py-2 rounded-md text-base font-semibold	"
-                                        >
-                                            Trial
-                                        </a>
-
-                                    </div>
-                                </div>
-                            </div>
-                            {/*  */}
-                            <div className="-mr-2 flex md:hidden">
-                                <button
-                                    onClick={() => setIsOpen(!isOpen)}
-                                    type="button"
-                                    className="bg-gray-900 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                                    aria-controls="mobile-menu"
-                                    aria-expanded="false"
-                                >
-                                    <span className="sr-only">Open main menu</span>
-                                    {!isOpen ? (
-                                        <svg
-                                            className="block h-6 w-6"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            aria-hidden="true"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="2"
-                                                d="M4 6h16M4 12h16M4 18h16"
-                                            />
-                                        </svg>
-                                    ) : (
-                                        <svg
-                                            className="block h-6 w-6"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            aria-hidden="true"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="2"
-                                                d="M6 18L18 6M6 6l12 12"
-                                            />
-                                        </svg>
-                                    )}
-                                </button>
-                            </div>
-                            <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                                <a href="#" className="hover:no-underline whitespace-nowrap text-base font-semibold text-gray-500 hover:text-gray-900 ">
-                                    Sign in
-                                </a>
-                                <a
-                                    href="#"
-                                    className="hover:no-underline ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-semibold text-gray-100 bg-indigo-600 hover:text-gray-100 hover:bg-indigo-700"
-                                >
-                                    Sign up
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <Transition
-                        show={isOpen}
-                        enter="transition ease-out duration-100 transform"
-                        enterFrom="opacity-0 scale-95"
-                        enterTo="opacity-100 scale-100"
-                        leave="transition ease-in duration-75 transform"
-                        leaveFrom="opacity-100 scale-100"
-                        leaveTo="opacity-0 scale-95"
-                    >
-                        {(ref) => (
-                            <div className="md:hidden" id="mobile-menu">
-                                <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                                    {/* hover:no-underline hover:bg-blue-100 text-black px-3 py-2 rounded-md text-base font-semibold */}
-                                    <a
-                                        href="#"
-                                        className="hover:no-underline hover:text-gray-200 hover:bg-indigo-500 text-black block px-3 py-2 rounded-md text-base font-medium"
-                                    >
-                                        Dashboard
-                                    </a>
-
-
-                                </div>
-                                <div>
-                                    <a
-                                        href="#"
-                                        className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                                    >
-                                        Sign up
-                                    </a>
-                                    <p className="mt-6 text-center text-base font-medium text-gray-500">
-                                        Existing customer?{' '}
-                                        <a href="#" className="text-indigo-600 hover:text-indigo-500">
-                                            Sign in
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        )}
-                    </Transition>
-                </nav>
-                <div>
-                    <div>
-                        <section
-                            class="absolute transform -translate-x-1/2 -translate-y-1/2 bg-gray-400 h-96 w-80 rounded-2xl rotate-3 top-1/2 left-1/2"
-                            style={{marginLeft : "-20%"}}
-                        >
-                        </section>
-                        <section
-                            style={{ marginLeft: "-20%" }}
-                            class="absolute p-6 space-y-6 duration-300 transform -translate-x-1/2 -translate-y-1/2 bg-gray-100 h-96 w-80 rounded-2xl rotate-3 hover:rotate-0 top-1/2 left-1/2">
-                            <div class="flex justify-end">
-                                <div class="w-4 h-4 bg-gray-900 rounded-full"></div>
-                            </div>
-
-                            <header class="text-xl font-extrabold text-center text-gray-600">🚀 Let's Rock 🚀</header>
-
-                            <div>
-                                <p class="text-4xl font-extrabold text-center text-gray-900">Create Your Room </p>
-                                {/* <p class="text-2xl font-extrabold text-center" style={{ color: "FE5401" }} >2 hours</p> */}
-                            </div>
-
-                            <footer class="flex justify-center">
-                                <button 
-                                    class="bg-indigo-600 flex items-center px-4 py-3 text-xl font-bold text-gray-100 rounded-xl">
-                                    <p>Create</p>
-                                    <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                            </footer>
-                        </section>
-                    </div>
-                    <div className="ml-12">
-                        <section
-                            style={{ marginLeft: "20%" }}
-                            class="absolute transform -translate-x-1/2 -translate-y-1/2 bg-gray-400 h-96 w-80 rounded-2xl rotate-3 top-1/2 left-1/2">
-                        </section>
-                        <section
-                            style={{ marginLeft: "20%" }}
-                            class="absolute p-6 space-y-6 duration-300 transform -translate-x-1/2 -translate-y-1/2 bg-gray-100 h-96 w-80 rounded-2xl rotate-3 hover:rotate-0 top-1/2 left-1/2">
-                            <div class="flex justify-end">
-                                <div class="w-4 h-4 bg-gray-900 rounded-full"></div>
-                            </div>
-
-                            <header class="text-xl font-extrabold text-center text-gray-600">☎️ Calling You! ☎️</header>
-
-                            <div>
-                                <p class="text-4xl font-extrabold text-center text-gray-900">Join Room </p>
-
-                                {/* <p class="text-2xl font-extrabold text-center" style={{ color: "FE5401" }} >2 hours</p> */}
-                            </div>
-                            <div className='ml-4 mr-4'>
-                                <input class="mt-2 mb-2 pl-4 appearance-none bg-transparent border-none rounded-full w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="link" placeholder="Enter Room Link" aria-label="Full name"></input>
-                            </div>
-                            <footer class="flex justify-center">
-                                <button 
-                                    class="bg-indigo-600 flex items-center px-4 py-3 text-xl font-bold text-gray-100 rounded-xl">
-                                    <p >Create</p>
-                                    
-                                    <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                            </footer>
-                        </section>
-                    </div>
-                </div>
-
-
-            </div>
-
-
-
+            <Editor
+                editorState={editorState}
+                onEditorStateChange={onEditorStateChange}
+                toolbar={{
+                    inline: { inDropdown: true },
+                    list: { inDropdown: true },
+                    textAlign: { inDropdown: true },
+                    link: { inDropdown: true },
+                    history: { inDropdown: true },
+                    
+                }}
+            />
         </div>
     )
 }
