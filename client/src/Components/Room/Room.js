@@ -15,10 +15,12 @@ import "./Room.css";
 import Whiteboard from "../WhiteBoard/Whiteboard";
 import { EditorState, convertFromRaw, convertToRaw } from 'draft-js'
 import Draft from './RichEditor/Draft'
+import faCode from "@fortawesome/fontawesome-free"
 var myPeer = Peer;
 var audios = {};
 var peers = {};
 var myAudio = MediaStream | null;
+
 
 function Room(props) {
   const languageToEditorMode = {
@@ -583,14 +585,81 @@ function Room(props) {
           </div>
         </div>
         <hr className="mt-1" />
-        <div className="grid grid-flow-row grid-cols-2 m0">
+        <div className="grid grid-flow-row grid-cols-2 m0 room-body">
           <div className="">
             <div className="form-container">
               <div className="ide-container">
                 <div className="center ide-low">
                   <div className="ide-header">
-                    <h5 className="">Code Here</h5>
-                    <button
+                    <h5 className=""><faCode /> Code Here</h5>
+                    <div className="float-right">
+                      <div className="ml-2 mt-2 inline-block">
+                        <div className="relative inline-flex">
+                          <svg class="ide-selectarrow pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero" /></svg>
+
+                          {/* <label>Choose Language</label> */}
+                          <select
+                            className="ide-selectbox appearance-none"
+                            defaultValue={language}
+                            onChange={handleLanguage}
+                          >
+                            {languages.map((lang, index) => {
+                              return (
+                                <option key={index} value={lang} selected={lang === language}>
+                                  {lang}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      </div>
+                      <div className="ml-2 mt-2 inline-block">
+                        <div className="relative inline-flex">
+                          <svg class="ide-selectarrow pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero" /></svg>
+
+                          {/* <label>Choose Theme</label> */}
+                          <select
+                            className="ide-selectbox appearance-none"
+                            defaultValue={theme}
+                            onChange={(event) => {
+                              setTheme(event.target.value)
+                              toast.success(`🚀 Theme changed to ${event.target.value} 🚀`)
+                            }}
+                          >
+                            {themes.map((theme, index) => {
+                              return (
+                                <option key={index} value={theme}>
+                                  {theme}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      </div>
+                      <div className="ml-2 mr-5 mt-2 inline-block">
+                        {/* <label>Font Size</label> */}
+                        <div className="relative inline-flex">
+                          <svg class="ide-selectarrow pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero" /></svg>
+
+                          <select
+                            className="ide-selectbox appearance-none"
+                            defaultValue={fontSize}
+                            onChange={(event) => setFontSize(event.target.value)}
+                          >
+                            {fontSizes.map((fontSize, index) => {
+                              return (
+                                <option key={index} value={fontSize}>
+                                  {fontSize}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    {/* <button
                       className="btn btn-primary btn-save-run"
                       onClick={submitHandler}
                       disabled={submissionState === runningState}
@@ -604,53 +673,75 @@ function Room(props) {
                       }}
                     >
                       Copy Code
-                    </button>
+                    </button> */}
                   </div>
                   {/* {console.log("language" + languageToEditorMode[language])} */}
                   {/* {console.log('room body is ' + output)} */}
-                  <Editor
-                    theme={theme}
-                    language={languageToEditorMode[language]}
-                    body={roomBody}
-                    setBody={handleUpdateBody}
-                    width={"100%"}
-                    height={"50vh"}
-                    fontSize={fontSize}
-                  />
-
-                  <div className="text-ip-op">
-                    <div className="row">
-                      <div className="col-6 text-center ">
-                        <h5 className="Input">Input</h5>
-                      </div>
-                      <div className="col-6 text-center ">
-                        <h5 className="Output">Output</h5>
-                      </div>
+                  <div className="ide-textarea">
+                    <Editor
+                      theme={theme}
+                      language={languageToEditorMode[language]}
+                      body={roomBody}
+                      setBody={handleUpdateBody}
+                      width={"100%"}
+                      height={"50vh"}
+                      fontSize={fontSize}
+                    />
+                    <div className="ide-bottom-run">
+                    <button                    
+                      onClick={submitHandler}
+                      disabled={submissionState === runningState}
+                    >
+                      Run
+                    </button>
                     </div>
                   </div>
-                  <div className=" text-center ip-op-editor">
+                 
+
+                  {/* <div className="text-ip-op">
+                    <div className="grid grid-flow-row grid-cols-2 m0">
+                      <div className="header-ip-op">
+                        <h5 className="Input">Input</h5>
+                      </div>
+                      <div className="header-ip-op">
+                        <h5 className="Output">Output</h5>
+                      </div>  
+                    </div>
+                  </div> */}
+                  <div className=" text-center ip-op-editor grid grid-flow-row grid-cols-2 m0">
                     {/* <h5>Input</h5> */}
-                    <Editor
-                      className="editor-1"
-                      theme={theme}
-                      language={""}
-                      body={input}
-                      setBody={handleUpdateInput}
-                      fontSize={fontSize}
-                    />
-                    {/* <h5>Output</h5> */}
-                    {console.log(output)}
-                    <Editor
-                      className="editor-2"
-                      theme={theme}
-                      language={""}
-                      body={output}
-                      setBody={HandleUpdateOutput}
-                      readOnly={true}
-                      fontSize={fontSize}
-                    />
+                    <div className="ip-op-container">
+                      <div className="header-ip-op">
+                          <h5 className="Input">Input</h5>
+                        </div>
+                      <Editor
+                        className="editor-1"
+                        theme={theme}
+                        language={""}
+                        body={input}
+                        setBody={handleUpdateInput}
+                        fontSize={fontSize}
+                      />
+                    </div>
+                    <div className="ip-op-container">
+                        {/* <h5>Output</h5> */}
+                        {console.log(output)}
+                        <div className="header-ip-op">
+                            <h5 className="Output">Output</h5>
+                          </div>
+                        <Editor
+                          className="editor-2"
+                          theme={theme}
+                          language={""}
+                          body={output}
+                          setBody={HandleUpdateOutput}
+                          readOnly={true}
+                          fontSize={fontSize}
+                        />
+                    </div>
                   </div>
                 </div>
+                
               </div>
             </div>
           </div>
@@ -666,6 +757,7 @@ function Room(props) {
               onEditorStateChange={onEditorStateChange} />
           </div>
         </div>
+        
       </div>
       <ToastContainer />
     </>

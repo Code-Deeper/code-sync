@@ -33,7 +33,16 @@ class Container extends React.Component {
 
         return (
             <div className="container">
-                <div class="tools-section">
+               <div class="board-container">
+                   <div className="board-title">
+                        <h2>White Board</h2>
+                   </div>
+                    <Board color={this.state.color} size={this.state.size}></Board>
+                    
+                </div>
+            
+                <div className="tools-section">
+                   
                     <div className="color-picker-container">
                          <label>Color :</label>
                         <input type="color" value={this.state.color} onChange={this.changeColor.bind(this)} />
@@ -41,6 +50,7 @@ class Container extends React.Component {
 
                     <div className="brushsize-container">
                         <label>Size :</label>
+                        <span className="eraser-color-container" onClick={this.eraseHandler.bind(this)}><img className="eraser-img" src="/image/eraser.png" /></span>              
                         <select value={this.state.size} onChange={this.changeSize.bind(this)}>
                             <option> 5 </option>
                             <option> 10 </option>
@@ -50,12 +60,11 @@ class Container extends React.Component {
                             <option> 30 </option>
                         </select>
                     </div>
-                    <span className="eraser-color-container" onClick={this.eraseHandler.bind(this)}><img className="eraser-img" src="/image/eraser.png" /></span>              
+                
+                 
+                
                 </div>
 
-                <div class="board-container">
-                    <Board color={this.state.color} size={this.state.size}></Board>
-                </div>
             </div>
         )
     }
