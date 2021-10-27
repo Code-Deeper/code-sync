@@ -5,6 +5,7 @@ const Draft = ({ editorState, onEditorStateChange}) => {
     return (
         <div>
             <Editor
+                style={{minHeight: "250px" , maxHeight: "500"}}
                 editorState={editorState}
                 onEditorStateChange={onEditorStateChange}
                 toolbar={{
