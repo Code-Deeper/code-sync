@@ -5,6 +5,7 @@
 .form-container{padding: 20px;position: relative;}
 .form-container .ide-header{background: #2f3129;color: #fff;border-radius: 10px 10px 0 0;border-bottom: 1px solid #fff;}
 .form-container .ide-header h5{display: inline-block;padding: 10px 30px;font-size: 21px ;}
+.form-container .ide-header h5 svg{display: inline-block;margin-right: 10px;}
 .form-container .ide-header .btn-save-run{float: right;border-radius: 25px;}
 .form-container .ide-header .btn-copy{float: right;border-radius: 25px;margin-right: 20px; box-shadow: 0px -1px 25px -8px rgba(0,0,0,0.3);-webkit-box-shadow: 0px -1px 25px -8px rgba(0,0,0,0.3);-moz-box-shadow: 0px -1px 25px -8px rgba(0,0,0,0.3);}
 .form-container .ide-header .ide-selectbox{background: transparent;border: 1px solid #fff;border-radius: 6px;padding: 5px 28px 5px 12px;font-size: 17px;font-weight: 800;text-transform: capitalize;}
@@ -16,9 +17,13 @@
 .form-container .ip-op-editor .ip-op-container:last-child{margin-left: 1%;}
 .form-container .text-ip-op {margin-top: 10px;}
 .form-container .header-ip-op{background: #2f3129;border-bottom: 1px solid #fff;font-size: 21px;border-radius: 10px 10px 0 0;text-align: left;padding: 5px 30px;color: #fff;}
+.form-container .header-ip-op h5 svg{display: inline-block;margin-left: 10px;margin-top: -3px;}
 .form-container .ide-textarea{position: relative;}
-.form-container .ide-textarea .ide-bottom-run{position: absolute;bottom: 15px;right: 15px;}
+.form-container .ide-textarea .ide-bottom-run{position: absolute;bottom: 15px;right: 15px;z-index: 11;}
 .form-container .ide-textarea .ide-bottom-run button{background-color: #828282;border:1px solid #828282 ;font-size: 21px;padding: 0px 15px;border-radius: 6px;}
 .form-container .ide-textarea .ide-bottom-run button:hover{background-color: transparent;color: #828282;}
+.form-container .ide-textarea .ide-bottom-left{position: absolute;bottom: 15px;left: 15px;z-index: 11;}
+.form-container .ide-textarea .ide-bottom-left ul{margin: 0;padding: 0;list-style: none;}
+.form-container .ide-textarea .ide-bottom-left ul li{display: inline-block;margin-right: 10px; }
 
 .wt-board{border-radius: 10px;}
