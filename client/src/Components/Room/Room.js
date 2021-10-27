@@ -842,15 +842,18 @@ function Room(props) {
           </div>
           <div className="">
             <div className="wt-board">
-              <Whiteboard />
+              <Whiteboard
+                editorState={editorState}
+                setEditorState={setEditorState}
+                onEditorStateChange={onEditorStateChange} />
             </div>
           </div>
-          <div className="mt-5 ml-5 mr-5 h-32	">
+          {/* <div className="mt-5 ml-5 mr-5 h-32	">
             <Draft
               editorState={editorState}
               setEditorState={setEditorState}
               onEditorStateChange={onEditorStateChange} />
-          </div>
+          </div> */}
         </div>
         
       </div>

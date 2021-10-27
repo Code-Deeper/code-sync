@@ -1,7 +1,7 @@
 import React from 'react';
 import Board from '../Board/Board';
 import './Container.css';
-
+import Draft from '../../Room/RichEditor/Draft'
 class Container extends React.Component {
     constructor(props) {
         super(props);
@@ -90,6 +90,13 @@ class Container extends React.Component {
                         <path id="Icon_material-chat" data-name="Icon material-chat" d="M7.322,3H41.9a4.316,4.316,0,0,1,4.3,4.322l.022,38.9-8.644-8.644H7.322A4.335,4.335,0,0,1,3,33.253V7.322A4.335,4.335,0,0,1,7.322,3ZM37.575,18.127H11.644v4.322H37.575Zm-17.287,10.8H37.575V24.609H20.287ZM11.644,15.966H37.575V11.644H11.644Z" transform="translate(-3 -3)"/>
                     </svg>
                     </h3>
+                </div>
+
+                <div className="mt-10  mr-5 h-32	">
+                    <Draft
+                        editorState={this.props.editorState}
+                        setEditorState={this.props.setEditorState}
+                        onEditorStateChange={this.props.onEditorStateChange} />
                 </div>
             </div>
         )
