@@ -1,7 +1,7 @@
 import React from 'react';
 import Board from '../Board/Board';
-import './Container.css';
 import Draft from '../../Room/RichEditor/Draft'
+import './Container.css';
 class Container extends React.Component {
     constructor(props) {
         super(props);
@@ -12,9 +12,10 @@ class Container extends React.Component {
             noteToggle : false
         }
     }
-    toggleText(params){
+    toggleText(params) {
+        console.log({ st :this.state.noteToggle})
         this.setState({
-            noteToggle : !this.props.noteToggle,
+            noteToggle : this.props.noteToggle === true ? false : true ,
         })
     }
 
@@ -46,26 +47,28 @@ class Container extends React.Component {
                     <Board color={this.state.color} size={this.state.size}></Board>
                     <div className="text-editor-btn-area">
                         {console.log(this.state.noteToggle)}
-                        <button className="text-editor-btn" onClick={this.toggleText.bind(this)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
-                                <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb"/>
-                            </svg>
-                        </button>
+                        
 
                         {this.state.noteToggle == true ?
                             <div className="texteditor-section active">
                                 <Draft
                                     editorState={this.props.editorState}
                                     setEditorState={this.props.setEditorState}
-                                    onEditorStateChange={this.props.onEditorStateChange} />
+                                    onEditorStateChange={this.props.onEditorStateChange}
+                                   
+                                />
+                                <button
+                                    onClick={() => this.setState({ noteToggle : false}) }
+                                >
+                                    <img src='/image/icons/close.svg' />
+                                </button>
                             </div>
                             :
-                            <div className="texteditor-section">
-                                <Draft
-                                    editorState={this.props.editorState}
-                                    setEditorState={this.props.setEditorState}
-                                    onEditorStateChange={this.props.onEditorStateChange} />
-                            </div>
+                            <button className="text-editor-btn" onClick={this.toggleText.bind(this)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
+                                    <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb" />
+                                </svg>
+                            </button>
                         }
                     </div>
                 </div>
