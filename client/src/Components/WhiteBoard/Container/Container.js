@@ -1,22 +1,31 @@
 import React from 'react';
 import Board from '../Board/Board';
-import './Container.css';
 import Draft from '../../Room/RichEditor/Draft'
+import './Container.css';
 class Container extends React.Component {
+    // constructor(props) {
+    //     super(props);
+
+    //     this.state = {
+    //         color: "#000000",
+    //         size: "5",
+    //         noteToggle : false
+    //     }
+    // }
+    // toggleText(params) {
+    //     console.log({ st :this.state.noteToggle})
+    //     this.setState({
+    //         noteToggle : this.props.noteToggle === true ? false : true ,
+    //     })
+    // }
+
     constructor(props) {
         super(props);
-
-        this.state = {
-            color: "#000000",
-            size: "5",
-            noteToggle : false
-        }
-    }
-    toggleText(params){
-        this.setState({
-            noteToggle : !this.props.noteToggle,
-        })
-    }
+        this.state = {addClass: false}
+      }
+      toggle() {
+        this.setState({addClass: !this.state.addClass});
+      }
 
     changeColor(params) {
         this.setState({
@@ -36,7 +45,10 @@ class Container extends React.Component {
         })
     }
     render() {
-
+        let boxClass = ["text-editor-btn-area"];
+        if(this.state.addClass) {
+        boxClass.push('active');
+        }
         return (
             <div className="container">
                <div class="board-container">
@@ -44,29 +56,77 @@ class Container extends React.Component {
                         <h2>White Board</h2>
                    </div>
                     <Board color={this.state.color} size={this.state.size}></Board>
-                    <div className="text-editor-btn-area">
+                    {/* <div className="text-editor-btn-area">
                         {console.log(this.state.noteToggle)}
-                        <button className="text-editor-btn" onClick={this.toggleText.bind(this)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
-                                <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb"/>
-                            </svg>
-                        </button>
+                        
 
                         {this.state.noteToggle == true ?
                             <div className="texteditor-section active">
                                 <Draft
                                     editorState={this.props.editorState}
                                     setEditorState={this.props.setEditorState}
-                                    onEditorStateChange={this.props.onEditorStateChange} />
+                                    onEditorStateChange={this.props.onEditorStateChange}
+                                   
+                                />
+                                <button className="text-editor-btn" 
+                                    onClick={() => this.setState({ noteToggle : false}) }
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
+                                    <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb" />
+                                </svg>
+                                </button>
                             </div>
                             :
+                            <div>
                             <div className="texteditor-section">
                                 <Draft
                                     editorState={this.props.editorState}
                                     setEditorState={this.props.setEditorState}
-                                    onEditorStateChange={this.props.onEditorStateChange} />
+                                    onEditorStateChange={this.props.onEditorStateChange}
+                                   
+                                />
+                               
+                            </div>
+                            <button onClick={this.toggleText.bind(this)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
+                                    <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb" />
+                                </svg>
+                            </button>
                             </div>
                         }
+                    </div> 
+                    */}
+                    <div className={boxClass.join(' ')} >
+                    {this.state.addClass ? 
+                        
+                        <button onClick={this.toggle.bind(this)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
+                                <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb"/>
+                                <rect id="Rectangle_51" data-name="Rectangle 51" width="3.001" height="21.008" rx="1.501" transform="matrix(0.839, -0.545, 0.545, 0.839, 8.771, 12.164)" fill="#818181"/>
+                                <rect id="Rectangle_52" data-name="Rectangle 52" width="3.001" height="21.008" rx="1.501" transform="translate(20.873 11.199) rotate(37)" fill="#818181"/>
+                            </svg>
+                        </button>
+                        : 
+                        <button onClick={this.toggle.bind(this)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
+                                <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb" />
+                            </svg>
+                        </button> 
+                        
+                        }
+                        
+                        <div className="texteditor-section">
+                                    <Draft
+                                        editorState={this.props.editorState}
+                                        setEditorState={this.props.setEditorState}
+                                        onEditorStateChange={this.props.onEditorStateChange}
+                                    
+                                    />
+                                
+                                </div>
+                                    
+                            
+                       
                     </div>
                 </div>
                 <div className="tools-section">
