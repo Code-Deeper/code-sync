@@ -3,21 +3,29 @@ import Board from '../Board/Board';
 import Draft from '../../Room/RichEditor/Draft'
 import './Container.css';
 class Container extends React.Component {
+    // constructor(props) {
+    //     super(props);
+
+    //     this.state = {
+    //         color: "#000000",
+    //         size: "5",
+    //         noteToggle : false
+    //     }
+    // }
+    // toggleText(params) {
+    //     console.log({ st :this.state.noteToggle})
+    //     this.setState({
+    //         noteToggle : this.props.noteToggle === true ? false : true ,
+    //     })
+    // }
+
     constructor(props) {
         super(props);
-
-        this.state = {
-            color: "#000000",
-            size: "5",
-            noteToggle : false
-        }
-    }
-    toggleText(params) {
-        console.log({ st :this.state.noteToggle})
-        this.setState({
-            noteToggle : this.props.noteToggle === true ? false : true ,
-        })
-    }
+        this.state = {addClass: false}
+      }
+      toggle() {
+        this.setState({addClass: !this.state.addClass});
+      }
 
     changeColor(params) {
         this.setState({
@@ -31,21 +39,25 @@ class Container extends React.Component {
         })
     }
     eraseHandler(params) {
-        console.log("tgerere");
         this.setState({
             color: "#ffffff"
         })
     }
     render() {
-
+        let boxClass = ["text-editor-btn-area"];
+        if(this.state.addClass) {
+        boxClass.push('active');
+        }
         return (
             <div className="container">
                <div class="board-container">
                    <div className="board-title">
-                        <h2>White Board</h2>
+                        <h2 style={{display: 'flex'}}><span style={{marginRight: "5px" , marginTop : "2px"}}><svg width="22" height="22" viewBox="0 0 27 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.40424 14.385C9.30686 14.3846 9.21001 14.3994 9.11724 14.429C8.58025 14.6101 8.01794 14.705 7.45124 14.71C6.88522 14.7047 6.32361 14.6098 5.78724 14.429C5.69448 14.3994 5.59762 14.3845 5.50024 14.385C4.90061 14.3854 4.30696 14.5042 3.75339 14.7347C3.19983 14.9652 2.69726 15.3028 2.27456 15.7281C1.85186 16.1534 1.51735 16.6581 1.29025 17.213C1.06316 17.768 0.947947 18.3624 0.951241 18.962C0.956779 19.4753 1.16493 19.9657 1.53036 20.3262C1.89579 20.6868 2.38888 20.8883 2.90224 20.887H12.0022C12.5153 20.8878 13.0078 20.686 13.3728 20.3255C13.7378 19.965 13.9457 19.475 13.9512 18.962C13.9545 18.3625 13.8394 17.7683 13.6124 17.2135C13.3854 16.6587 13.0511 16.1541 12.6286 15.7288C12.2061 15.3036 11.7038 14.9659 11.1505 14.7353C10.5971 14.5047 10.0037 14.3857 9.40424 14.385ZM7.45124 13.08C8.22259 13.08 8.97661 12.8513 9.61796 12.4227C10.2593 11.9942 10.7592 11.3851 11.0544 10.6725C11.3496 9.95984 11.4268 9.17568 11.2763 8.41915C11.1258 7.66262 10.7544 6.96771 10.209 6.42229C9.66353 5.87686 8.96862 5.50542 8.21209 5.35494C7.45557 5.20446 6.67141 5.28169 5.95878 5.57687C5.24614 5.87205 4.63705 6.37193 4.20851 7.01328C3.77997 7.65463 3.55124 8.40866 3.55124 9.18C3.55124 9.69216 3.65212 10.1993 3.84811 10.6725C4.0441 11.1456 4.33138 11.5756 4.69352 11.9377C5.42492 12.6691 6.4169 13.08 7.45124 13.08ZM25.0092 0.0800018H9.40424C8.8782 0.0886867 8.3771 0.305745 8.01094 0.683528C7.64478 1.06131 7.44349 1.56895 7.45124 2.095V3.98C8.36681 3.98527 9.26438 4.23486 10.0512 4.703V2.68H24.3592V14.38H21.7592V11.78H16.5592V14.38H13.4592C14.2464 15.0645 14.8086 15.9707 15.0722 16.98H25.0102C25.5359 16.9708 26.0365 16.7535 26.4022 16.3758C26.768 15.9981 26.969 15.4907 26.9612 14.965V2.095C26.969 1.56912 26.7678 1.06163 26.4019 0.683877C26.0359 0.306122 25.5351 0.0889487 25.0092 0.0800018V0.0800018Z" fill="black" />
+                        </svg></span>White Board</h2>
                    </div>
                     <Board color={this.state.color} size={this.state.size}></Board>
-                    <div className="text-editor-btn-area">
+                    {/* <div className="text-editor-btn-area">
                         {console.log(this.state.noteToggle)}
                         
 
@@ -57,19 +69,65 @@ class Container extends React.Component {
                                     onEditorStateChange={this.props.onEditorStateChange}
                                    
                                 />
-                                <button
+                                <button className="text-editor-btn" 
                                     onClick={() => this.setState({ noteToggle : false}) }
                                 >
-                                    <img src='/image/icons/close.svg' />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
+                                    <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb" />
+                                </svg>
                                 </button>
                             </div>
                             :
-                            <button className="text-editor-btn" onClick={this.toggleText.bind(this)}>
+                            <div>
+                            <div className="texteditor-section">
+                                <Draft
+                                    editorState={this.props.editorState}
+                                    setEditorState={this.props.setEditorState}
+                                    onEditorStateChange={this.props.onEditorStateChange}
+                                   
+                                />
+                               
+                            </div>
+                            <button onClick={this.toggleText.bind(this)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
                                     <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb" />
                                 </svg>
                             </button>
+                            </div>
                         }
+                    </div> 
+                    */}
+                    <div className={boxClass.join(' ')} >
+                    {this.state.addClass ? 
+                        
+                        <button onClick={this.toggle.bind(this)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
+                                <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb"/>
+                                <rect id="Rectangle_51" data-name="Rectangle 51" width="3.001" height="21.008" rx="1.501" transform="matrix(0.839, -0.545, 0.545, 0.839, 8.771, 12.164)" fill="#818181"/>
+                                <rect id="Rectangle_52" data-name="Rectangle 52" width="3.001" height="21.008" rx="1.501" transform="translate(20.873 11.199) rotate(37)" fill="#818181"/>
+                            </svg>
+                        </button>
+                        : 
+                        <button onClick={this.toggle.bind(this)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
+                                <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb" />
+                            </svg>
+                        </button> 
+                        
+                        }
+                        
+                        <div className="texteditor-section">
+                                    <Draft
+                                        editorState={this.props.editorState}
+                                        setEditorState={this.props.setEditorState}
+                                        onEditorStateChange={this.props.onEditorStateChange}
+                                    
+                                    />
+                                
+                                </div>
+                                    
+                            
+                       
                     </div>
                 </div>
                 <div className="tools-section">

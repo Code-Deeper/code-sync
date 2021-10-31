@@ -88,7 +88,7 @@ function Room(props) {
   // Draft
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
- 
+
 
 
 
@@ -129,10 +129,10 @@ function Room(props) {
     socket.on("updateRichText", (storeRaw) => {
       if (storeRaw) {
         const rawContentFromStore = convertFromRaw(JSON.parse(storeRaw));
-        setEditorState( EditorState.createWithContent(rawContentFromStore));
+        setEditorState(EditorState.createWithContent(rawContentFromStore));
       }
     });
-    
+
     const { id } = props.match.params;
     setRoomId(id);
     socket.emit("joinroom", id);
@@ -172,7 +172,7 @@ function Room(props) {
       socket.off("updateOutput", (output) => {
         setOutput(output.value);
       });
-      
+
       if (myPeer) {
         socket.emit("leaveAudioRoom", myPeer.id);
         destroyConnection();
@@ -309,12 +309,12 @@ function Room(props) {
     setEditorState(editorState)
     var contentRaw = convertToRaw(editorState.getCurrentContent());
     console.log(contentRaw)
-    
+
     debounce(
       () => socket.emit("updateRichText", { value: JSON.stringify(contentRaw), roomId }),
       SOCKET_SPEED
     )();
-   
+
     // debounce(
     //   () => socket.emit("updateRichText", { value: JSON.stringify(editorState) , roomId }),
     //   SOCKET_SPEED
@@ -475,11 +475,10 @@ function Room(props) {
       <div>
         {/* className=" row container-fluid text-center justify-content-center" */}
         <div className=" flex flex-row justify-content-center">
-          <div className="ml-2 mt-3">
+          {/* <div className="ml-2 mt-3">
             <div className="relative inline-flex">
               <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero" /></svg>
 
-              {/* <label>Choose Language</label> */}
               <select
                 className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-gray-100 hover:border-gray-400 focus:outline-none appearance-none"
                 defaultValue={language}
@@ -494,12 +493,11 @@ function Room(props) {
                 })}
               </select>
             </div>
-          </div>
-          <div className="ml-2 mt-3">
+          </div> */}
+          {/* <div className="ml-2 mt-3">
             <div className="relative inline-flex">
               <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero" /></svg>
 
-              {/* <label>Choose Theme</label> */}
               <select
                 className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-gray-100 hover:border-gray-400 focus:outline-none appearance-none"
                 defaultValue={theme}
@@ -517,9 +515,8 @@ function Room(props) {
                 })}
               </select>
             </div>
-          </div>
-          <div className="ml-2 mt-3">
-            {/* <label>Font Size</label> */}
+          </div> */}
+          {/* <div className="ml-2 mt-3">
             <div className="relative inline-flex">
               <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero" /></svg>
 
@@ -537,15 +534,14 @@ function Room(props) {
                 })}
               </select>
             </div>
-          </div>
-          
-          
-          <button className="flex ml-3 bg-gray-300 hover:bg-gray-100 text-white-100 font-bold py-2 px-4 rounded mt-3">
+          </div> */}
+
+          <button className="flex ml-3 	 bg-gray-300 hover:bg-gray-100 text-white-100 font-bold py-2 px-4 rounded mt-3">
             <svg width="22" height="22" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M13 14.562C14.3906 14.562 15.75 14.1496 16.9062 13.3771C18.0625 12.6045 18.9636 11.5064 19.4958 10.2216C20.028 8.9369 20.1672 7.5232 19.8959 6.15932C19.6246 4.79544 18.955 3.54263 17.9717 2.55933C16.9884 1.57603 15.7356 0.906391 14.3717 0.635098C13.0078 0.363805 11.5941 0.503043 10.3094 1.0352C9.02461 1.56736 7.92651 2.46854 7.15394 3.62478C6.38136 4.78103 5.969 6.1404 5.969 7.531C5.96953 9.39557 6.71046 11.1836 8.02892 12.5021C9.34737 13.8205 11.1354 14.5615 13 14.562ZM19.25 16.125H16.56C15.4439 16.6397 14.2295 16.9062 13.0005 16.9062C11.7715 16.9062 10.5571 16.6397 9.441 16.125H6.75C5.0924 16.125 3.50269 16.7835 2.33058 17.9556C1.15848 19.1277 0.5 20.7174 0.5 22.375L0.5 23.156C0.5 23.7777 0.746956 24.3739 1.18654 24.8135C1.62613 25.253 2.22233 25.5 2.844 25.5H23.156C23.7777 25.5 24.3739 25.253 24.8135 24.8135C25.253 24.3739 25.5 23.7777 25.5 23.156V22.375C25.5 20.7174 24.8415 19.1277 23.6694 17.9556C22.4973 16.7835 20.9076 16.125 19.25 16.125Z" fill="black" />
             </svg>
-              <span>Join People </span>
-            </button>
+            <span>Join People </span>
+          </button>
           <div className=" ml-2">
             {/* <br /> */}
             {/* <button
@@ -557,15 +553,15 @@ function Room(props) {
           </button> */}
             <button
               // className="btn btn-primary"
-              className={`${inAudio ?"bg-gray-300 hover:bg-gray-100" :"bg-gray-300 hover:bg-gray-100 " }text-white-100 font-bold py-2 px-4 rounded mt-3`}
+              className={`${inAudio ? "bg-gray-300 hover:bg-gray-100" : "bg-gray-300 hover:bg-gray-100 "}text-white-100 font-bold py-2 px-4 rounded mt-3`}
               onClick={() => setInAudio(!inAudio)}
             >
               {/* {inAudio ? "Leave Audio" : "Join Audio"} Room */}
-              {inAudio ? 
+              {inAudio ?
                 <span><svg width="22" height="22" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M24 2.47339e-06C19.2533 2.47339e-06 14.6131 1.40758 10.6663 4.04473C6.71954 6.68189 3.64341 10.4302 1.8269 14.8156C0.010399 19.201 -0.464881 24.0266 0.461164 28.6822C1.38721 33.3377 3.67299 37.6141 7.02945 40.9706C10.3859 44.327 14.6623 46.6128 19.3178 47.5388C23.9734 48.4649 28.799 47.9896 33.1844 46.1731C37.5698 44.3566 41.3181 41.2805 43.9553 37.3337C46.5924 33.3869 48 28.7468 48 24C48.0029 20.8475 47.3841 17.7253 46.179 14.8122C44.9739 11.8991 43.2062 9.25217 40.977 7.02299C38.7478 4.7938 36.101 3.02609 33.1878 1.821C30.2747 0.615912 27.1525 -0.00289133 24 2.47339e-06ZM36 32.616L32.616 36L24 27.384L15.384 36L12 32.616L20.616 24L12 15.384L15.384 12L24 20.616L32.616 12L36 15.384L27.384 24L36 32.616Z" fill="#FF7171" />
                 </svg>
-            </span>: <span className='flex'><MdRecordVoiceOver style={{ width: "22px", height: "22px" }}/> Join Audio</span>}
+                </span> : <span className='flex'><MdRecordVoiceOver style={{ width: "22px", height: "22px" }} /> Join Audio</span>}
             </button>
           </div>
           {inAudio ? (
@@ -581,24 +577,26 @@ function Room(props) {
           ) : (
             <div className="form-group col" />
           )}
-          <div className="ml-2">
-            {/* <br /> */}
-            <button
-              className="flex bg-gray-300 hover:bg-gray-100 text-white-100 font-bold py-2 px-4 rounded mt-3 "
-              onClick={() => {
-                navigator.clipboard.writeText(`${BaseURL}/room/${roomTitle}`);
-                toast.success(`🔥 Room Link has been Copied 🔥`)
-              }}
-            >
-             <img style={{ width: "22px", height: "22px" }} src='/image/icons/copy.svg' />  Copy Link
-            </button>
+         
+          <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 ">
+            <div className="mr-4">
+              {/* <br /> */}
+              <button
+                className="flex bg-gray-300 hover:bg-gray-100 text-white-100 font-bold py-2 px-4 rounded mt-3 "
+                onClick={() => {
+                  navigator.clipboard.writeText(`${BaseURL}/room/${roomTitle}`);
+                  toast.success(`🔥 Room Link has been Copied 🔥`)
+                }}
+              >
+                <img style={{ width: "22px", height: "22px" }} src='/image/icons/copy.svg' />  
+              </button>
+            </div>
+            <Avatar className="mt-2  float-left mr-4" src={user?.result?.imageUrl} name={user?.result?.name} alt={user?.result?.name || "codesync"}></Avatar>
           </div>
-          <Avatar className="mt-3 ml-3" src={user?.result?.imageUrl} name={user?.result?.name} alt={user?.result?.name || "codesync"}></Avatar>
-          <div className="ml-3 mt-5">
-            {/* <br /> */}
+            {/* <div className="ml-3 mt-5">
             <label>Status: {submissionState}</label>
-          </div>
-          <div className='mt-2 ml-2'>
+          </div> */}
+          {/* <div className='mt-2 ml-2'>
             <svg width="33" height="38" viewBox="0 0 33 38" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.3132 13.721H0.750167V35.497C0.714209 35.9825 0.871368 36.4625 1.18747 36.8327C1.50357 37.203 1.95305 37.4334 2.43817 37.474H30.5632C31.0488 37.4334 31.4988 37.2025 31.815 36.8317C32.1312 36.4608 32.288 35.98 32.2512 35.494V2.50399C32.288 2.01817 32.1313 1.53749 31.8153 1.16664C31.4994 0.795787 31.0497 0.564801 30.5642 0.523987H12.0002V11.742C12.034 12.227 11.8763 12.706 11.5609 13.0761C11.2455 13.4461 10.7975 13.6777 10.3132 13.721V13.721ZM1.24217 9.18499L8.13317 1.10099C8.27868 0.922752 8.4616 0.778682 8.66897 0.678973C8.87634 0.579264 9.10309 0.526353 9.33317 0.523987H9.75017V11.082H0.750167V10.582C0.744312 10.0729 0.918573 9.57807 1.24217 9.18499V9.18499Z" fill="#CBCBCB" />
             </svg>
@@ -615,9 +613,7 @@ function Room(props) {
             </div>
           </div>
           <div className=' flex mt-3 svg-for-whiteboard-top'>
-            <svg width="22" height="22" viewBox="0 0 27 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9.40424 14.385C9.30686 14.3846 9.21001 14.3994 9.11724 14.429C8.58025 14.6101 8.01794 14.705 7.45124 14.71C6.88522 14.7047 6.32361 14.6098 5.78724 14.429C5.69448 14.3994 5.59762 14.3845 5.50024 14.385C4.90061 14.3854 4.30696 14.5042 3.75339 14.7347C3.19983 14.9652 2.69726 15.3028 2.27456 15.7281C1.85186 16.1534 1.51735 16.6581 1.29025 17.213C1.06316 17.768 0.947947 18.3624 0.951241 18.962C0.956779 19.4753 1.16493 19.9657 1.53036 20.3262C1.89579 20.6868 2.38888 20.8883 2.90224 20.887H12.0022C12.5153 20.8878 13.0078 20.686 13.3728 20.3255C13.7378 19.965 13.9457 19.475 13.9512 18.962C13.9545 18.3625 13.8394 17.7683 13.6124 17.2135C13.3854 16.6587 13.0511 16.1541 12.6286 15.7288C12.2061 15.3036 11.7038 14.9659 11.1505 14.7353C10.5971 14.5047 10.0037 14.3857 9.40424 14.385ZM7.45124 13.08C8.22259 13.08 8.97661 12.8513 9.61796 12.4227C10.2593 11.9942 10.7592 11.3851 11.0544 10.6725C11.3496 9.95984 11.4268 9.17568 11.2763 8.41915C11.1258 7.66262 10.7544 6.96771 10.209 6.42229C9.66353 5.87686 8.96862 5.50542 8.21209 5.35494C7.45557 5.20446 6.67141 5.28169 5.95878 5.57687C5.24614 5.87205 4.63705 6.37193 4.20851 7.01328C3.77997 7.65463 3.55124 8.40866 3.55124 9.18C3.55124 9.69216 3.65212 10.1993 3.84811 10.6725C4.0441 11.1456 4.33138 11.5756 4.69352 11.9377C5.42492 12.6691 6.4169 13.08 7.45124 13.08ZM25.0092 0.0800018H9.40424C8.8782 0.0886867 8.3771 0.305745 8.01094 0.683528C7.64478 1.06131 7.44349 1.56895 7.45124 2.095V3.98C8.36681 3.98527 9.26438 4.23486 10.0512 4.703V2.68H24.3592V14.38H21.7592V11.78H16.5592V14.38H13.4592C14.2464 15.0645 14.8086 15.9707 15.0722 16.98H25.0102C25.5359 16.9708 26.0365 16.7535 26.4022 16.3758C26.768 15.9981 26.969 15.4907 26.9612 14.965V2.095C26.969 1.56912 26.7678 1.06163 26.4019 0.683877C26.0359 0.306122 25.5351 0.0889487 25.0092 0.0800018V0.0800018Z" fill="black" />
-            </svg>
+            
             <div class="pen">
             <svg width="22" height="22" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.6401 5.13397L20.8581 11.352L7.35807 24.852L1.81407 25.464C1.64038 25.4832 1.4646 25.4631 1.29973 25.4052C1.13485 25.3473 0.985096 25.2531 0.861533 25.1295C0.73797 25.006 0.64376 24.8562 0.585867 24.6913C0.527975 24.5264 0.507882 24.3507 0.527073 24.177L1.14407 18.63L14.6441 5.12997L14.6401 5.13397ZM24.7041 4.20497L21.7841 1.28897C21.5675 1.07212 21.3103 0.900086 21.0272 0.78271C20.744 0.665335 20.4406 0.604919 20.1341 0.604919C19.8276 0.604919 19.5241 0.665335 19.241 0.78271C18.9579 0.900086 18.7007 1.07212 18.4841 1.28897L15.7391 4.03497L21.9571 10.253L24.7041 7.50497C24.9209 7.28839 25.093 7.03118 25.2103 6.74806C25.3277 6.46494 25.3881 6.16146 25.3881 5.85497C25.3881 5.54849 25.3277 5.24501 25.2103 4.96189C25.093 4.67876 24.9209 4.42156 24.7041 4.20497Z" fill="black" />
@@ -639,8 +635,8 @@ function Room(props) {
             </div>
 
 
-          </div>
-         
+          </div> */}
+
           {/* <div></div> */}
         </div>
         <hr className="mt-1" />
@@ -656,9 +652,9 @@ function Room(props) {
                     <div className="float-right">
                       <div className="ml-2 mt-2 inline-block">
                         <div className="relative inline-flex">
-                            <svg class="ide-selectarrow pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="13.819" height="7.9" viewBox="0 0 13.819 7.9">
-                              <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M2.382,6.911,7.61,12.136a.988.988,0,1,1-1.4,1.395L.288,7.611A.986.986,0,0,1,.259,6.249L6.207.288a.988.988,0,0,1,1.4,1.395Z" transform="translate(0 7.9) rotate(-90)" fill="#828282"/>
-                            </svg>
+                          <svg class="ide-selectarrow pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="13.819" height="7.9" viewBox="0 0 13.819 7.9">
+                            <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M2.382,6.911,7.61,12.136a.988.988,0,1,1-1.4,1.395L.288,7.611A.986.986,0,0,1,.259,6.249L6.207.288a.988.988,0,0,1,1.4,1.395Z" transform="translate(0 7.9) rotate(-90)" fill="#828282" />
+                          </svg>
                           {/* <label>Choose Language</label> */}
                           <select
                             className="ide-selectbox appearance-none"
@@ -667,7 +663,7 @@ function Room(props) {
                           >
                             {languages.map((lang, index) => {
                               return (
-                                <option key={index} value={lang} selected={lang === language}>
+                                <option key={index} value={lang}  selected={lang === language}>
                                   {lang}
                                 </option>
                               );
@@ -678,7 +674,7 @@ function Room(props) {
                       <div className="ml-2 mt-2 inline-block">
                         <div className="relative inline-flex">
                           <svg class="ide-selectarrow pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="13.819" height="7.9" viewBox="0 0 13.819 7.9">
-                            <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M2.382,6.911,7.61,12.136a.988.988,0,1,1-1.4,1.395L.288,7.611A.986.986,0,0,1,.259,6.249L6.207.288a.988.988,0,0,1,1.4,1.395Z" transform="translate(0 7.9) rotate(-90)" fill="#828282"/>
+                            <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M2.382,6.911,7.61,12.136a.988.988,0,1,1-1.4,1.395L.288,7.611A.986.986,0,0,1,.259,6.249L6.207.288a.988.988,0,0,1,1.4,1.395Z" transform="translate(0 7.9) rotate(-90)" fill="#828282" />
                           </svg>
 
                           {/* <label>Choose Theme</label> */}
@@ -692,7 +688,7 @@ function Room(props) {
                           >
                             {themes.map((theme, index) => {
                               return (
-                                <option key={index} value={theme}>
+                                <option  key={index} value={theme}>
                                   {theme}
                                 </option>
                               );
@@ -704,7 +700,7 @@ function Room(props) {
                         {/* <label>Font Size</label> */}
                         <div className="relative inline-flex">
                           <svg class="ide-selectarrow pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="13.819" height="7.9" viewBox="0 0 13.819 7.9">
-                            <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M2.382,6.911,7.61,12.136a.988.988,0,1,1-1.4,1.395L.288,7.611A.986.986,0,0,1,.259,6.249L6.207.288a.988.988,0,0,1,1.4,1.395Z" transform="translate(0 7.9) rotate(-90)" fill="#828282"/>
+                            <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M2.382,6.911,7.61,12.136a.988.988,0,1,1-1.4,1.395L.288,7.611A.986.986,0,0,1,.259,6.249L6.207.288a.988.988,0,0,1,1.4,1.395Z" transform="translate(0 7.9) rotate(-90)" fill="#828282" />
                           </svg>
 
                           <select
@@ -758,36 +754,36 @@ function Room(props) {
                         <li>
                           <button>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20.731" height="23.693" viewBox="0 0 20.731 23.693">
-                              <path id="Icon_awesome-copy" data-name="Icon awesome-copy" d="M14.808,20.731v1.851A1.111,1.111,0,0,1,13.7,23.693H1.111A1.111,1.111,0,0,1,0,22.582V5.553A1.111,1.111,0,0,1,1.111,4.442H4.442v13.7a2.594,2.594,0,0,0,2.591,2.591Zm0-15.918V0H7.034A1.111,1.111,0,0,0,5.923,1.111V18.14A1.111,1.111,0,0,0,7.034,19.25H19.62a1.111,1.111,0,0,0,1.111-1.111V5.923H15.918A1.114,1.114,0,0,1,14.808,4.813Zm5.6-1.436L17.354.325A1.111,1.111,0,0,0,16.569,0h-.28V4.442h4.442v-.28a1.111,1.111,0,0,0-.325-.785Z" fill="#828282"/>
+                              <path id="Icon_awesome-copy" data-name="Icon awesome-copy" d="M14.808,20.731v1.851A1.111,1.111,0,0,1,13.7,23.693H1.111A1.111,1.111,0,0,1,0,22.582V5.553A1.111,1.111,0,0,1,1.111,4.442H4.442v13.7a2.594,2.594,0,0,0,2.591,2.591Zm0-15.918V0H7.034A1.111,1.111,0,0,0,5.923,1.111V18.14A1.111,1.111,0,0,0,7.034,19.25H19.62a1.111,1.111,0,0,0,1.111-1.111V5.923H15.918A1.114,1.114,0,0,1,14.808,4.813Zm5.6-1.436L17.354.325A1.111,1.111,0,0,0,16.569,0h-.28V4.442h4.442v-.28a1.111,1.111,0,0,0-.325-.785Z" fill="#828282" />
                             </svg>
                           </button>
                         </li>
                         <li>
                           <button>
                             <svg xmlns="http://www.w3.org/2000/svg" width="25.385" height="23.693" viewBox="0 0 25.385 23.693">
-                              <path id="Icon_metro-download2" data-name="Icon metro-download2" d="M22.033,14.01l-6.769,6.769L8.494,14.01h4.231V3.856H17.8V14.01Zm-6.769,6.769H2.571v6.769H27.956V20.779Zm11,3.385H22.879V22.472h3.385Z" transform="translate(-2.571 -3.856)" fill="#828282"/>
+                              <path id="Icon_metro-download2" data-name="Icon metro-download2" d="M22.033,14.01l-6.769,6.769L8.494,14.01h4.231V3.856H17.8V14.01Zm-6.769,6.769H2.571v6.769H27.956V20.779Zm11,3.385H22.879V22.472h3.385Z" transform="translate(-2.571 -3.856)" fill="#828282" />
                             </svg>
                           </button>
                         </li>
                         <li>
                           <button>
                             <svg xmlns="http://www.w3.org/2000/svg" width="17.769" height="19.665" viewBox="0 0 17.769 19.665">
-                              <path id="Icon_material-share" data-name="Icon material-share" d="M19.308,16.9a2.875,2.875,0,0,0-1.935.76l-7.039-4.1a2.732,2.732,0,0,0,0-1.382l6.96-4.057a2.955,2.955,0,1,0-.948-2.162,3.232,3.232,0,0,0,.089.691L9.475,10.71a2.962,2.962,0,1,0,0,4.324L16.5,19.141a2.785,2.785,0,0,0-.079.642A2.883,2.883,0,1,0,19.308,16.9Z" transform="translate(-4.5 -3)" fill="#828282"/>
+                              <path id="Icon_material-share" data-name="Icon material-share" d="M19.308,16.9a2.875,2.875,0,0,0-1.935.76l-7.039-4.1a2.732,2.732,0,0,0,0-1.382l6.96-4.057a2.955,2.955,0,1,0-.948-2.162,3.232,3.232,0,0,0,.089.691L9.475,10.71a2.962,2.962,0,1,0,0,4.324L16.5,19.141a2.785,2.785,0,0,0-.079.642A2.883,2.883,0,1,0,19.308,16.9Z" transform="translate(-4.5 -3)" fill="#828282" />
                             </svg>
                           </button>
                         </li>
                       </ul>
                     </div>
                     <div className="ide-bottom-run">
-                    <button                    
-                      onClick={submitHandler}
-                      disabled={submissionState === runningState}
-                    >
-                      Run
-                    </button>
+                      <button
+                        onClick={submitHandler}
+                        disabled={submissionState === runningState}
+                      >
+                        Run
+                      </button>
                     </div>
                   </div>
-                 
+
 
                   {/* <div className="text-ip-op">
                     <div className="grid grid-flow-row grid-cols-2 m0">
@@ -803,10 +799,10 @@ function Room(props) {
                     {/* <h5>Input</h5> */}
                     <div className="ip-op-container">
                       <div className="header-ip-op">
-                        <h5 className="Input">Input <svg  width="22" height="22" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <h5 className="Input">Input <svg width="22" height="22" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M21.0571 0.804993H2.6461C2.10395 0.806576 1.58446 1.02264 1.20111 1.406C0.817749 1.78936 0.601681 2.30885 0.600098 2.85099V6.93199H2.6461V2.82999H21.0571V17.18H2.6461V13.069H0.600098V17.169C0.601276 17.4364 0.655155 17.7009 0.758651 17.9474C0.862148 18.1939 1.01323 18.4176 1.20326 18.6057C1.39329 18.7938 1.61853 18.9425 1.86611 19.0435C2.11369 19.1444 2.37874 19.1956 2.6461 19.194H21.0571C21.5964 19.1964 22.1145 18.9845 22.4976 18.605C22.8808 18.2254 23.0975 17.7093 23.1001 17.17V2.85099C23.1002 2.58227 23.0474 2.31616 22.9446 2.06787C22.8418 1.81958 22.6911 1.59397 22.5011 1.40396C22.3111 1.21394 22.0855 1.06324 21.8372 0.960468C21.5889 0.857693 21.3228 0.804861 21.0541 0.804993H21.0571ZM10.8281 14.09L14.9201 9.99999L10.8281 5.90899V8.97699H0.600098V11.023H10.8281V14.09Z" fill="#EDEDED" />
                         </svg></h5>
-                        </div>
+                      </div>
                       <Editor
                         className="editor-1"
                         theme={theme}
@@ -817,26 +813,26 @@ function Room(props) {
                       />
                     </div>
                     <div className="ip-op-container">
-                        {/* <h5>Output</h5> */}
-                        {console.log(output)}
-                        <div className="header-ip-op">
+                      {/* <h5>Output</h5> */}
+                      {console.log(output)}
+                      <div className="header-ip-op">
                         <h5 className="Output">Output<svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M10.9101 15.85V13.668L2.18205 13.668L2.18205 2.75798L10.9101 2.75798V0.575975L5.53131e-05 0.575975L5.53131e-05 15.85L10.9101 15.85ZM13.0921 11.486L17.4561 8.21298L13.0921 4.93998L13.0921 7.12198L4.36405 7.12198L4.36405 9.30398L13.0921 9.30398V11.486Z" fill="#EDEDED" />
                         </svg></h5>
-                          </div>
-                        <Editor
-                          className="editor-2"
-                          theme={theme}
-                          language={""}
-                          body={output}
-                          setBody={HandleUpdateOutput}
-                          readOnly={true}
-                          fontSize={fontSize}
-                        />
+                      </div>
+                      <Editor
+                        className="editor-2"
+                        theme={theme}
+                        language={""}
+                        body={output}
+                        setBody={HandleUpdateOutput}
+                        readOnly={true}
+                        fontSize={fontSize}
+                      />
                     </div>
                   </div>
                 </div>
-                
+
               </div>
             </div>
           </div>
@@ -855,7 +851,7 @@ function Room(props) {
               onEditorStateChange={onEditorStateChange} />
           </div> */}
         </div>
-        
+
       </div>
       <ToastContainer />
     </>

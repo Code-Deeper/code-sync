@@ -23,6 +23,6 @@
 .board-container .text-editor-btn-area{position: relative;top: -70%;left: 94%;background-color: #EDEDED;padding: 10px;display: inline-block;border-radius: 10px 0 0 10px;}
 .board-container .text-editor-btn-area svg{width: 30px;}
 
-.texteditor-section{position: absolute;width: 00px;min-height: 375px; transition:all 1s linear;right:0;left:auto;z-index: -111;}
-.texteditor-section.active{display: block;width: 800px;z-index: 111;}
-.texteditor-section .rdw-editor-main{background-color: #fff;border: 1px solid #f1f1f1 !important; -webkit-transition: all 1s linear;-moz-transition: all 1s linear;-o-transition: all 1s linear;transition: all 1s linear;}
+.text-editor-btn-area .texteditor-section{position: absolute;width: 00px;min-height: 375px; transition:all 0.5s linear;right:0;left:auto;z-index: -111;overflow: hidden;}
+.text-editor-btn-area.active .texteditor-section{display: block;width: 800px;z-index: 111;}
+.texteditor-section .rdw-editor-main{background-color: #fff;border: 1px solid #f1f1f1 !important; min-height: 250px;}
