@@ -153,7 +153,8 @@ class Container extends React.Component {
                         </svg>
 
                         </span>              
-                        <select value={this.state.size} onChange={this.changeSize.bind(this)}>
+                        <select value={this.state.size} onChange={this.changeSize.bind(this)} style={{backgroundColor : "transparent"
+                        }}>
                             <option> 5 </option>
                             <option> 10 </option>
                             <option> 15 </option>

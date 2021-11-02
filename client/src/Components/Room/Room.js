@@ -585,7 +585,6 @@ function Room(props) {
           ) : (
             <div className="form-group col" />
           )}
-
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 ">
             <div className="mr-4">
               {/* <br /> */}
@@ -672,7 +671,7 @@ function Room(props) {
                           >
                             {languages.map((lang, index) => {
                               return (
-                                <option key={index} value={lang} selected={lang === language}>
+                                <option key={index} value={lang}  selected={lang === language}>
                                   {lang}
                                 </option>
                               );
@@ -697,7 +696,7 @@ function Room(props) {
                           >
                             {themes.map((theme, index) => {
                               return (
-                                <option key={index} value={theme}>
+                                <option  key={index} value={theme}>
                                   {theme}
                                 </option>
                               );
