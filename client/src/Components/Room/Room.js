@@ -472,7 +472,7 @@ function Room(props) {
   }, [language]);
   return (
     <>
-      <div>
+      <div style={{ margin: 0, height: "100%", overflow: "hidden" }}>
         {/* className=" row container-fluid text-center justify-content-center" */}
         <div className=" flex flex-row justify-content-center">
           {/* <div className="ml-2 mt-3">
@@ -535,13 +535,14 @@ function Room(props) {
               </select>
             </div>
           </div> */}
-
-          <button className="flex ml-3 	 bg-gray-300 hover:bg-gray-100 text-white-100 font-bold py-2 px-4 rounded mt-3">
-            <svg width="22" height="22" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13 14.562C14.3906 14.562 15.75 14.1496 16.9062 13.3771C18.0625 12.6045 18.9636 11.5064 19.4958 10.2216C20.028 8.9369 20.1672 7.5232 19.8959 6.15932C19.6246 4.79544 18.955 3.54263 17.9717 2.55933C16.9884 1.57603 15.7356 0.906391 14.3717 0.635098C13.0078 0.363805 11.5941 0.503043 10.3094 1.0352C9.02461 1.56736 7.92651 2.46854 7.15394 3.62478C6.38136 4.78103 5.969 6.1404 5.969 7.531C5.96953 9.39557 6.71046 11.1836 8.02892 12.5021C9.34737 13.8205 11.1354 14.5615 13 14.562ZM19.25 16.125H16.56C15.4439 16.6397 14.2295 16.9062 13.0005 16.9062C11.7715 16.9062 10.5571 16.6397 9.441 16.125H6.75C5.0924 16.125 3.50269 16.7835 2.33058 17.9556C1.15848 19.1277 0.5 20.7174 0.5 22.375L0.5 23.156C0.5 23.7777 0.746956 24.3739 1.18654 24.8135C1.62613 25.253 2.22233 25.5 2.844 25.5H23.156C23.7777 25.5 24.3739 25.253 24.8135 24.8135C25.253 24.3739 25.5 23.7777 25.5 23.156V22.375C25.5 20.7174 24.8415 19.1277 23.6694 17.9556C22.4973 16.7835 20.9076 16.125 19.25 16.125Z" fill="black" />
-            </svg>
-            <span>Join People </span>
-          </button>
+          <div className="">
+            <button className="flex bg-transparent hover:bg-gray-200 mt-1 text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600">
+              <svg width="22" height="22" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 14.562C14.3906 14.562 15.75 14.1496 16.9062 13.3771C18.0625 12.6045 18.9636 11.5064 19.4958 10.2216C20.028 8.9369 20.1672 7.5232 19.8959 6.15932C19.6246 4.79544 18.955 3.54263 17.9717 2.55933C16.9884 1.57603 15.7356 0.906391 14.3717 0.635098C13.0078 0.363805 11.5941 0.503043 10.3094 1.0352C9.02461 1.56736 7.92651 2.46854 7.15394 3.62478C6.38136 4.78103 5.969 6.1404 5.969 7.531C5.96953 9.39557 6.71046 11.1836 8.02892 12.5021C9.34737 13.8205 11.1354 14.5615 13 14.562ZM19.25 16.125H16.56C15.4439 16.6397 14.2295 16.9062 13.0005 16.9062C11.7715 16.9062 10.5571 16.6397 9.441 16.125H6.75C5.0924 16.125 3.50269 16.7835 2.33058 17.9556C1.15848 19.1277 0.5 20.7174 0.5 22.375L0.5 23.156C0.5 23.7777 0.746956 24.3739 1.18654 24.8135C1.62613 25.253 2.22233 25.5 2.844 25.5H23.156C23.7777 25.5 24.3739 25.253 24.8135 24.8135C25.253 24.3739 25.5 23.7777 25.5 23.156V22.375C25.5 20.7174 24.8415 19.1277 23.6694 17.9556C22.4973 16.7835 20.9076 16.125 19.25 16.125Z" fill="black" />
+              </svg>
+              <span className='ml-1'>Join People </span>
+            </button>
+          </div>
           <div className=" ml-2">
             {/* <br /> */}
             {/* <button
@@ -551,22 +552,29 @@ function Room(props) {
           >
             Save and Run
           </button> */}
-            <button
-              // className="btn btn-primary"
-              className={`${inAudio ? "bg-gray-300 hover:bg-gray-100" : "bg-gray-300 hover:bg-gray-100 "}text-white-100 font-bold py-2 px-4 rounded mt-3`}
-              onClick={() => setInAudio(!inAudio)}
-            >
-              {/* {inAudio ? "Leave Audio" : "Join Audio"} Room */}
-              {inAudio ?
+            {!inAudio &&
+              <button
+                // className="btn btn-primary"
+              className={"flex bg-transparent hover:bg-gray-200  text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600 mt-1"}
+                onClick={() => setInAudio(!inAudio)}
+              >
+                {/* {inAudio ? "Leave Audio" : "Join Audio"} Room */}
+                {!inAudio && <span className='flex'><MdRecordVoiceOver style={{ width: "22px", height: "22px" }} /> Join Audio</span>}
+              </button>
+            }
+          </div>
+          {inAudio ? (
+            <div className="ml-2 flex">
+              <button
+                // className="btn btn-primary"
+                className={`${inAudio ? "bg-gray-300 hover:bg-gray-100" : "bg-gray-300 hover:bg-gray-100 "}text-white-100 font-bold py-2 px-4 rounded mt-3`}
+                onClick={() => setInAudio(!inAudio)}
+              >
                 <span><svg width="22" height="22" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M24 2.47339e-06C19.2533 2.47339e-06 14.6131 1.40758 10.6663 4.04473C6.71954 6.68189 3.64341 10.4302 1.8269 14.8156C0.010399 19.201 -0.464881 24.0266 0.461164 28.6822C1.38721 33.3377 3.67299 37.6141 7.02945 40.9706C10.3859 44.327 14.6623 46.6128 19.3178 47.5388C23.9734 48.4649 28.799 47.9896 33.1844 46.1731C37.5698 44.3566 41.3181 41.2805 43.9553 37.3337C46.5924 33.3869 48 28.7468 48 24C48.0029 20.8475 47.3841 17.7253 46.179 14.8122C44.9739 11.8991 43.2062 9.25217 40.977 7.02299C38.7478 4.7938 36.101 3.02609 33.1878 1.821C30.2747 0.615912 27.1525 -0.00289133 24 2.47339e-06ZM36 32.616L32.616 36L24 27.384L15.384 36L12 32.616L20.616 24L12 15.384L15.384 12L24 20.616L32.616 12L36 15.384L27.384 24L36 32.616Z" fill="#FF7171" />
                 </svg>
-                </span> : <span className='flex'><MdRecordVoiceOver style={{ width: "22px", height: "22px" }} /> Join Audio</span>}
-            </button>
-          </div>
-          {inAudio ? (
-            <div className="ml-2">
-              {/* <br /> */}
+                </span>
+              </button>
               <button
                 className={`${isMuted ? "bg-red-600 hover:bg-red-300 " : "bg-gray-300 hover:bg-gray-100 "}text-white-100 font-bold py-2 px-4 rounded mt-3`}
                 onClick={() => setIsMuted(!isMuted)}
@@ -577,23 +585,23 @@ function Room(props) {
           ) : (
             <div className="form-group col" />
           )}
-         
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 ">
             <div className="mr-4">
               {/* <br /> */}
               <button
-                className="flex bg-gray-300 hover:bg-gray-100 text-white-100 font-bold py-2 px-4 rounded mt-3 "
+                className="flex bg-transparent hover:bg-gray-200  text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600	 "
                 onClick={() => {
                   navigator.clipboard.writeText(`${BaseURL}/room/${roomTitle}`);
                   toast.success(`🔥 Room Link has been Copied 🔥`)
                 }}
+
               >
-                <img style={{ width: "22px", height: "22px" }} src='/image/icons/copy.svg' />  
+                <img style={{ width: "22px", height: "22px" }} src='/image/icons/copy.svg' />  <span style={{ marginLeft: "3px" }}>Room Link </span>
               </button>
             </div>
             <Avatar className="mt-2  float-left mr-4" src={user?.result?.imageUrl} name={user?.result?.name} alt={user?.result?.name || "codesync"}></Avatar>
           </div>
-            {/* <div className="ml-3 mt-5">
+          {/* <div className="ml-3 mt-5">
             <label>Status: {submissionState}</label>
           </div> */}
           {/* <div className='mt-2 ml-2'>
