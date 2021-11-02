@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux'
 import { addUser, loginUser } from '../../../Action/UserAction'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
+import AXIOS from '../../../API'
 
 const initialState = {
     email: "",
@@ -47,7 +48,7 @@ function LoginPage(props) {
         ///TODO:
         e.preventDefault()
         console.log({ formData })
-        axios.post('/api/user/login', formData).then((response) => {
+        AXIOS.post('/api/user/login', formData).then((response) => {
             dispatch(loginUser(response.data, props.history.push));
             setRedComp(true);
             

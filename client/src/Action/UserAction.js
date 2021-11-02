@@ -2,6 +2,7 @@ import React from 'react'
 import { ADD_USER, REMOVE_USER, ADD_USER_ERROR, REMOVE_USER_ERROR, AUTHORIZATION} from '../Constant/UserConst'
 import axios from 'axios'
 import { push } from 'react-router-redux'
+import AXIOS from '../API'
 
 export const addUser = (data) =>
     async dispatch => {
@@ -37,7 +38,7 @@ export const loginUser = (formData, push) =>
     async dispatch => {
         try {
            
-            // const { data } = await axios.post('/api/user/login', formData);
+            // const { data } = await AXIOS.post('/api/user/login', formData);
             console.log(formData)
             dispatch({
                 type: AUTHORIZATION,
@@ -56,7 +57,7 @@ export const loginUser = (formData, push) =>
 export const registerUser = (formData, history) =>
     async dispatch => {
         try {
-            const {data} = await axios.post('/api/user/register', formData);
+            const { data } = await AXIOS.post('/api/user/register', formData);
             console.log({data})
             dispatch({
                 type: AUTHORIZATION,
