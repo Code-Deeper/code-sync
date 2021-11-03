@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid';
 import { Link, RouteChildrenProps } from 'react-router-dom';
-import { white } from 'colors';
+// import { white } from 'colors';
 import AXIOS from '../../API';
 
 
@@ -49,7 +49,7 @@ function CreateRoom({ history }) {
                 </div>
                 <div className="form-group text-center pt-3 row justify-content-center" style={{ border: "10px" }}>
                     <button onClick={handleSubmit} className="btn btn-blue col-2 text-lg">
-                        <h3 style={{ color: white }}>Join Room</h3>
+                        <h3 style={{ color: "white" }}>Join Room</h3>
                     </button>
                 </div>
             </div>
