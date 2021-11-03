@@ -11,7 +11,7 @@ const path = require('path')
 const app = express()
 dotenv.config('../.env');
 const server = http.createServer(app);
-const port = process.env.DEVELOPMENT_PORT || 8080
+const port = process.env.PORT || 8080
 app.set('port', port);
 // DB Connection    
 connectDB()
