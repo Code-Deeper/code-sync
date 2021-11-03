@@ -18,6 +18,7 @@ import Whiteboard from "../WhiteBoard/Whiteboard";
 import { EditorState, convertFromRaw, convertToRaw } from 'draft-js'
 import Draft from './RichEditor/Draft'
 import faCode from "@fortawesome/fontawesome-free"
+import AXIOS from "../../API";
 var myPeer = Peer;
 var audios = {};
 var peers = {};
@@ -139,7 +140,7 @@ function Room(props) {
 
     const url = `/api/room/${id}`;
     const fetchData = async () => {
-      const { data } = await axios.get(url, {
+      const { data } = await AXIOS.get(url, {
         headers: {
           Authorization:
             "Bearer " + JSON.parse(localStorage.getItem("authUser")),
@@ -356,15 +357,12 @@ function Room(props) {
       }
       audio.autoplay = true;
       audios[id] = data;
-      console.log("Adding audio: ", id);
-    } // } else {
-    //     console.log('adding audio: ', id);
-    //     // @ts-ignore
-    //     document.getElementById(id).srcObject = stream;
-    // }
+    }
+    
   };
 
   const removeAudio = (id) => {
+    console.log({id});
     delete audios[id];
     const audio = document.getElementById(id);
     if (audio) audio.remove();
@@ -372,6 +370,9 @@ function Room(props) {
 
   const destroyConnection = () => {
     console.log("distroying", audios, myPeer.id);
+    if (inAudio) {
+      setInAudio(!inAudio)
+    }
     if (audios[myPeer.id]) {
       const myMediaTracks = audios[myPeer.id].stream.getTracks();
       myMediaTracks.forEach((track) => {

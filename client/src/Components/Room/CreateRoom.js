@@ -5,6 +5,7 @@ import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid';
 import { Link, RouteChildrenProps } from 'react-router-dom';
 import { white } from 'colors';
+import AXIOS from '../../API';
 
 
 function CreateRoom({ history }) {
@@ -15,7 +16,7 @@ function CreateRoom({ history }) {
         // uuid.v4()
         const uID = await uuidv4();
         console.log(uID);
-        axios.post('/api/room', {
+        AXIOS.post('/api/room', {
             room_id: uID,
             room_title: roomName,
             room_body: "", room_language: "", room_input: ""

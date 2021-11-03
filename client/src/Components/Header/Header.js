@@ -10,6 +10,7 @@ import { Link, RouteComponentProps, withRouter, useHistory, useLocation } from '
 import { removeUser } from "../../Action/UserAction";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AXIOS from "../../API";
 function Header(props) {
   const history = useHistory(props);
   const location = useLocation();
@@ -48,7 +49,7 @@ function Header(props) {
     e.preventDefault()
     const uID = await uuidv4();
     console.log({uID});
-    axios.post('/api/room', {
+    AXIOS.post('/api/room', {
       room_id: uID,
       room_title: roomName || uID,
       room_body: "", room_language: "", room_input: ""
