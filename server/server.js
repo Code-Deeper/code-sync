@@ -31,6 +31,9 @@ app.use(
   })
 );
 // Controllers
+app.get("/", (req, res) => {
+    res.send("API IS RUNNING")
+})
 app.use('/api/room/', require('./routes/room.route'));
 app.use('/api/user/' , require('./routes/user.route'));
 
