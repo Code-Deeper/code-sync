@@ -26,3 +26,43 @@
 .text-editor-btn-area .texteditor-section{position: absolute;width: 00px;min-height: 375px; transition:all 0.5s linear;right:0;left:auto;z-index: -111;overflow: hidden;}
 .text-editor-btn-area.active .texteditor-section{display: block;width: 800px;z-index: 111;}
 .texteditor-section .rdw-editor-main{background-color: #fff;border: 1px solid #f1f1f1 !important; min-height: 250px;}
+
+.chat-hide {
+  display: block;
+  z-index: -100;
+}
+
+
+
+
+
+.chat-services{
+      transition: .5s;
+      max-height: 0;
+    }
+    .chat-services.expand{
+      max-height: 350px;
+    }
+    .message {
+      max-width: 250px;
+    }
+
+    .chat-modal{
+      transition: .5s;
+      opacity: 0;
+      transform: translateX(500px);
+    }
+
+    .chat-modal.show{
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    @keyframes animateModal {
+      from{
+        transform: translateX(200px) opacity(0);
+      }
+      to{
+        transform: translateX(0) opacity(1);
+      }
+    }

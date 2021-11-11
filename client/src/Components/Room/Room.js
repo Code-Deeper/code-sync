@@ -85,11 +85,15 @@ function Room(props) {
   const [submissionIdChecker, setSubmissionIdChecker] = useState(null);
   const [inAudio, setInAudio] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [msgs, setMsgs] = useState([])
+  const [msg, setMsg] = useState('')
 
   // Draft
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
-
+  useEffect(() => {
+    console.log({ user})
+  }, [])
 
 
 
@@ -104,6 +108,9 @@ function Room(props) {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
+  // useEffect(() => {
+
+  // },[])
   useEffect(() => {
     localStorage.setItem("language", language);
   }, [language]);
@@ -133,11 +140,19 @@ function Room(props) {
         setEditorState(EditorState.createWithContent(rawContentFromStore));
       }
     });
-
+    // TODO:
+    socket.on("message", (message) => {
+      console.log({ message });
+      const new_arr = msgs;
+      new_arr.push(message);
+      setMsgs(new_arr);
+    })
     const { id } = props.match.params;
     setRoomId(id);
-    socket.emit("joinroom", id);
-
+    socket.emit("joinroom", { roomId: id, userName: user.result.familyName, userImg: user.result.imageUrl }, () => {
+      console.log("Joined room")
+    });
+    // console.log({ user})
     const url = `/api/room/${id}`;
     const fetchData = async () => {
       const { data } = await AXIOS.get(url, {
@@ -322,6 +337,18 @@ function Room(props) {
     // )();
   };
 
+  const SendMessage = (event) => {
+    event.preventDefault();
+    if (msg) {
+      console.log({ msgs })
+      socket.emit('sendMessage', msg , roomId);
+       setMsg('')
+    }
+  }
+  useEffect(() => {
+    console.log({msgs})
+  }, [msgs])
+
   const handleUpdateInput = (value) => {
     setInput(value);
     debounce(
@@ -358,11 +385,11 @@ function Room(props) {
       audio.autoplay = true;
       audios[id] = data;
     }
-    
+
   };
 
   const removeAudio = (id) => {
-    console.log({id});
+    console.log({ id });
     delete audios[id];
     const audio = document.getElementById(id);
     if (audio) audio.remove();
@@ -556,7 +583,7 @@ function Room(props) {
             {!inAudio &&
               <button
                 // className="btn btn-primary"
-              className={"flex bg-transparent hover:bg-gray-200  text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600 mt-1"}
+                className={"flex bg-transparent hover:bg-gray-200  text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600 mt-1"}
                 onClick={() => setInAudio(!inAudio)}
               >
                 {/* {inAudio ? "Leave Audio" : "Join Audio"} Room */}
@@ -672,7 +699,7 @@ function Room(props) {
                           >
                             {languages.map((lang, index) => {
                               return (
-                                <option key={index} value={lang}  selected={lang === language}>
+                                <option key={index} value={lang} selected={lang === language}>
                                   {lang}
                                 </option>
                               );
@@ -697,7 +724,7 @@ function Room(props) {
                           >
                             {themes.map((theme, index) => {
                               return (
-                                <option  key={index} value={theme}>
+                                <option key={index} value={theme}>
                                   {theme}
                                 </option>
                               );
@@ -846,12 +873,32 @@ function Room(props) {
             </div>
           </div>
           <div className="">
+            {/* <div>
+              <input type="text" value={msg}  onChange={(e) => setMsg(e.target.value)} />
+              <button type="button" onClick={SendMessage}> Submit</button>
+
+            </div> */}
             <div className="wt-board">
+              {console.log({
+               msg
+              })}
               <Whiteboard
                 editorState={editorState}
                 setEditorState={setEditorState}
-                onEditorStateChange={onEditorStateChange} />
+                onEditorStateChange={onEditorStateChange}
+                SendMessage={SendMessage}
+                msg={msg}
+                setMsg={setMsg}
+                setMsgs={setMsgs}
+                msgs={msgs}
+                userName={user.result.familyName}
+                roomTitle={roomTitle}
+                key={msgs}
+              />
             </div>
+
+
+
           </div>
           {/* <div className="mt-5 ml-5 mr-5 h-32	">
             <Draft
@@ -859,6 +906,7 @@ function Room(props) {
               setEditorState={setEditorState}
               onEditorStateChange={onEditorStateChange} />
           </div> */}
+
         </div>
 
       </div>

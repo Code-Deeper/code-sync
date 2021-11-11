@@ -32,13 +32,14 @@ app.use(
 );
 // Controllers
 app.get("/", (req, res) => {
-    res.send("API IS RUNNING")
+  res.send("API IS RUNNING")
 })
 app.use('/api/room/', require('./routes/room.route'));
-app.use('/api/user/' , require('./routes/user.route'));
+app.use('/api/user/', require('./routes/user.route'));
 
 // Socket.io
 const { Server, Socket } = require('socket.io');
+const { addUser, getUser, getUsersInRoom, removeUser } = require('./socket.user');
 const io = new Server(server, {
   cors: {
     origin: 'http://localhost:3000',
@@ -46,9 +47,22 @@ const io = new Server(server, {
   }
 });
 io.on('connection', (socket) => {
-  socket.on('joinroom', (roomId) => {
+  socket.on('joinroom', async ({ roomId, userName, userImg }, callback) => {
+    console.log("Join ROom")
+    const { error, user } = await addUser({ id: socket.id, name: userName, room: roomId, userImg });
+    if (error) return callback(error);
+
+    socket.emit('message', { user: "Admin", text: `${userName}, Welcome to room ${roomId}` })
+    socket.broadcast.to(roomId).emit('message', { user: "Admin", text: `${userName} has joined room!`, userImg: "zz" });
+
     socket.join(roomId);
+    callback();
+
   });
+  socket.on('sendMessage', (message, roomId) => {
+    const user = getUser(socket.id);
+    io.to(roomId).emit('message', { user: user.name, userImg: user.userImg, text: message })
+  })
   socket.on('canvas-data', (data) => {
     socket.broadcast.emit('canvas-data', data);
 
@@ -69,6 +83,7 @@ io.on('connection', (socket) => {
   socket.on('updateRichText', ({ value, roomId }) => {
     socket.broadcast.to(roomId).emit('updateRichText', value);
   });
+
   socket.on('joinAudioRoom', (roomId, userId) => {
     console.log({ roomId, userId });
     socket.broadcast.to(roomId).emit('userJoinedAudio', userId);
@@ -77,6 +92,10 @@ io.on('connection', (socket) => {
       socket.broadcast.to(roomId).emit('userLeftAudio', userId);
     });
   });
+  socket.on('disconnect', ({ userName }) => {
+    const user = removeUser(userName)
+    console.log("User disconnect", user);
+  })
 });
 
 // Production Settings
