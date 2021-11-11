@@ -19,6 +19,7 @@ import { EditorState, convertFromRaw, convertToRaw } from 'draft-js'
 import Draft from './RichEditor/Draft'
 import faCode from "@fortawesome/fontawesome-free"
 import AXIOS from "../../API";
+import Message from "./Message/Message";
 var myPeer = Peer;
 var audios = {};
 var peers = {};
@@ -68,6 +69,7 @@ function Room(props) {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('authUser')))
+  const [openChat, setOpenChat] = useState(false);
   const [language, setLanguage] = useState(
     localStorage.getItem("language") ?? "c"
   );
@@ -92,8 +94,8 @@ function Room(props) {
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
   useEffect(() => {
-    console.log({ user})
-  }, [])
+    console.log({ openChat })
+  }, [openChat])
 
 
 
@@ -143,9 +145,9 @@ function Room(props) {
     // TODO:
     socket.on("message", (message) => {
       console.log({ message });
-      const new_arr = msgs;
-      new_arr.push(message);
-      setMsgs(new_arr);
+      // const new_arr = msgs;
+      // new_arr.push(message);
+      setMsgs(msgs => [...msgs, message]);
     })
     const { id } = props.match.params;
     setRoomId(id);
@@ -341,13 +343,17 @@ function Room(props) {
     event.preventDefault();
     if (msg) {
       console.log({ msgs })
-      socket.emit('sendMessage', msg , roomId);
-       setMsg('')
+      socket.emit('sendMessage', msg, roomId);
+      setMsg('')
     }
   }
   useEffect(() => {
-    console.log({msgs})
+    console.log({ msgs })
   }, [msgs])
+
+  const chatOpenHandler = (val) => {
+    setOpenChat(!openChat)
+  }
 
   const handleUpdateInput = (value) => {
     setInput(value);
@@ -880,23 +886,28 @@ function Room(props) {
             </div> */}
             <div className="wt-board">
               {console.log({
-               msg
+                msg
               })}
               <Whiteboard
                 editorState={editorState}
                 setEditorState={setEditorState}
                 onEditorStateChange={onEditorStateChange}
-                SendMessage={SendMessage}
-                msg={msg}
-                setMsg={setMsg}
-                setMsgs={setMsgs}
-                msgs={msgs}
-                userName={user.result.familyName}
                 roomTitle={roomTitle}
-                key={msgs}
+                
+                setOpenChat={chatOpenHandler}
               />
             </div>
+            <Message
+              openChat={openChat}
+              setOpenChat={setOpenChat}
+              msgs={msgs}
+              setMsg={setMsg}
+              msg={msg}
+              SendMessage={SendMessage}
+              user={user}
+              roomTitle={roomTitle}
 
+            />
 
 
           </div>

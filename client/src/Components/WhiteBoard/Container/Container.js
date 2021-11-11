@@ -22,15 +22,13 @@ class Container extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { addClass: false, open: false }
-        this.setOpen = this.setOpen.bind(this)
+        this.state = { addClass: false }
+        this.handleClick = this.handleClick.bind(this)
     }
     toggle() {
         this.setState({ addClass: !this.state.addClass });
     }
-    setOpen() {
-        this.setState({ open: !this.state.open });
-    }
+    
     changeColor(params) {
         this.setState({
             color: params.target.value
@@ -47,7 +45,10 @@ class Container extends React.Component {
             color: "#ffffff"
         })
     }
-
+    handleClick() {
+        console.log("HJADJNAJD");
+        this.props.setOpenChat(false)
+    }
     render() {
         let boxClass = ["text-editor-btn-area"];
         if (this.state.addClass) {
@@ -65,46 +66,6 @@ class Container extends React.Component {
                             </svg></span>White Board</h2>
                         </div>
                         <Board color={this.state.color} size={this.state.size}></Board>
-                        {/* <div className="text-editor-btn-area">
-                        {console.log(this.state.noteToggle)}
-                        
-
-                        {this.state.noteToggle == true ?
-                            <div className="texteditor-section active">
-                                <Draft
-                                    editorState={this.props.editorState}
-                                    setEditorState={this.props.setEditorState}
-                                    onEditorStateChange={this.props.onEditorStateChange}
-                                   
-                                />
-                                <button className="text-editor-btn" 
-                                    onClick={() => this.setState({ noteToggle : false}) }
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
-                                    <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb" />
-                                </svg>
-                                </button>
-                            </div>
-                            :
-                            <div>
-                            <div className="texteditor-section">
-                                <Draft
-                                    editorState={this.props.editorState}
-                                    setEditorState={this.props.setEditorState}
-                                    onEditorStateChange={this.props.onEditorStateChange}
-                                   
-                                />
-                               
-                            </div>
-                            <button onClick={this.toggleText.bind(this)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="31.5" height="36.952" viewBox="0 0 31.5 36.952">
-                                    <path id="Icon_awesome-sticky-note" data-name="Icon awesome-sticky-note" d="M9.563,15.447H0V37.223A1.847,1.847,0,0,0,1.688,39.2H29.813a1.847,1.847,0,0,0,1.688-1.98V4.23a1.847,1.847,0,0,0-1.687-1.98H11.25V13.468A1.857,1.857,0,0,1,9.563,15.447ZM.492,10.911,7.383,2.827a1.57,1.57,0,0,1,1.2-.577H9V12.808H0v-.5A2.159,2.159,0,0,1,.492,10.911Z" transform="translate(0 -2.25)" fill="#cbcbcb" />
-                                </svg>
-                            </button>
-                            </div>
-                        }
-                    </div> 
-                    */}
                         <div className={boxClass.join(' ')} >
                             {this.state.addClass ?
 
@@ -174,11 +135,10 @@ class Container extends React.Component {
                         </div>
                     </div>
 
-                    <button className="showcase-section" onClick={console.log("OnCLIKCK")} >
+                    <button className="showcase-section"  >
                         <h3 >
                             5 People Join Chatroom
-
-                            <svg onClick={this.setOpen} xmlns="http://www.w3.org/2000/svg" width="43.219" height="43.219" viewBox="0 0 43.219 43.219">
+                            <svg onClick={this.handleClick} xmlns="http://www.w3.org/2000/svg" width="43.219" height="43.219" viewBox="0 0 43.219 43.219">
                                 <path id="Icon_material-chat" data-name="Icon material-chat" d="M7.322,3H41.9a4.316,4.316,0,0,1,4.3,4.322l.022,38.9-8.644-8.644H7.322A4.335,4.335,0,0,1,3,33.253V7.322A4.335,4.335,0,0,1,7.322,3ZM37.575,18.127H11.644v4.322H37.575Zm-17.287,10.8H37.575V24.609H20.287ZM11.644,15.966H37.575V11.644H11.644Z" transform="translate(-3 -3)" />
                             </svg>
 
@@ -186,7 +146,7 @@ class Container extends React.Component {
                         </h3>
                     </button>
                 </div>
-                <div class={`fixed  bottom-0 right-0 flex flex-col items-end ml-6 w-full mb-4 ${!this.state.open && "chat-hide"} `} >
+                {/* <div class={`fixed  bottom-0 right-0 flex flex-col items-end ml-6 w-full mb-4 ${!this.state.open && "chat-hide"} `} >
                     <div class={`chat-modal ${this.state.open && "show"}   mr-5 flex flex-col mb-5 shadow-lg sm:w-1/2 md:w-1/3 lg:w-1/4`}>
                         <div class="close-chat bg-red-500 hover:bg-red-600 text-white mb-1 w-10 flex justify-center items-center px-2 py-1 rounded self-end cursor-pointer" onClick={this.setOpen.bind(this)}>
                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -231,14 +191,6 @@ class Container extends React.Component {
                                         </div>
                                     )
                                 }
-                                // return msg.user.toLowerCase() === this.props.userName.toLowerCase() ? <>
-                                //     <div class="message bg-pink-100	 text-white p-2 self-end my-2 rounded-md shadow ml-3">
-                                //         {msg.text}
-                                //     </div>
-                                // </> :
-                                //     <div class="chat bg-gray-50 text-gray-700 p-2 self-start my-2 rounded-md shadow mr-3">
-                                //         {msg.text}
-                                //     </div>
                             })}
                         </div>
 
@@ -250,17 +202,11 @@ class Container extends React.Component {
                             <button
                                 type="submit"
                                 onClick={this.props.SendMessage}
-                                // onClick={this.props.SendMessage}
-                                // onClick={this.props.SendMessage}
                                 class="absolute right-0 bottom-0 text-green-600 bg-white  hover:text-green-500 m-1 px-3 py-1 w-auto transistion-color duration-100 focus:outline-none">Send</button>
                         </form>
                     </div>
-                    {/* <div class={`show-chat ${open && "hidden" }  mx-10 mb-6 mt-4 text-green-500 hover:text-green-600 flex justify-center items-center cursor-pointer `} onClick={() => setOpen(true)}>
-                    <svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-chat-text-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z" />
-                    </svg>
+                    
                 </div> */}
-                </div>
 
 
             </div>
