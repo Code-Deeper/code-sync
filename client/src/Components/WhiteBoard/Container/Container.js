@@ -22,7 +22,7 @@ class Container extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { addClass: false, open: true }
+        this.state = { addClass: false, open: false }
         this.setOpen = this.setOpen.bind(this)
     }
     toggle() {
