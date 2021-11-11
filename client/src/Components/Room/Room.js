@@ -879,21 +879,13 @@ function Room(props) {
             </div>
           </div>
           <div className="">
-            {/* <div>
-              <input type="text" value={msg}  onChange={(e) => setMsg(e.target.value)} />
-              <button type="button" onClick={SendMessage}> Submit</button>
-
-            </div> */}
             <div className="wt-board">
-              {console.log({
-                msg
-              })}
               <Whiteboard
                 editorState={editorState}
                 setEditorState={setEditorState}
                 onEditorStateChange={onEditorStateChange}
                 roomTitle={roomTitle}
-                
+
                 setOpenChat={chatOpenHandler}
               />
             </div>
@@ -908,16 +900,7 @@ function Room(props) {
               roomTitle={roomTitle}
 
             />
-
-
           </div>
-          {/* <div className="mt-5 ml-5 mr-5 h-32	">
-            <Draft
-              editorState={editorState}
-              setEditorState={setEditorState}
-              onEditorStateChange={onEditorStateChange} />
-          </div> */}
-
         </div>
 
       </div>
