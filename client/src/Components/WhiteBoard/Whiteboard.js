@@ -8,8 +8,8 @@ function Whiteboard(props) {
                 editorState={props.editorState}
                 setEditorState={props.setEditorState}
                 onEditorStateChange={props.onEditorStateChange}
-            
-            
+                setOpenChat={props.setOpenChat}
+                activeUserInRoom={props.activeUserInRoom}
             />
         </div>
     )

@@ -19,6 +19,8 @@ import { EditorState, convertFromRaw, convertToRaw } from 'draft-js'
 import Draft from './RichEditor/Draft'
 import faCode from "@fortawesome/fontawesome-free"
 import AXIOS from "../../API";
+import Message from "./Message/Message";
+import Slider from './Slider/Slider'
 var myPeer = Peer;
 var audios = {};
 var peers = {};
@@ -68,6 +70,9 @@ function Room(props) {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('authUser')))
+  const [openChat, setOpenChat] = useState(false);
+  const [sliderOpen, setSliderOpen] = useState(false)
+
   const [language, setLanguage] = useState(
     localStorage.getItem("language") ?? "c"
   );
@@ -85,11 +90,15 @@ function Room(props) {
   const [submissionIdChecker, setSubmissionIdChecker] = useState(null);
   const [inAudio, setInAudio] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-
+  const [msgs, setMsgs] = useState([])
+  const [msg, setMsg] = useState('')
+  const [activeUserInRoom, setActiveUserInRoom] = useState([]);
   // Draft
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
-
+  useEffect(() => {
+    console.log({ openChat })
+  }, [openChat])
 
 
 
@@ -104,6 +113,9 @@ function Room(props) {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
+  // useEffect(() => {
+
+  // },[])
   useEffect(() => {
     localStorage.setItem("language", language);
   }, [language]);
@@ -133,11 +145,26 @@ function Room(props) {
         setEditorState(EditorState.createWithContent(rawContentFromStore));
       }
     });
-
+    // TODO:
+    socket.on("message", (message) => {
+      console.log({ message });
+      // const new_arr = msgs;
+      // new_arr.push(message);
+      setMsgs(msgs => [...msgs, message]);
+    })
+    socket.on("numberOfUser", (users) => {
+      console.log({ users });
+      setActiveUserInRoom(users)
+    })
+    
+    
     const { id } = props.match.params;
     setRoomId(id);
-    socket.emit("joinroom", id);
-
+    socket.emit("joinroom", { roomId: id, userName: user.result.familyName, userImg: user.result.imageUrl }, () => {
+      console.log("Joined room")
+    });
+    
+    // console.log({ user})
     const url = `/api/room/${id}`;
     const fetchData = async () => {
       const { data } = await AXIOS.get(url, {
@@ -185,6 +212,10 @@ function Room(props) {
   useEffect(() => {
     setInAudio(false);
   }, [roomId]);
+  
+  useEffect(() => {
+    console.log({ activeUserInRoom})
+  }, [activeUserInRoom])
 
   const GiveMeLanguageCode = () => {
     switch (language) {
@@ -322,6 +353,22 @@ function Room(props) {
     // )();
   };
 
+  const SendMessage = (event) => {
+    event.preventDefault();
+    if (msg) {
+      console.log({ msgs })
+      socket.emit('sendMessage', msg, roomId);
+      setMsg('')
+    }
+  }
+  useEffect(() => {
+    console.log({ msgs })
+  }, [msgs])
+
+  const chatOpenHandler = (val) => {
+    setOpenChat(!openChat)
+  }
+
   const handleUpdateInput = (value) => {
     setInput(value);
     debounce(
@@ -358,11 +405,11 @@ function Room(props) {
       audio.autoplay = true;
       audios[id] = data;
     }
-    
+
   };
 
   const removeAudio = (id) => {
-    console.log({id});
+    console.log({ id });
     delete audios[id];
     const audio = document.getElementById(id);
     if (audio) audio.remove();
@@ -473,6 +520,7 @@ function Room(props) {
   }, [language]);
   return (
     <>
+      <Slider  sliderOpen={sliderOpen} setSliderOpen={setSliderOpen} activeUserInRoom={activeUserInRoom} />
       <div style={{ margin: 0, height: "100%", overflow: "hidden" }}>
         {/* className=" row container-fluid text-center justify-content-center" */}
         <div className=" flex flex-row justify-content-center">
@@ -537,7 +585,7 @@ function Room(props) {
             </div>
           </div> */}
           <div className="">
-            <button className="flex bg-transparent hover:bg-gray-200 mt-1 text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600">
+            <button onClick={() => setSliderOpen(true)} className="flex bg-transparent hover:bg-gray-200 mt-1 text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600">
               <svg width="22" height="22" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M13 14.562C14.3906 14.562 15.75 14.1496 16.9062 13.3771C18.0625 12.6045 18.9636 11.5064 19.4958 10.2216C20.028 8.9369 20.1672 7.5232 19.8959 6.15932C19.6246 4.79544 18.955 3.54263 17.9717 2.55933C16.9884 1.57603 15.7356 0.906391 14.3717 0.635098C13.0078 0.363805 11.5941 0.503043 10.3094 1.0352C9.02461 1.56736 7.92651 2.46854 7.15394 3.62478C6.38136 4.78103 5.969 6.1404 5.969 7.531C5.96953 9.39557 6.71046 11.1836 8.02892 12.5021C9.34737 13.8205 11.1354 14.5615 13 14.562ZM19.25 16.125H16.56C15.4439 16.6397 14.2295 16.9062 13.0005 16.9062C11.7715 16.9062 10.5571 16.6397 9.441 16.125H6.75C5.0924 16.125 3.50269 16.7835 2.33058 17.9556C1.15848 19.1277 0.5 20.7174 0.5 22.375L0.5 23.156C0.5 23.7777 0.746956 24.3739 1.18654 24.8135C1.62613 25.253 2.22233 25.5 2.844 25.5H23.156C23.7777 25.5 24.3739 25.253 24.8135 24.8135C25.253 24.3739 25.5 23.7777 25.5 23.156V22.375C25.5 20.7174 24.8415 19.1277 23.6694 17.9556C22.4973 16.7835 20.9076 16.125 19.25 16.125Z" fill="black" />
               </svg>
@@ -556,7 +604,7 @@ function Room(props) {
             {!inAudio &&
               <button
                 // className="btn btn-primary"
-              className={"flex bg-transparent hover:bg-gray-200  text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600 mt-1"}
+                className={"flex bg-transparent hover:bg-gray-200  text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600 mt-1"}
                 onClick={() => setInAudio(!inAudio)}
               >
                 {/* {inAudio ? "Leave Audio" : "Join Audio"} Room */}
@@ -672,7 +720,7 @@ function Room(props) {
                           >
                             {languages.map((lang, index) => {
                               return (
-                                <option key={index} value={lang}  selected={lang === language}>
+                                <option key={index} value={lang} selected={lang === language}>
                                   {lang}
                                 </option>
                               );
@@ -697,7 +745,7 @@ function Room(props) {
                           >
                             {themes.map((theme, index) => {
                               return (
-                                <option  key={index} value={theme}>
+                                <option key={index} value={theme}>
                                   {theme}
                                 </option>
                               );
@@ -850,15 +898,24 @@ function Room(props) {
               <Whiteboard
                 editorState={editorState}
                 setEditorState={setEditorState}
-                onEditorStateChange={onEditorStateChange} />
+                onEditorStateChange={onEditorStateChange}
+                roomTitle={roomTitle}
+                setOpenChat={chatOpenHandler}
+                activeUserInRoom={activeUserInRoom.length}
+              />
             </div>
+            <Message
+              openChat={openChat}
+              setOpenChat={setOpenChat}
+              msgs={msgs}
+              setMsg={setMsg}
+              msg={msg}
+              SendMessage={SendMessage}
+              user={user}
+              roomTitle={roomTitle}
+
+            />
           </div>
-          {/* <div className="mt-5 ml-5 mr-5 h-32	">
-            <Draft
-              editorState={editorState}
-              setEditorState={setEditorState}
-              onEditorStateChange={onEditorStateChange} />
-          </div> */}
         </div>
 
       </div>
