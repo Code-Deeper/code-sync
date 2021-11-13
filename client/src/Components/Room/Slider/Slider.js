@@ -1,18 +1,11 @@
-import { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-// import { XIcon } from '@heroicons/react/outline'
 import { Avatar } from "@mui/material";
-let user;
-
-export default function Example() {
-    const [open, setOpen] = useState(false)
-
+const Slider = ({  sliderOpen, setSliderOpen, activeUserInRoom}) => {
     return (
         <div>
-            <button onClick={() => setOpen(true)}> Open From Here </button>
-
-            <Transition.Root show={open} as={Fragment}>
-                <Dialog as="div" className="fixed inset-0 overflow-hidden" onClose={setOpen}>
+            <Transition.Root show={sliderOpen} as={Fragment}>
+                <Dialog as="div" className="fixed inset-0 overflow-hidden" onClose={setSliderOpen}>
                     <div className="absolute inset-0 overflow-hidden">
                         <Transition.Child
                             as={Fragment}
@@ -49,10 +42,10 @@ export default function Example() {
                                             <button
                                                 type="button"
                                                 className="rounded-md text-gray-500 	 hover:text-white focus:outline-none focus:ring-2 focus:ring-grey-100"
-                                                onClick={() => setOpen(false)}
+                                                onClick={() => setSliderOpen(false)}
                                             >
                                                 <span className="sr-only">Close panel</span>
-                                               <img src='/image/icons/close.svg' alt='x' />
+                                                <img src='/image/icons/close.svg' alt='x' />
                                             </button>
                                         </div>
                                     </Transition.Child>
@@ -61,12 +54,19 @@ export default function Example() {
                                             <Dialog.Title className="text-lg font-medium text-gray-900">🚀 Users In Room 🤘</Dialog.Title>
                                         </div>
                                         <div className="mt-2 relative flex-1 px-4 sm:px-6 overflow-y-scroll ">
-                                            <div className=" w-96	">
-                                                <div className='ml-2 mr-2 mt-6 rounded-lg bg-gray-900 text-gray-100 pt-2 pb-2 pl-4 	 flex w-full drop-shadow-md	'>
-                                                    <Avatar className="  float-left" src={user?.result?.imageUrl} name={user?.result?.name} alt={user?.result?.name || "codesync"}></Avatar>
-                                                    <h2 className='ml-3 mt-1 text-lg'>Vivekkumar Javiya</h2>
+                                            {activeUserInRoom && activeUserInRoom.map((user) =>
+                                                <div className=" w-96	">
+                                                    <div className='ml-2 mr-2 mt-6 rounded-lg bg-gray-900 text-gray-100 pt-2 pb-2 pl-4 	 flex w-full drop-shadow-md	'>
+                                                        <Avatar className="  float-left" src={user?.userImg} name={user?.name} alt={user?.room || "codesync"}></Avatar>
+                                                        <h2 className='ml-3 mt-1 text-lg'>{user.name}</h2>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            
+                                            )}
+                                            
+                                            
+                                            
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -78,3 +78,5 @@ export default function Example() {
         </div>
     )
 }
+
+export default Slider

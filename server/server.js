@@ -54,8 +54,13 @@ io.on('connection', (socket) => {
 
     socket.emit('message', { user: "Admin", text: `${userName}, Welcome to room ${roomId}` })
     socket.broadcast.to(roomId).emit('message', { user: "Admin", text: `${userName} has joined room!`, userImg: "zz" });
-
+    
     socket.join(roomId);
+
+    let users = getUsersInRoom(roomId)
+    console.log("users", users)
+    io.to(roomId).emit('numberOfUser', users);
+
     callback();
 
   });
@@ -63,6 +68,7 @@ io.on('connection', (socket) => {
     const user = getUser(socket.id);
     io.to(roomId).emit('message', { user: user.name, userImg: user.userImg, text: message })
   })
+  
   socket.on('canvas-data', (data) => {
     socket.broadcast.emit('canvas-data', data);
 
@@ -83,7 +89,7 @@ io.on('connection', (socket) => {
   socket.on('updateRichText', ({ value, roomId }) => {
     socket.broadcast.to(roomId).emit('updateRichText', value);
   });
-
+  
   socket.on('joinAudioRoom', (roomId, userId) => {
     console.log({ roomId, userId });
     socket.broadcast.to(roomId).emit('userJoinedAudio', userId);
@@ -94,6 +100,9 @@ io.on('connection', (socket) => {
   });
   socket.on('disconnect', ({ userName }) => {
     const user = removeUser(userName)
+    let users = getUsersInRoom(roomId)
+    console.log("users", users)
+    io.to(roomId).emit('numberOfUser', users);
     console.log("User disconnect", user);
   })
 });
