@@ -47,7 +47,7 @@
   },
   "scripts": {
     "start": "TAILWIND_MODE=watch craco start",
-    "build": "CI = craco build",
+    "build": "craco build",
     "test": "craco test"
   },
   "eslintConfig": {
