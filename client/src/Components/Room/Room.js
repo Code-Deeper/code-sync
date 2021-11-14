@@ -520,7 +520,7 @@ function Room(props) {
   }, [language]);
   return (
     <>
-      <Slider  sliderOpen={sliderOpen} setSliderOpen={setSliderOpen} activeUserInRoom={activeUserInRoom} />
+     
       <div style={{ margin: 0, height: "100%", overflow: "hidden" }}>
         {/* className=" row container-fluid text-center justify-content-center" */}
         <div className=" flex flex-row justify-content-center">
@@ -584,6 +584,10 @@ function Room(props) {
               </select>
             </div>
           </div> */}
+          <div>
+            <img src='/image/icons/CodeSync-type-logo.svg' style={{width: '70px', height: '70px'}} />
+
+          </div>
           <div className="">
             <button onClick={() => setSliderOpen(true)} className="flex bg-transparent hover:bg-gray-200 mt-1 text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600">
               <svg width="22" height="22" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -809,7 +813,10 @@ function Room(props) {
                     <div className="ide-bottom-left">
                       <ul>
                         <li>
-                          <button>
+                          <button onClick={() => {
+                            navigator.clipboard.writeText(roomBody);
+                            toast.success(`🔥 Code has been Copied 🔥`)
+                          }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20.731" height="23.693" viewBox="0 0 20.731 23.693">
                               <path id="Icon_awesome-copy" data-name="Icon awesome-copy" d="M14.808,20.731v1.851A1.111,1.111,0,0,1,13.7,23.693H1.111A1.111,1.111,0,0,1,0,22.582V5.553A1.111,1.111,0,0,1,1.111,4.442H4.442v13.7a2.594,2.594,0,0,0,2.591,2.591Zm0-15.918V0H7.034A1.111,1.111,0,0,0,5.923,1.111V18.14A1.111,1.111,0,0,0,7.034,19.25H19.62a1.111,1.111,0,0,0,1.111-1.111V5.923H15.918A1.114,1.114,0,0,1,14.808,4.813Zm5.6-1.436L17.354.325A1.111,1.111,0,0,0,16.569,0h-.28V4.442h4.442v-.28a1.111,1.111,0,0,0-.325-.785Z" fill="#828282" />
                             </svg>
@@ -919,6 +926,7 @@ function Room(props) {
         </div>
 
       </div>
+      <Slider sliderOpen={sliderOpen} setSliderOpen={setSliderOpen} activeUserInRoom={activeUserInRoom} />
       <ToastContainer />
     </>
   );
