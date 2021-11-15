@@ -21,6 +21,10 @@ import faCode from "@fortawesome/fontawesome-free"
 import AXIOS from "../../API";
 import Message from "./Message/Message";
 import Slider from './Slider/Slider'
+import Bounce from "react-activity/dist/Bounce";
+import "react-activity/dist/Bounce.css";
+import Loader from 'react-loader-advanced';
+
 var myPeer = Peer;
 var audios = {};
 var peers = {};
@@ -93,6 +97,7 @@ function Room(props) {
   const [msgs, setMsgs] = useState([])
   const [msg, setMsg] = useState('')
   const [activeUserInRoom, setActiveUserInRoom] = useState([]);
+  const [loader,setLoader] = useState(false);
   // Draft
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
@@ -113,9 +118,9 @@ function Room(props) {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // useEffect(() => {
-
-  // },[])
+  useEffect(() => {
+    console.log({ loader})
+  }, [loader])
   useEffect(() => {
     localStorage.setItem("language", language);
   }, [language]);
@@ -125,6 +130,7 @@ function Room(props) {
     console.log(editorState);
   }, [editorState])
   useEffect(() => {
+    
     socket.on("updateBody", (roomBody) => {
       console.log("we", roomBody);
       setRoomBody(roomBody);
@@ -156,12 +162,12 @@ function Room(props) {
       console.log({ users });
       setActiveUserInRoom(users)
     })
-    
+    setLoader(true);
     
     const { id } = props.match.params;
     setRoomId(id);
-    socket.emit("joinroom", { roomId: id, userName: user.result.familyName, userImg: user.result.imageUrl }, () => {
-      console.log("Joined room")
+    socket.emit("joinroom", { roomId: id, userName: user.result.familyName || user.result.name, userImg: user.result.imageUrl || user.result.name }, (err) => {
+      console.log(err)
     });
     
     // console.log({ user})
@@ -180,11 +186,10 @@ function Room(props) {
       // @edge case for value empty
       if (language) setLanguage(room_language);
       if (room_body) setRoomBody(room_body);
-
+      setLoader(false)
       // console.log('Room Data '+ data.room_body);
     };
-    fetchData();
-
+     fetchData();
     return () => {
       console.log("called");
       socket.off("updateBody", (roomBody) => {
@@ -238,6 +243,7 @@ function Room(props) {
   };
 
   const submitHandler = () => {
+    setLoader(true)
     if (submissionState === runningState) return;
     setSubmissionState(runningState);
 
@@ -261,6 +267,7 @@ function Room(props) {
       .catch((err) => {
         console.log("handler error");
         setSubmissionState(errorState);
+        // setLoader(false)
         return;
       });
     let language_code = parseInt(GiveMeLanguageCode(language));
@@ -314,9 +321,11 @@ function Room(props) {
                 socket.emit("updateOutput", { value: decoded, roomId: roomId });
                 setOutput(decoded);
               }
+              setLoader(false)
               setSubmissionState("DONE");
             })
             .catch(function (err) {
+              setLoader(false)
               console.error(err);
               setSubmissionState(err);
             });
@@ -324,8 +333,11 @@ function Room(props) {
       })
       .catch(function (error) {
         console.error(error);
+        setLoader(false)
         setSubmissionState(error);
       });
+    
+    
   };
 
   const handleUpdateBody = (value) => {
@@ -519,7 +531,9 @@ function Room(props) {
     console.log(language);
   }, [language]);
   return (
-    <>
+    <Loader show={loader} message={<div className="">
+      <Bounce size={55} />
+    </div>}>
      
       <div style={{ margin: 0, height: "100%", overflow: "hidden" }}>
         {/* className=" row container-fluid text-center justify-content-center" */}
@@ -928,7 +942,7 @@ function Room(props) {
       </div>
       <Slider sliderOpen={sliderOpen} setSliderOpen={setSliderOpen} activeUserInRoom={activeUserInRoom} />
       <ToastContainer />
-    </>
+    </Loader>
   );
 }
 

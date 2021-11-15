@@ -1,14 +1,9 @@
 import React from 'react'
-import './trail.css'
-import Bounce from "react-activity/dist/Bounce";
-import "react-activity/dist/Bounce.css";
-import Loader from 'react-loader-advanced';
 
-function trial() {
+function LandingPage() {
     return (
         <>
-
-            <div class="w-full px-6 pb-12 antialiased bg-white">
+            <div class="w-full px-6 pb-12 antialiased bg-white mt-32	">
                 <div class="mx-auto max-w-7xl">
                     <div class="container max-w-lg px-4 py-32 mx-auto text-left md:max-w-none md:text-center">
                         <h1 class="text-5xl font-extrabold leading-10 tracking-tight text-left text-gray-900 md:text-center sm:leading-none md:text-6xl lg:text-7xl"><span class="inline md:block">Start Crafting Your</span> <span class="relative mt-2 text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 to-indigo-500 md:inline-block">Next Great Idea</span></h1>
@@ -84,10 +79,10 @@ function trial() {
                 </div>
             </div>
 
-            <div class="text-gray-700 bg-white body-font">
+            <div class="text-gray-700 bg-white body-font mt-32">
                 <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
-                    <a href="#_" class="text-xl font-black leading-none text-gray-900 select-none logo">tails<span class="text-indigo-600">.</span></a>
-                    <p class="mt-4 text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l sm:border-gray-200 sm:mt-0">© 2021 Tails - Tailwindcss Page Builder
+                    <a href="#_" class="text-xl font-black leading-none text-gray-900 select-none logo">CodeSync<span class="text-indigo-600">.</span></a>
+                    <p class="mt-4 text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l sm:border-gray-200 sm:mt-0">© 2021 CodeSync , CodeDeeper 
                     </p>
                     <span class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start">
                         <a href="#" class="text-gray-400 hover:text-gray-500">
@@ -132,4 +127,4 @@ function trial() {
     )
 }
 
-export default trial
+export default LandingPage

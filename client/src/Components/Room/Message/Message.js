@@ -25,7 +25,7 @@ function Message({ openChat, setOpenChat, msgs, setMsg, msg, SendMessage, user, 
 
                     <div className="flex flex-col bg-gray-200 px-2 chat-services expand overflow-auto" style={{ minHeight: "350px" }}>
                         {msgs.map((msg) => {
-                            if (msg.user.toLowerCase() === user.result.familyName.toLowerCase()) {
+                            if (msg.user.toLowerCase() === user?.result?.familyName?.toLowerCase() || msg.user.toLowerCase() === user?.result?.name?.toLowerCase() ) {
                                 return (
 
                                     <div className="message bg-green-200	 self-end text-white p-2  my-2 rounded-md shadow ml-3">
