@@ -33,9 +33,14 @@ app.use(
 // Controllers
 
 // app.options('*', cors());
-app.get("/", (req, res) => {
-  res.send("API IS RUNNING")
-})
+router.get('/', function (req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+  res.setHeader('Access-Control-Allow-Credentials', true); // If needed
+
+  res.send('cors problem fixed:)');
+});
 app.use('/api/room/', require('./routes/room.route'));
 app.use('/api/user/', require('./routes/user.route'));
 
