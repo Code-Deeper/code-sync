@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: ['https://code-sync.vercel.app/'],
+    origin: ['http://localhost:3000'],
     // methods: ["GET", "POST", "PUT", "PATCH"]
   })
 );
