@@ -27,11 +27,12 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
+    origin: '*',
   })
 );
 // Controllers
 
-app.options('*', cors());
+// app.options('*', cors());
 app.get("/", (req, res) => {
   res.send("API IS RUNNING")
 })
