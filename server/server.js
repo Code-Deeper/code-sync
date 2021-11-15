@@ -27,20 +27,14 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: '*',
+    origin: ['http://localhost:3000'],
+    // methods: ["GET", "POST", "PUT", "PATCH"]
   })
 );
 // Controllers
-
-// app.options('*', cors());
-router.get('/', function (req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
-  res.setHeader('Access-Control-Allow-Credentials', true); // If needed
-
-  res.send('cors problem fixed:)');
-});
+app.get("/", (req, res) => {
+  res.send("API IS RUNNING")
+})
 app.use('/api/room/', require('./routes/room.route'));
 app.use('/api/user/', require('./routes/user.route'));
 
@@ -61,7 +55,7 @@ io.on('connection', (socket) => {
 
     socket.emit('message', { user: "Admin", text: `${userName}, Welcome to room ${roomId}` })
     socket.broadcast.to(roomId).emit('message', { user: "Admin", text: `${userName} has joined room!`, userImg: "zz" });
-    
+
     socket.join(roomId);
 
     let users = getUsersInRoom(roomId)
@@ -75,7 +69,7 @@ io.on('connection', (socket) => {
     const user = getUser(socket.id);
     io.to(roomId).emit('message', { user: user.name, userImg: user.userImg, text: message })
   })
-  
+
   socket.on('canvas-data', (data) => {
     socket.broadcast.emit('canvas-data', data);
 
@@ -96,7 +90,7 @@ io.on('connection', (socket) => {
   socket.on('updateRichText', ({ value, roomId }) => {
     socket.broadcast.to(roomId).emit('updateRichText', value);
   });
-  
+
   socket.on('joinAudioRoom', (roomId, userId) => {
     console.log({ roomId, userId });
     socket.broadcast.to(roomId).emit('userJoinedAudio', userId);
