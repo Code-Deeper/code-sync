@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:3000']
+    origin: [process.env.FRONTEND_URL]
   })
 );
 // Controllers
@@ -42,7 +42,7 @@ const { Server, Socket } = require('socket.io');
 const { addUser, getUser, getUsersInRoom, removeUser } = require('./socket.user');
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: process.env.FRONTEND_URL,
     // methods: ["GET", "POST","PUT","PATCH"]
   }
 });
@@ -100,9 +100,9 @@ io.on('connection', (socket) => {
   });
   socket.on('disconnect', ({ userName }) => {
     const user = removeUser(userName)
-    let users = getUsersInRoom(roomId)
-    console.log("users", users)
-    io.to(roomId).emit('numberOfUser', users);
+    // let users = getUsersInRoom(roomId)
+    // console.log("users", users)
+    // io.to(roomId).emit('numberOfUser', users);
     console.log("User disconnect", user);
   })
 });
