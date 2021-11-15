@@ -27,7 +27,6 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: ['*']
   })
 );
 // Controllers
@@ -42,7 +41,7 @@ const { Server, Socket } = require('socket.io');
 const { addUser, getUser, getUsersInRoom, removeUser } = require('./socket.user');
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    // origin: '*',
     // methods: ["GET", "POST","PUT","PATCH"]
   }
 });
