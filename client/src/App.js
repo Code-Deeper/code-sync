@@ -13,6 +13,7 @@ import Register from './Components/Auth/Register/Register';
 import Cookies from 'universal-cookie';
 import ProtectedRoute from './Protected'
 import Trial from './trial';
+import NotFound from './Components/NotFound/NotFound';
 const cookies = new Cookies();
 const history = createBrowserHistory();
 
@@ -39,7 +40,6 @@ function App() {
       <Route path='/newRoom' render={(props) => isAuthenticated ? <CreateRoom {...props} /> : <Redirect to="/login" />} exact />
       <Route path='/editor' render={Editor} exact />
       <Route path='/trial' render={(props) => <Trial {...props} />} exact />
-
     </Router>
   );
 }

@@ -34,13 +34,6 @@ function LoginPage(props) {
     const [redComp, setRedComp] = useState(false);
     const [loader, setLoader] = useState(false);
 
-    // useEffect(() => {
-
-    //     const isAuthenticated = JSON.parse(localStorage.getItem('authUser'))?.token
-    //     if (isAuthenticated) {
-    //         history.push("/room");
-    //     }
-    // }, [props])
     useEffect(() => {
         console.log(redComp)
         if (redComp) {
@@ -72,14 +65,14 @@ function LoginPage(props) {
     const googleSuccess = async (res) => {
         // TODO:
         console.log(res)
-        setLoader(true);
+        // setLoader(true);
 
         const result = res?.profileObj
         const token = res?.tokenId
 
         try {
             dispatch(addUser({ result, token }))
-            setLoader(false);
+            // setLoader(false);
             history.push('/room')
             window.location.reload();
         } catch (err) {
@@ -90,7 +83,7 @@ function LoginPage(props) {
         console.log({formData})
     }, [formData])
     const googleFailure = (res) => {
-        // TODO:
+        // TODO: Toast Message
         console.log('Failed while google login!!!')
     }
 
@@ -98,70 +91,6 @@ function LoginPage(props) {
         <Loader  show={loader} message={<div className="">
             <Bounce size={55} />
         </div>}>
-            {/* <div className="login-container">
-                <form onSubmit={submitHandler}>
-                    <Grid container spacing={2}>
-                        <Input
-                            name="email"
-                            label='Email Address'
-                            handleChange={handleChange}
-                            type="email"
-
-                        />
-                        <Input
-                            name="password"
-                            label='Password'
-                            handleChange={handleChange}
-                            type={showPassword ? 'text' : 'password'}
-                            handleShowPassword={handleShowPassword}
-                        />
-                        <div className="submit-buttons">
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-
-                            >
-                                Log In
-                            </Button>
-                            <div className='google-button'>
-                                <GoogleLogin
-
-                                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_API_KEY}
-                                    render={
-                                        (renderProps) => (
-                                            <>
-                                                <Button
-                                                    className='google-button'
-                                                    color="primary"
-                                                    fullWidth
-                                                    onClick={renderProps.onClick}
-                                                    disabled={renderProps.disabled}
-                                                    startIcon={<Icon />}
-                                                    variant="contained"
-                                                >
-                                                    Google
-                                                </Button>
-                                            </>
-                                        )
-                                    }
-                                    onSuccess={googleSuccess}
-                                    onFailure={googleFailure}
-                                    cookiePolicy={'single_host_origin'}
-
-                                />
-                            </div>
-
-                        </div>
-
-
-                    </Grid>
-
-                    <div> Havn't account !! <Link to='/register'>Register Here</Link></div>
-                </form>
-
-            </div> */}
             <form onSubmit={submitHandler}>
                 < div class="min-w-screen min-h-screen bg-indigo-200 flex items-center justify-center px-5 py-5" >
                     <div class="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden" style={{ maxWidth: "1000px" }} >
