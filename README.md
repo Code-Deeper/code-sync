@@ -3,5 +3,5 @@
 ### ⚠️ Project Under Construction 🚸
 
 - Currunt Look
-- 
-   ![](https://github.com/Code-Deeper/code-sync/blob/main/codesync.png)
+ 
+   ![](https://github.com/Code-Deeper/media-repo/blob/main/tourvideo.gif)
