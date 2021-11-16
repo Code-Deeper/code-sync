@@ -48,11 +48,16 @@ const io = new Server(server, {
   }
 });
 io.on('connection', (socket) => {
+  let CentralRoomId = 0;
+  let CentralUserName = "";
+  let UserIdForRemove = '';
   socket.on('joinroom', async ({ roomId, userName, userImg }, callback) => {
     console.log("Join ROom")
     const { error, user } = await addUser({ id: socket.id, name: userName, room: roomId, userImg });
     if (error) return callback(error);
-
+    CentralRoomId = roomId;
+    CentralUserName = userName
+    UserIdForRemove = socket.id;
     socket.emit('message', { user: "Admin", text: `${userName}, Welcome to room ${roomId}` })
     socket.broadcast.to(roomId).emit('message', { user: "Admin", text: `${userName} has joined room!`, userImg: "zz" });
 
@@ -100,10 +105,10 @@ io.on('connection', (socket) => {
     });
   });
   socket.on('disconnect', ({ userName }) => {
-    const user = removeUser(userName)
-    // let users = getUsersInRoom(roomId)
-    // console.log("users", users)
-    // io.to(roomId).emit('numberOfUser', users);
+    const user = removeUser(UserIdForRemove)
+    let users = getUsersInRoom(CentralRoomId)
+    console.log("users", users)
+    io.to(CentralRoomId).emit('numberOfUser', users);
     console.log("User disconnect", user);
   })
 });

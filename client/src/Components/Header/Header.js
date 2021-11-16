@@ -11,6 +11,8 @@ import { removeUser } from "../../Action/UserAction";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AXIOS from "../../API";
+// import './Header.css';
+
 function Header(props) {
   const history = useHistory(props);
   const location = useLocation();
@@ -207,7 +209,8 @@ function Header(props) {
             )}
           </Transition>
         </nav>
-        <div>
+        <div className='component-of-room-page'  >
+          {/* <img src= /> */}
           <div>
             <section
               className="absolute transform -translate-x-1/2 -translate-y-1/2 bg-gray-400 h-96 w-80 rounded-2xl rotate-3 top-1/2 left-1/2"

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import Avatar from 'react-avatar';
 import { useHistory } from 'react-router-dom'
 import { Transition } from "@headlessui/react";
+import LandingPage from './LandingPage';
 
 const submitHandler = (e) => {
     e.preventDefault()
@@ -198,6 +199,7 @@ function FrontPage(props) {
                     )}
                 </Transition>
             </nav>
+            <LandingPage />
         </div>
     )
 }

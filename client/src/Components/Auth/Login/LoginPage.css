@@ -18,14 +18,14 @@
 }
 
 .google-btn {
-    background: #3b82f6 !important;
+     background-color: rgba(99, 102, 241, 1) !important;
 color: #fff !important;
-width: 88% !important;
+width: 100% !important;
 margin: 0 auto !important;
 padding: 12px 0 !important;
 border-radius: 7px !important;
 }
 
 .google-btn:hover{
-    background: rgb(29, 78, 216) !important;
+    background-color: rgba(67, 56, 202) !important;
 }
