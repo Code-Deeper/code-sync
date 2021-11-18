@@ -54,11 +54,9 @@ export const loginUser = (formData, push) =>
         }
     }
 
-export const registerUser = (formData, history) =>
+export const registerUser = (data, history) =>
     async dispatch => {
         try {
-            const { data } = await AXIOS.post('/api/user/register', formData);
-            console.log({data})
             dispatch({
                 type: AUTHORIZATION,
                 payload: data

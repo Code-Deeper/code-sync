@@ -15,6 +15,14 @@ const User = mongoose.model("User", {
     },
     id: {
         type: "String",
+    },
+    googleLogin: {
+        type: "Boolean",
+        default: false,
+    },
+    imageUrl: {
+        type: "String",
+        
     }
 }); 
 

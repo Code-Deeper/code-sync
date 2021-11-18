@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  backend:
+    env_file:
+        ".env"
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: "codesync-backend-trial"
+    ports:
+      - "8080:8080"
+  frontend:
+    env_file:
+      "./client/.env"
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
+    image: "codesync-frontend-trial"
+    ports:
+      - "3000:3000"
+    links:
+      - "backend:be"
