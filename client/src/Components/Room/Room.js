@@ -24,7 +24,7 @@ import Slider from './Slider/Slider'
 import Bounce from "react-activity/dist/Bounce";
 import "react-activity/dist/Bounce.css";
 import Loader from 'react-loader-advanced';
-
+import { FaTimes } from "react-icons/fa";
 var myPeer = Peer;
 var audios = {};
 var peers = {};
@@ -97,7 +97,7 @@ function Room(props) {
   const [msgs, setMsgs] = useState([])
   const [msg, setMsg] = useState('')
   const [activeUserInRoom, setActiveUserInRoom] = useState([]);
-  const [loader,setLoader] = useState(false);
+  const [loader, setLoader] = useState(false);
   // Draft
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
@@ -119,7 +119,7 @@ function Room(props) {
   }, [theme]);
 
   useEffect(() => {
-    console.log({ loader})
+    console.log({ loader })
   }, [loader])
   useEffect(() => {
     localStorage.setItem("language", language);
@@ -130,7 +130,7 @@ function Room(props) {
     console.log(editorState);
   }, [editorState])
   useEffect(() => {
-    
+
     socket.on("updateBody", (roomBody) => {
       console.log("we", roomBody);
       setRoomBody(roomBody);
@@ -163,13 +163,13 @@ function Room(props) {
       setActiveUserInRoom(users)
     })
     setLoader(true);
-    
+
     const { id } = props.match.params;
     setRoomId(id);
     socket.emit("joinroom", { roomId: id, userName: user.result.familyName || user.result.name, userImg: user.result.imageUrl || user.result.name }, (err) => {
       console.log(err)
     });
-    
+
     // console.log({ user})
     const url = `/api/room/${id}`;
     const fetchData = async () => {
@@ -189,7 +189,7 @@ function Room(props) {
       setLoader(false)
       // console.log('Room Data '+ data.room_body);
     };
-     fetchData();
+    fetchData();
     return () => {
       console.log("called");
       socket.off("updateBody", (roomBody) => {
@@ -217,9 +217,9 @@ function Room(props) {
   useEffect(() => {
     setInAudio(false);
   }, [roomId]);
-  
+
   useEffect(() => {
-    console.log({ activeUserInRoom})
+    console.log({ activeUserInRoom })
   }, [activeUserInRoom])
 
   const GiveMeLanguageCode = () => {
@@ -336,8 +336,8 @@ function Room(props) {
         setLoader(false)
         setSubmissionState(error);
       });
-    
-    
+
+
   };
 
   const handleUpdateBody = (value) => {
@@ -534,126 +534,62 @@ function Room(props) {
     <Loader show={loader} message={<div className="">
       <Bounce size={55} />
     </div>}>
-     
+
       <div style={{ margin: 0, height: "100%", overflow: "hidden" }}>
-        {/* className=" row container-fluid text-center justify-content-center" */}
         <div className=" flex flex-row justify-content-center">
-          {/* <div className="ml-2 mt-3">
-            <div className="relative inline-flex">
-              <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero" /></svg>
 
-              <select
-                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-gray-100 hover:border-gray-400 focus:outline-none appearance-none"
-                defaultValue={language}
-                onChange={handleLanguage}
-              >
-                {languages.map((lang, index) => {
-                  return (
-                    <option key={index} value={lang} selected={lang === language}>
-                      {lang}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          </div> */}
-          {/* <div className="ml-2 mt-3">
-            <div className="relative inline-flex">
-              <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero" /></svg>
 
-              <select
-                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-gray-100 hover:border-gray-400 focus:outline-none appearance-none"
-                defaultValue={theme}
-                onChange={(event) => {
-                  setTheme(event.target.value)
-                  toast.success(`🚀 Theme changed to ${event.target.value} 🚀`)
-                }}
-              >
-                {themes.map((theme, index) => {
-                  return (
-                    <option key={index} value={theme}>
-                      {theme}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          </div> */}
-          {/* <div className="ml-2 mt-3">
-            <div className="relative inline-flex">
-              <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero" /></svg>
 
-              <select
-                className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-gray-100 hover:border-gray-400 focus:outline-none appearance-none"
-                defaultValue={fontSize}
-                onChange={(event) => setFontSize(event.target.value)}
-              >
-                {fontSizes.map((fontSize, index) => {
-                  return (
-                    <option key={index} value={fontSize}>
-                      {fontSize}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          </div> */}
           <div>
-            <img src='/image/icons/CodeSync-type-logo.svg' style={{width: '70px', height: '70px'}} />
+            <img src='/image/codesynclogo.png' style={{ width: "50%" ,marginTop: "4%" , marginRight: "5%"}} />
 
           </div>
-          <div className="">
-            <button onClick={() => setSliderOpen(true)} className="flex bg-transparent hover:bg-gray-200 mt-1 text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600">
-              <svg width="22" height="22" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13 14.562C14.3906 14.562 15.75 14.1496 16.9062 13.3771C18.0625 12.6045 18.9636 11.5064 19.4958 10.2216C20.028 8.9369 20.1672 7.5232 19.8959 6.15932C19.6246 4.79544 18.955 3.54263 17.9717 2.55933C16.9884 1.57603 15.7356 0.906391 14.3717 0.635098C13.0078 0.363805 11.5941 0.503043 10.3094 1.0352C9.02461 1.56736 7.92651 2.46854 7.15394 3.62478C6.38136 4.78103 5.969 6.1404 5.969 7.531C5.96953 9.39557 6.71046 11.1836 8.02892 12.5021C9.34737 13.8205 11.1354 14.5615 13 14.562ZM19.25 16.125H16.56C15.4439 16.6397 14.2295 16.9062 13.0005 16.9062C11.7715 16.9062 10.5571 16.6397 9.441 16.125H6.75C5.0924 16.125 3.50269 16.7835 2.33058 17.9556C1.15848 19.1277 0.5 20.7174 0.5 22.375L0.5 23.156C0.5 23.7777 0.746956 24.3739 1.18654 24.8135C1.62613 25.253 2.22233 25.5 2.844 25.5H23.156C23.7777 25.5 24.3739 25.253 24.8135 24.8135C25.253 24.3739 25.5 23.7777 25.5 23.156V22.375C25.5 20.7174 24.8415 19.1277 23.6694 17.9556C22.4973 16.7835 20.9076 16.125 19.25 16.125Z" fill="black" />
-              </svg>
-              <span className='ml-1'>Join People </span>
-            </button>
-          </div>
-          <div className=" ml-2">
-            {/* <br /> */}
-            {/* <button
-            className="btn btn-primary"
-            onClick={submitHandler}
-            disabled={submissionState === runningState}
-          >
-            Save and Run
-          </button> */}
-            {!inAudio &&
-              <button
-                // className="btn btn-primary"
-                className={"flex bg-transparent hover:bg-gray-200  text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600 mt-1"}
-                onClick={() => setInAudio(!inAudio)}
-              >
-                {/* {inAudio ? "Leave Audio" : "Join Audio"} Room */}
-                {!inAudio && <span className='flex'><MdRecordVoiceOver style={{ width: "22px", height: "22px" }} /> Join Audio</span>}
-              </button>
-            }
-          </div>
-          {inAudio ? (
-            <div className="ml-2 flex">
-              <button
-                // className="btn btn-primary"
-                className={`${inAudio ? "bg-gray-300 hover:bg-gray-100" : "bg-gray-300 hover:bg-gray-100 "}text-white-100 font-bold py-2 px-4 rounded mt-3`}
-                onClick={() => setInAudio(!inAudio)}
-              >
-                <span><svg width="22" height="22" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M24 2.47339e-06C19.2533 2.47339e-06 14.6131 1.40758 10.6663 4.04473C6.71954 6.68189 3.64341 10.4302 1.8269 14.8156C0.010399 19.201 -0.464881 24.0266 0.461164 28.6822C1.38721 33.3377 3.67299 37.6141 7.02945 40.9706C10.3859 44.327 14.6623 46.6128 19.3178 47.5388C23.9734 48.4649 28.799 47.9896 33.1844 46.1731C37.5698 44.3566 41.3181 41.2805 43.9553 37.3337C46.5924 33.3869 48 28.7468 48 24C48.0029 20.8475 47.3841 17.7253 46.179 14.8122C44.9739 11.8991 43.2062 9.25217 40.977 7.02299C38.7478 4.7938 36.101 3.02609 33.1878 1.821C30.2747 0.615912 27.1525 -0.00289133 24 2.47339e-06ZM36 32.616L32.616 36L24 27.384L15.384 36L12 32.616L20.616 24L12 15.384L15.384 12L24 20.616L32.616 12L36 15.384L27.384 24L36 32.616Z" fill="#FF7171" />
+          <div className=' hidden md:flex items-center justify-end md:flex-1 lg:w-0'>
+            <div className="">
+              <button onClick={() => setSliderOpen(true)} className="flex bg-transparent hover:bg-gray-200 mt-1 text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600">
+                <svg width="18" height="18" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 14.562C14.3906 14.562 15.75 14.1496 16.9062 13.3771C18.0625 12.6045 18.9636 11.5064 19.4958 10.2216C20.028 8.9369 20.1672 7.5232 19.8959 6.15932C19.6246 4.79544 18.955 3.54263 17.9717 2.55933C16.9884 1.57603 15.7356 0.906391 14.3717 0.635098C13.0078 0.363805 11.5941 0.503043 10.3094 1.0352C9.02461 1.56736 7.92651 2.46854 7.15394 3.62478C6.38136 4.78103 5.969 6.1404 5.969 7.531C5.96953 9.39557 6.71046 11.1836 8.02892 12.5021C9.34737 13.8205 11.1354 14.5615 13 14.562ZM19.25 16.125H16.56C15.4439 16.6397 14.2295 16.9062 13.0005 16.9062C11.7715 16.9062 10.5571 16.6397 9.441 16.125H6.75C5.0924 16.125 3.50269 16.7835 2.33058 17.9556C1.15848 19.1277 0.5 20.7174 0.5 22.375L0.5 23.156C0.5 23.7777 0.746956 24.3739 1.18654 24.8135C1.62613 25.253 2.22233 25.5 2.844 25.5H23.156C23.7777 25.5 24.3739 25.253 24.8135 24.8135C25.253 24.3739 25.5 23.7777 25.5 23.156V22.375C25.5 20.7174 24.8415 19.1277 23.6694 17.9556C22.4973 16.7835 20.9076 16.125 19.25 16.125Z" fill="black" />
                 </svg>
-                </span>
-              </button>
-              <button
-                className={`${isMuted ? "bg-red-600 hover:bg-red-300 " : "bg-gray-300 hover:bg-gray-100 "}text-white-100 font-bold py-2 px-4 rounded mt-3`}
-                onClick={() => setIsMuted(!isMuted)}
-              >
-                {isMuted ? <BsFillMicMuteFill style={{ width: "22px", height: "22px" }} /> : <BsFillMicFill style={{ width: "22px", height: "22px" }} />}
+                <span className='ml-1' style={{ fontSize: "14px" }}>Join People </span>
               </button>
             </div>
-          ) : (
-            <div className="form-group col" />
-          )}
-          <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 ">
-            <div className="mr-4">
+            <div className=" ml-2 ">
+
+              {!inAudio &&
+                <button
+                  className={"flex bg-transparent hover:bg-gray-200  text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600 mt-1"}
+                  onClick={() => setInAudio(!inAudio)}
+                >
+                  {!inAudio && <span className='flex' style={{ fontSize: "14px" }}><MdRecordVoiceOver style={{ width: "18px", height: "18px" }} /> Join Audio</span>}
+                </button>
+              }
+            </div>
+            {inAudio ? (
+              <div className="join-audio-btn ">
+                <button
+                  className={`${inAudio ? " hover:bg-gray-100" : " hover:bg-gray-100 "}text-white-100 font-bold  rounded close-audio-btn `}
+                  onClick={() => setInAudio(!inAudio)}
+                >
+                  <FaTimes />
+                  {/* <span><svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 2.47339e-06C19.2533 2.47339e-06 14.6131 1.40758 10.6663 4.04473C6.71954 6.68189 3.64341 10.4302 1.8269 14.8156C0.010399 19.201 -0.464881 24.0266 0.461164 28.6822C1.38721 33.3377 3.67299 37.6141 7.02945 40.9706C10.3859 44.327 14.6623 46.6128 19.3178 47.5388C23.9734 48.4649 28.799 47.9896 33.1844 46.1731C37.5698 44.3566 41.3181 41.2805 43.9553 37.3337C46.5924 33.3869 48 28.7468 48 24C48.0029 20.8475 47.3841 17.7253 46.179 14.8122C44.9739 11.8991 43.2062 9.25217 40.977 7.02299C38.7478 4.7938 36.101 3.02609 33.1878 1.821C30.2747 0.615912 27.1525 -0.00289133 24 2.47339e-06ZM36 32.616L32.616 36L24 27.384L15.384 36L12 32.616L20.616 24L12 15.384L15.384 12L24 20.616L32.616 12L36 15.384L27.384 24L36 32.616Z" fill="#FF7171" />
+                  </svg>
+                  </span> */}
+                </button>
+                <button
+                  className={`${isMuted ? "  " : " "}text-white-100 font-bold py-2 px-4 rounded mic-handler-btn`}
+                  onClick={() => setIsMuted(!isMuted)}
+                >
+                  {isMuted ? <BsFillMicMuteFill style={{ width: "20px", height: "20px" }} /> : <BsFillMicFill style={{ width: "20px", height: "20px" }} />}
+                </button>
+              </div>
+            ) : (
+              <div className="form-group col" />
+            )}
+          </div>
+          <div className="room-button-with-avtar pt-2" >
+            <Avatar className=" float-right mr-4" src={user?.result?.imageUrl} name={user?.result?.name} alt={user?.result?.name || "codesync"}></Avatar>
+            <div className="mr-4  " style={{ float: "right" }}>
               {/* <br /> */}
               <button
                 className="flex bg-transparent hover:bg-gray-200  text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600	 "
@@ -661,12 +597,11 @@ function Room(props) {
                   navigator.clipboard.writeText(`${BaseURL}/room/${roomTitle}`);
                   toast.success(`🔥 Room Link has been Copied 🔥`)
                 }}
-
+              // 
               >
-                <img style={{ width: "22px", height: "22px" }} src='/image/icons/copy.svg' />  <span style={{ marginLeft: "3px" }}>Room Link </span>
+                <img style={{ width: "18px", height: "18px" }} src='/image/icons/copy.svg' />  <span style={{ marginLeft: "3px", fontSize: "14px" }}>Room Link </span>
               </button>
             </div>
-            <Avatar className="mt-2  float-left mr-4" src={user?.result?.imageUrl} name={user?.result?.name} alt={user?.result?.name || "codesync"}></Avatar>
           </div>
           {/* <div className="ml-3 mt-5">
             <label>Status: {submissionState}</label>
@@ -821,44 +756,46 @@ function Room(props) {
                       body={roomBody}
                       setBody={handleUpdateBody}
                       width={"100%"}
-                      height={"54vh"}
+                      height={"47vh"}
                       fontSize={fontSize}
                     />
-                    <div className="ide-bottom-left">
-                      <ul>
-                        <li>
-                          <button onClick={() => {
-                            navigator.clipboard.writeText(roomBody);
-                            toast.success(`🔥 Code has been Copied 🔥`)
-                          }}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20.731" height="23.693" viewBox="0 0 20.731 23.693">
-                              <path id="Icon_awesome-copy" data-name="Icon awesome-copy" d="M14.808,20.731v1.851A1.111,1.111,0,0,1,13.7,23.693H1.111A1.111,1.111,0,0,1,0,22.582V5.553A1.111,1.111,0,0,1,1.111,4.442H4.442v13.7a2.594,2.594,0,0,0,2.591,2.591Zm0-15.918V0H7.034A1.111,1.111,0,0,0,5.923,1.111V18.14A1.111,1.111,0,0,0,7.034,19.25H19.62a1.111,1.111,0,0,0,1.111-1.111V5.923H15.918A1.114,1.114,0,0,1,14.808,4.813Zm5.6-1.436L17.354.325A1.111,1.111,0,0,0,16.569,0h-.28V4.442h4.442v-.28a1.111,1.111,0,0,0-.325-.785Z" fill="#828282" />
-                            </svg>
-                          </button>
-                        </li>
-                        <li>
-                          <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25.385" height="23.693" viewBox="0 0 25.385 23.693">
-                              <path id="Icon_metro-download2" data-name="Icon metro-download2" d="M22.033,14.01l-6.769,6.769L8.494,14.01h4.231V3.856H17.8V14.01Zm-6.769,6.769H2.571v6.769H27.956V20.779Zm11,3.385H22.879V22.472h3.385Z" transform="translate(-2.571 -3.856)" fill="#828282" />
-                            </svg>
-                          </button>
-                        </li>
-                        <li>
-                          <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="17.769" height="19.665" viewBox="0 0 17.769 19.665">
-                              <path id="Icon_material-share" data-name="Icon material-share" d="M19.308,16.9a2.875,2.875,0,0,0-1.935.76l-7.039-4.1a2.732,2.732,0,0,0,0-1.382l6.96-4.057a2.955,2.955,0,1,0-.948-2.162,3.232,3.232,0,0,0,.089.691L9.475,10.71a2.962,2.962,0,1,0,0,4.324L16.5,19.141a2.785,2.785,0,0,0-.079.642A2.883,2.883,0,1,0,19.308,16.9Z" transform="translate(-4.5 -3)" fill="#828282" />
-                            </svg>
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="ide-bottom-run">
-                      <button
-                        onClick={submitHandler}
-                        disabled={submissionState === runningState}
-                      >
-                        Run
-                      </button>
+                    <div className="ide-bot-class">
+                      <div className="ide-bottom-left">
+                        <ul>
+                          <li>
+                            <button onClick={() => {
+                              navigator.clipboard.writeText(roomBody);
+                              toast.success(`🔥 Code has been Copied 🔥`)
+                            }}>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20.731" height="23.693" viewBox="0 0 20.731 23.693">
+                                <path id="Icon_awesome-copy" data-name="Icon awesome-copy" d="M14.808,20.731v1.851A1.111,1.111,0,0,1,13.7,23.693H1.111A1.111,1.111,0,0,1,0,22.582V5.553A1.111,1.111,0,0,1,1.111,4.442H4.442v13.7a2.594,2.594,0,0,0,2.591,2.591Zm0-15.918V0H7.034A1.111,1.111,0,0,0,5.923,1.111V18.14A1.111,1.111,0,0,0,7.034,19.25H19.62a1.111,1.111,0,0,0,1.111-1.111V5.923H15.918A1.114,1.114,0,0,1,14.808,4.813Zm5.6-1.436L17.354.325A1.111,1.111,0,0,0,16.569,0h-.28V4.442h4.442v-.28a1.111,1.111,0,0,0-.325-.785Z" fill="#828282" />
+                              </svg>
+                            </button>
+                          </li>
+                          <li>
+                            <button>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="25.385" height="23.693" viewBox="0 0 25.385 23.693">
+                                <path id="Icon_metro-download2" data-name="Icon metro-download2" d="M22.033,14.01l-6.769,6.769L8.494,14.01h4.231V3.856H17.8V14.01Zm-6.769,6.769H2.571v6.769H27.956V20.779Zm11,3.385H22.879V22.472h3.385Z" transform="translate(-2.571 -3.856)" fill="#828282" />
+                              </svg>
+                            </button>
+                          </li>
+                          <li>
+                            <button>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="17.769" height="19.665" viewBox="0 0 17.769 19.665">
+                                <path id="Icon_material-share" data-name="Icon material-share" d="M19.308,16.9a2.875,2.875,0,0,0-1.935.76l-7.039-4.1a2.732,2.732,0,0,0,0-1.382l6.96-4.057a2.955,2.955,0,1,0-.948-2.162,3.232,3.232,0,0,0,.089.691L9.475,10.71a2.962,2.962,0,1,0,0,4.324L16.5,19.141a2.785,2.785,0,0,0-.079.642A2.883,2.883,0,1,0,19.308,16.9Z" transform="translate(-4.5 -3)" fill="#828282" />
+                              </svg>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="ide-bottom-run">
+                        <button
+                          onClick={submitHandler}
+                          disabled={submissionState === runningState}
+                        >
+                          Run
+                        </button>
+                      </div>
                     </div>
                   </div>
 

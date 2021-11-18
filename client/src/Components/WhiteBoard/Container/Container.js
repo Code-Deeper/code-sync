@@ -104,9 +104,9 @@ class Container extends React.Component {
                         <div className="color-picker-container">
                             <label>Color :</label>
                             <input type="color" value={this.state.color} onChange={this.changeColor.bind(this)} />
-                            <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27.002" viewBox="0 0 27 27.002">
+                            {/* <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27.002" viewBox="0 0 27 27.002">
                                 <path id="Icon_ionic-md-color-filter" data-name="Icon ionic-md-color-filter" d="M31.064,8.445,27.555,4.936a1.5,1.5,0,0,0-2.116,0L20.756,9.619,17.866,6.75,15.75,8.866,17.88,11,4.5,24.377V31.5h7.123L25,18.12l2.13,2.13,2.116-2.116-2.883-2.883,4.683-4.683A1.494,1.494,0,0,0,31.064,8.445ZM10.378,28.5,7.5,25.622,19.582,13.535l2.883,2.883Z" transform="translate(-4.5 -4.498)" fill="#fff" />
-                            </svg>
+                            </svg> */}
                         </div>
 
                         <div className="brushsize-container">
