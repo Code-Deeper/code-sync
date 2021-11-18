@@ -7,6 +7,7 @@ import GoogleLogin from 'react-google-login';
 import Icon from './Icon'
 import { registerUser } from '../../../Action/UserAction';
 import { useHistory } from 'react-router-dom'
+import AXIOS from '../../../API'
 
 const initialState = {
     firstname: "",
@@ -25,7 +26,12 @@ function Register() {
         ///TODO:
         e.preventDefault()
         console.log({ formData })
-        dispatch(registerUser(formData, history));
+        AXIOS.post('/api/user/register', formData).then((response) => {
+            localStorage.setItem('authUser', JSON.stringify(response.data))
+            dispatch(registerUser(response.data, history));
+        }).catch((error) => {
+           console.log(error)
+       })
 
     }
     const handleChange = (e) => {
@@ -185,7 +191,7 @@ function Register() {
                                     
                                     <div className="flex -mx-5 mt-4">
                                         <div className="w-full px-3 mb-5">
-                                            <button type="button" className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-gray-100 rounded-lg px-3 py-3 font-semibold">REGISTER NOW</button>
+                                            <button type="submit" className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-gray-100 rounded-lg px-3 py-3 font-semibold">REGISTER NOW</button>
                                         </div>
                                     </div>
                                     <div className='right-0	 ml-1 mb-6 right-0	' >

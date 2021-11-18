@@ -67,17 +67,32 @@ function LoginPage(props) {
         console.log(res)
         // setLoader(true);
 
-        const result = res?.profileObj
-        const token = res?.tokenId
-
-        try {
-            dispatch(addUser({ result, token }))
-            // setLoader(false);
-            history.push('/room')
-            window.location.reload();
-        } catch (err) {
-            console.log(err)
+        let passData = {
+            googleLogin: true,
+            userName: res?.profileObj?.name,
+            email: res?.profileObj?.email,
+            imageUrl: res?.profileObj.imageUrl,
         }
+
+        AXIOS.post('/api/user/gauth', passData).then((response) => {
+            dispatch(loginUser(response.data, props.history.push));
+            setRedComp(true);
+            // setLoader(false);
+        }).catch((error) => {
+            console.log(error)
+        })
+
+        // const result = res?.profileObj
+        // const token = res?.tokenId
+
+        // try {
+        //     dispatch(addUser({ result, token }))
+        //     // setLoader(false);
+        //     // history.push('/room')
+        //     // window.location.reload();
+        // } catch (err) {
+        //     console.log(err)
+        // }
     }
     useEffect(() => {
         console.log({formData})
@@ -144,7 +159,7 @@ function LoginPage(props) {
 
                                             >Login</button>
                                         </div>
-                                        <div className='ml-12 mr-12 text-center'>
+                                        <div className=' text-center'>
                                             <GoogleLogin
                                                 className='pt-5 '
                                                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_API_KEY}

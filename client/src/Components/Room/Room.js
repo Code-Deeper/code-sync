@@ -247,7 +247,7 @@ function Room(props) {
     if (submissionState === runningState) return;
     setSubmissionState(runningState);
 
-    axios
+    AXIOS
       .patch(`/api/room/${roomId}`, {
         room_id: roomId,
         room_body: roomBody,
@@ -537,9 +537,6 @@ function Room(props) {
 
       <div style={{ margin: 0, height: "100%", overflow: "hidden" }}>
         <div className=" flex flex-row justify-content-center">
-
-
-
           <div>
             <img src='/image/codesynclogo.png' style={{ width: "50%" ,marginTop: "4%" , marginRight: "5%"}} />
 

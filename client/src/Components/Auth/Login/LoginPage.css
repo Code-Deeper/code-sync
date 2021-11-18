@@ -1,31 +1,30 @@
-
-.login-container{
-    margin-top: 18%;
-    margin-left: 65%;
-    text-align: center;
-    width: 25%;
-    height: 50% !important;
+.login-container {
+  margin-top: 18%;
+  margin-left: 65%;
+  text-align: center;
+  width: 25%;
+  height: 50% !important;
 }
 .submit-buttons {
-    /* margin-left: ; */
-        width: 100%;
-    margin-top: 5%;
-    margin-left: 4%;
-
+  /* margin-left: ; */
+  width: 100%;
+  margin-top: 5%;
+  margin-left: 4%;
 }
-.google-button{
-    margin-top: 2%;
+.google-button {
+  margin-top: 2%;
 }
 
 .google-btn {
-     background-color: rgba(99, 102, 241, 1) !important;
-color: #fff !important;
-width: 100% !important;
-margin: 0 auto !important;
-padding: 12px 0 !important;
-border-radius: 7px !important;
+  background-color: rgba(99, 102, 241, 1) !important;
+  color: #fff !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 12px 0 !important;
+  border-radius: 7px !important;
+  max-width: 84% !important;
 }
 
-.google-btn:hover{
-    background-color: rgba(67, 56, 202) !important;
+.google-btn:hover {
+  background-color: rgba(67, 56, 202) !important;
 }
