@@ -23,14 +23,14 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Middleware
-app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: [`${process.env.FRONTEND_URL}`],
+    origin: true,
     // methods: ["GET", "POST", "PUT", "PATCH"]
   })
 );
+app.use(express.json());
 // Controllers
 app.get("/", (req, res) => {
   res.send("API IS RUNNING")
@@ -41,12 +41,13 @@ app.use('/api/user/', require('./routes/user.route'));
 // Socket.io
 const { Server, Socket } = require('socket.io');
 const { addUser, getUser, getUsersInRoom, removeUser } = require('./socket.user');
-const io = new Server(server, {
+const io = require('socket.io')(server, {
   cors: {
     origin: '*',
     // methods: ["GET", "POST","PUT","PATCH"]
   }
 });
+
 io.on('connection', (socket) => {
   let CentralRoomId = 0;
   let CentralUserName = "";
