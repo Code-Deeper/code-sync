@@ -10,7 +10,7 @@ function LandingPage() {
                         <div class="mx-auto mt-5 text-gray-500 md:mt-12 md:max-w-lg md:text-center lg:text-lg">Crafting Your Code, Dry Run, Talk To Friends, Chat With Friend, Keep a notes of code & Many More!</div>
                         <div class="flex flex-col items-center mt-12 text-center">
                             <span class="relative inline-flex w-full md:w-auto">
-                                <a href="/room" type="button" class="inline-flex items-center justify-center w-full px-8 py-4 text-base font-bold leading-6 text-white bg-indigo-600 border border-transparent md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 rounded-2xl">
+                                <a href="/room" type="button" class="inline-flex items-center justify-center w-full px-8 py-4  font-bold leading-6 text-white bg-indigo-600 border border-transparent md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 text-gray-100 rounded-2xl">
                                     Explore Now
                                 </a>
                                 {/* <span class="absolute top-0 right-0 px-2 py-1 -mt-3 -mr-6 text-xs font-medium leading-tight text-white bg-green-400 rounded-full">only $15/mo</span> */}
@@ -27,7 +27,7 @@ function LandingPage() {
                     <p class="mt-2 text-lg text-center text-gray-600">Check out our list of awesome features below.</p>
                     <div class="grid grid-cols-4 gap-8 mt-10 sm:grid-cols-8 lg:grid-cols-12 sm:px-8 xl:px-0">
                         <div class="flex flex-col items-center justify-between col-span-4 px-8 py-12 space-y-4 bg-gray-100 rounded-2xl">
-                            <div class="p-3 text-white bg-indigo-600 rounded-2xl">
+                            <div class="p-3 text-white bg-indigo-400 rounded-2xl">
                                 <img src='/image/icons/code-room.svg' style={{ width: "30px", height: "30px" }} />
                             </div>
                             <h4 class="text-xl font-medium text-gray-700">Code Editors</h4>
@@ -35,35 +35,35 @@ function LandingPage() {
                         </div>
 
                         <div class="flex flex-col items-center justify-between col-span-4 px-8 py-12 space-y-4 bg-gray-100 rounded-2xl">
-                            <div class="p-3 text-white bg-indigo-600 rounded-2xl">
+                            <div class="p-3 text-white bg-indigo-400 rounded-2xl">
                                 <img src='/image/icons/microphone-voice.svg' style={{width: "30px" , height : "30px"}}/>
                             </div>
                             <h4 class="text-xl font-medium text-gray-700">Voice Chat</h4>
                             <p class="text-base text-center text-gray-500">Voice chat between the room that help room member to keep them engaged.</p>
                         </div>
                         <div class="flex flex-col items-center justify-between col-span-4 px-8 py-12 space-y-4 bg-gray-100 rounded-2xl">
-                            <div class="p-3 pl-3 pr-2 text-white bg-indigo-600 rounded-2xl">
+                            <div class="p-3 pl-3 pr-2 text-white bg-indigo-400 rounded-2xl">
                                 <img src='/image/icons/drawing-svgrepo.svg' style={{ width: "30px", height: "30px" }} />
                             </div>
                             <h4 class="text-xl font-medium text-gray-700">White Board</h4>
                             <p class="text-base text-center text-gray-500">White Board for visualizing and showcasing your thought to members.</p>
                         </div>
                         <div class="flex flex-col items-center justify-between col-span-4 px-8 py-12 space-y-4 bg-gray-100 rounded-2xl">
-                            <div class="p-3 text-white bg-indigo-600 rounded-2xl">
+                            <div class="p-3 text-white bg-indigo-400 rounded-2xl">
                                 <img src='/image/icons/compiler.svg' style={{ width: "30px", height: "30px" }} />
                             </div>
                             <h4 class="text-xl font-medium text-gray-700">Compiler</h4>
                             <p class="text-base text-center text-gray-500">Compiler your code which written on code editor with input.</p>
                         </div>
                         <div class="flex flex-col items-center justify-between col-span-4 px-8 py-12 space-y-4 bg-gray-100 rounded-2xl">
-                            <div class="p-3 text-white bg-indigo-600 rounded-2xl">
+                            <div class="p-3 text-white bg-indigo-400 rounded-2xl">
                                 <img src='/image/icons/notes.svg' style={{ width: "30px", height: "30px" }} />
                             </div>
                             <h4 class="text-xl font-medium text-gray-700">Note Book</h4>
                             <p class="text-base text-center text-gray-500">To keep write-down your thought and share among room member.</p>
                         </div>
                         <div class="flex flex-col items-center justify-between col-span-4 px-8 py-12 space-y-4 bg-gray-100 rounded-2xl">
-                            <div class="p-3 text-white bg-indigo-600 rounded-2xl">
+                            <div class="p-3 text-white bg-indigo-400 rounded-2xl">
                                 <img src='/image/icons/chat-22.svg' style={{ width: "30px", height: "30px" }} />
                             </div>
                             <h4 class="text-xl font-medium text-gray-700">Chat App</h4>

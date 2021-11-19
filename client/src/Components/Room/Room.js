@@ -339,6 +339,14 @@ function Room(props) {
 
 
   };
+  const handleDownloadForIDE = () => {
+    const new_file = new Blob([roomBody], {type: "text/plain;charset=utf-8"});
+    const element = document.createElement("a");
+    element.href = URL.createObjectURL(new_file);
+    element.download = `${roomTitle}.${"txt"}`;
+    document.body.appendChild(element);
+    element.click();
+  };
 
   const handleUpdateBody = (value) => {
     setRoomBody(value);
@@ -547,7 +555,7 @@ function Room(props) {
                 <svg width="18" height="18" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M13 14.562C14.3906 14.562 15.75 14.1496 16.9062 13.3771C18.0625 12.6045 18.9636 11.5064 19.4958 10.2216C20.028 8.9369 20.1672 7.5232 19.8959 6.15932C19.6246 4.79544 18.955 3.54263 17.9717 2.55933C16.9884 1.57603 15.7356 0.906391 14.3717 0.635098C13.0078 0.363805 11.5941 0.503043 10.3094 1.0352C9.02461 1.56736 7.92651 2.46854 7.15394 3.62478C6.38136 4.78103 5.969 6.1404 5.969 7.531C5.96953 9.39557 6.71046 11.1836 8.02892 12.5021C9.34737 13.8205 11.1354 14.5615 13 14.562ZM19.25 16.125H16.56C15.4439 16.6397 14.2295 16.9062 13.0005 16.9062C11.7715 16.9062 10.5571 16.6397 9.441 16.125H6.75C5.0924 16.125 3.50269 16.7835 2.33058 17.9556C1.15848 19.1277 0.5 20.7174 0.5 22.375L0.5 23.156C0.5 23.7777 0.746956 24.3739 1.18654 24.8135C1.62613 25.253 2.22233 25.5 2.844 25.5H23.156C23.7777 25.5 24.3739 25.253 24.8135 24.8135C25.253 24.3739 25.5 23.7777 25.5 23.156V22.375C25.5 20.7174 24.8415 19.1277 23.6694 17.9556C22.4973 16.7835 20.9076 16.125 19.25 16.125Z" fill="black" />
                 </svg>
-                <span className='ml-1' style={{ fontSize: "14px" }}>Join People </span>
+                <span className='ml-1' style={{ fontSize: "14px" }}>{activeUserInRoom.length } Joined </span>
               </button>
             </div>
             <div className=" ml-2 ">
@@ -562,7 +570,7 @@ function Room(props) {
               }
             </div>
             {inAudio ? (
-              <div className="join-audio-btn ">
+              <div className="join-audio-btn " style={{ borderRadius: "40px"}}>
                 <button
                   className={`${inAudio ? " hover:bg-gray-100" : " hover:bg-gray-100 "}text-white-100 font-bold  rounded close-audio-btn `}
                   onClick={() => setInAudio(!inAudio)}
@@ -586,6 +594,21 @@ function Room(props) {
           </div>
           <div className="room-button-with-avtar pt-2" >
             <Avatar className=" float-right mr-4" src={user?.result?.imageUrl} name={user?.result?.name} alt={user?.result?.name || "codesync"}></Avatar>
+           
+            <div className="mr-4  " style={{ float: "right" }}>
+              {/* <br /> */}
+              <button
+                className="flex bg-transparent hover:bg-red-400  text-gray-100 font-bold py-2 px-4 bg-red-600	  rounded-full border-solid border-2 border-red-500	 "
+                onClick={() => {
+                  props.history.push('/room');
+                }}
+              // 
+              >
+                <span style={{ marginLeft: "3px", fontSize: "14px" }}>End Call </span>
+              </button>
+            </div>
+           
+           
             <div className="mr-4  " style={{ float: "right" }}>
               {/* <br /> */}
               <button
@@ -770,19 +793,19 @@ function Room(props) {
                             </button>
                           </li>
                           <li>
-                            <button>
+                            <button onClick={handleDownloadForIDE}>
                               <svg xmlns="http://www.w3.org/2000/svg" width="25.385" height="23.693" viewBox="0 0 25.385 23.693">
                                 <path id="Icon_metro-download2" data-name="Icon metro-download2" d="M22.033,14.01l-6.769,6.769L8.494,14.01h4.231V3.856H17.8V14.01Zm-6.769,6.769H2.571v6.769H27.956V20.779Zm11,3.385H22.879V22.472h3.385Z" transform="translate(-2.571 -3.856)" fill="#828282" />
                               </svg>
                             </button>
                           </li>
-                          <li>
+                          {/* <li>
                             <button>
                               <svg xmlns="http://www.w3.org/2000/svg" width="17.769" height="19.665" viewBox="0 0 17.769 19.665">
                                 <path id="Icon_material-share" data-name="Icon material-share" d="M19.308,16.9a2.875,2.875,0,0,0-1.935.76l-7.039-4.1a2.732,2.732,0,0,0,0-1.382l6.96-4.057a2.955,2.955,0,1,0-.948-2.162,3.232,3.232,0,0,0,.089.691L9.475,10.71a2.962,2.962,0,1,0,0,4.324L16.5,19.141a2.785,2.785,0,0,0-.079.642A2.883,2.883,0,1,0,19.308,16.9Z" transform="translate(-4.5 -3)" fill="#828282" />
                               </svg>
                             </button>
-                          </li>
+                          </li> */}
                         </ul>
                       </div>
                       <div className="ide-bottom-run">
@@ -795,20 +818,7 @@ function Room(props) {
                       </div>
                     </div>
                   </div>
-
-
-                  {/* <div className="text-ip-op">
-                    <div className="grid grid-flow-row grid-cols-2 m0">
-                      <div className="header-ip-op">
-                        <h5 className="Input">Input</h5>
-                      </div>
-                      <div className="header-ip-op">
-                        <h5 className="Output">Output</h5>
-                      </div>  
-                    </div>
-                  </div> */}
                   <div className=" text-center ip-op-editor grid grid-flow-row grid-cols-2 m0">
-                    {/* <h5>Input</h5> */}
                     <div className="ip-op-container">
                       <div className="header-ip-op">
                         <h5 className="Input">Input <svg width="22" height="22" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -825,7 +835,6 @@ function Room(props) {
                       />
                     </div>
                     <div className="ip-op-container">
-                      {/* <h5>Output</h5> */}
                       {console.log(output)}
                       <div className="header-ip-op">
                         <h5 className="Output">Output<svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
