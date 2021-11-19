@@ -45,6 +45,11 @@ class Container extends React.Component {
             color: "#ffffff"
         })
     }
+    blackPan(params) {
+        this.setState({
+            color: "#000"
+        })
+    }
     handleClick() {
         console.log("HJADJNAJD");
         this.props.setOpenChat(false)
@@ -111,7 +116,7 @@ class Container extends React.Component {
 
                         <div className="brushsize-container">
                             <label>Size :</label>
-                            <span className="pen-color-container">
+                            <span className="pen-color-container" onClick={this.blackPan.bind(this)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24.867" height="24.866" viewBox="0 0 24.867 24.866">
                                     <path id="Icon_awesome-pen" data-name="Icon awesome-pen" d="M14.12,4.529l6.218,6.218-13.5,13.5-5.544.612A1.166,1.166,0,0,1,.007,23.572l.617-5.547,13.5-13.5ZM24.184,3.6,21.264.684a2.332,2.332,0,0,0-3.3,0L15.219,3.43l6.218,6.218L24.184,6.9a2.332,2.332,0,0,0,0-3.3Z" transform="translate(0.001 -0.001)" />
                                 </svg>

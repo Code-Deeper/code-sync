@@ -37,7 +37,7 @@ const registerUser = async (req, res) => {
         }
         const hashPassword = await bcrypt.hash(password, 12);
         const result = await User.create({ email, password: hashPassword, name: `${firstname} ${lastname}` })
-        const token = await jwt.sign({ email: result.email, id: result._id }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" })
+        const token = await jwt.sign({ email: result.email, id: result._id }, process.env.JWT_SECRET_KEY, { expiresIn: "24h" })
         // console.log({ result, token })
         res.status(200).json({ result, token })
     } catch (error) {
@@ -56,7 +56,7 @@ const googleAuthUser = async (req, res) => {
             // Login Property
 
 
-            const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" })
+            const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: "24h" })
             return res.status(200).json({ result: existingUser, token })
 
         } else {
@@ -64,7 +64,7 @@ const googleAuthUser = async (req, res) => {
             let password = randomstring.generate(8);
             const hashPassword = await bcrypt.hash(password, 12);
             const result = await User.create({ email, password: hashPassword, name: userName, imageUrl: imageUrl })
-            const token = await jwt.sign({ email: result.email, id: result._id }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" })
+            const token = await jwt.sign({ email: result.email, id: result._id }, process.env.JWT_SECRET_KEY, { expiresIn: "24h" })
             return res.status(200).json({ result, token })
 
         }
