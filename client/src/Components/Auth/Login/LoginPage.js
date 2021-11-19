@@ -65,7 +65,7 @@ function LoginPage(props) {
     const googleSuccess = async (res) => {
         // TODO:
         console.log(res)
-        // setLoader(true);
+        setLoader(true);
 
         let passData = {
             googleLogin: true,
@@ -77,7 +77,7 @@ function LoginPage(props) {
         AXIOS.post('/api/user/gauth', passData).then((response) => {
             dispatch(loginUser(response.data, props.history.push));
             setRedComp(true);
-            // setLoader(false);
+            setLoader(false);
         }).catch((error) => {
             console.log(error)
         })
