@@ -99,7 +99,7 @@ function LoginPage(props) {
     }, [formData])
     const googleFailure = (res) => {
         // TODO: Toast Message
-        console.log('Failed while google login!!!')
+        console.log('Failed while google login!!!' ,res)
     }
 
     return (
