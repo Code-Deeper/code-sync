@@ -6,16 +6,15 @@ var randomstring = require("randomstring");
 
 
 const LoginUser = async (req, res) => {
-    // Sing In
     const { email, password } = req.body
     try {
         const existingUser = await User.findOne({ email: email })
         if (!existingUser) {
-            return res.status(400).json({ code: 400, message: 'You are not registered!!!' })
+            return res.status(201).json({ code: 201, message: 'User Not Registered' })
         }
         const isPasswordCorrect = await bcrypt.compare(password, existingUser.password)
         if (!isPasswordCorrect) {
-            return res.status(400).json({ code: 400, message: 'InValid Password!!' })
+            return res.status(202).json({ code: 202, message: 'Invalid Password!!' })
         }
         const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" })
         res.status(200).json({ result: existingUser, token })
@@ -30,10 +29,10 @@ const registerUser = async (req, res) => {
     try {
         const existingUser = await User.findOne({ email: email })
         if (existingUser) {
-            return res.status(400).json({ code: 400, message: 'User Already Registered!!' })
+            return res.status(201).json({ code: 201, message: 'User Already Registered!!' })
         }
         if (password != confirmpassword) {
-            return res.status(400).json({ code: 400, message: 'Password are not matched!!' })
+            return res.status(202).json({ code: 202, message: 'Password & Confirm Password are not matched!!' })
         }
         const hashPassword = await bcrypt.hash(password, 12);
         const result = await User.create({ email, password: hashPassword, name: `${firstname} ${lastname}` })

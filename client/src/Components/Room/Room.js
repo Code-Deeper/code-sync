@@ -614,12 +614,12 @@ function Room(props) {
               <button
                 className="flex bg-transparent hover:bg-gray-200  text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600	 "
                 onClick={() => {
-                  navigator.clipboard.writeText(`${BaseURL}/room/${roomTitle}`);
+                  navigator.clipboard.writeText(roomId);
                   toast.success(`🔥 Room Link has been Copied 🔥`)
                 }}
               // 
               >
-                <img style={{ width: "18px", height: "18px" }} src='/image/icons/copy.svg' />  <span style={{ marginLeft: "3px", fontSize: "14px" }}>Room Link </span>
+                <img style={{ width: "18px", height: "18px" }} src='/image/icons/copy.svg' />  <span style={{ marginLeft: "3px", fontSize: "14px" }}>Room Code </span>
               </button>
             </div>
           </div>
