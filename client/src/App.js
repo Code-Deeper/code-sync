@@ -19,9 +19,9 @@ const history = createBrowserHistory();
 
 const isAuthenticated =  JSON.parse(localStorage.getItem('authUser'))?.token
 function App() {
-  useEffect(() => {
-    console.log({ authroot: isAuthenticated });
-  }, [isAuthenticated])
+  // useEffect(() => {
+  //   console.log({ authroot: isAuthenticated });
+  // }, [isAuthenticated])
   const [loginUser, setLoginUser] = useState(null)
 
 

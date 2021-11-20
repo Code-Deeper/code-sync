@@ -11,6 +11,9 @@ import { removeUser } from "../../Action/UserAction";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AXIOS from "../../API";
+import Bounce from "react-activity/dist/Bounce";
+import "react-activity/dist/Bounce.css";
+import Loader from 'react-loader-advanced';
 // import './Header.css';
 
 function Header(props) {
@@ -19,11 +22,12 @@ function Header(props) {
   const dispatch = useDispatch();
   const [roomId, setRoomId] = useState('');
   const [roomName, setRoomName] = useState('');
+  const [loader , setLoader] = useState(false);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('authUser')) || props?.authUser || null);
   const submitHandler = () => {
     // const {history} = props
     if (roomId) {
-      console.log(roomId);
+      // console.log(roomId);
       props.history.push(`/room/${roomId}`)
 
     } else {
@@ -49,23 +53,28 @@ function Header(props) {
   const [isOpen, setIsOpen] = useState(false);
   const CreatRoomHandler = async (e) => {
     e.preventDefault()
+    setLoader(true);
     const uID = await uuidv4();
-    console.log({uID});
+    // console.log({uID});
     AXIOS.post('/api/room', {
       room_id: uID,
       room_title: roomName || uID,
       room_body: "", room_language: "", room_input: ""
     }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       history.push(`/room/${res?.data?.room_id}`)
       toast.success("Room Has been Created!");
+      setLoader(false)
     }).catch((err) => {
+      setLoader(false)
       alert('Room Not Created!! axaError!!!');
-      console.log(err);
+      // console.log(err);
     })
   }
   return (
-    <div>
+    <Loader show={loader} message={<div className="">
+      <Bounce size={55} />
+    </div>}>
       <div>
         <nav className="bg-gray-200	 border-opacity-60	border-black	">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -273,19 +282,21 @@ function Header(props) {
               <header className="text-xl font-extrabold text-center text-gray-600">☎️ Calling You! ☎️</header>
 
               <div>
-                <p className="text-4xl font-extrabold text-center text-gray-900">Join Room </p>
+                <p className="text-4xl font-extrabold text-center text-gray-900 mt-4">Join Room ! </p>
 
                 {/* <p className="text-2xl font-extrabold text-center" style={{ color: "FE5401" }} >2 hours</p> */}
               </div>
               <form onSubmit={submitHandler}>
-                <div className='ml-4 mr-4'>
+                <div className='ml-4 mr-4 mt-4'>
                   <input
                     type="search"
                     value={roomId}
                     onChange={(e) => setRoomId(e.target.value)}
-                    className="mt-2 mb-2 pl-4 appearance-none bg-transparent border-none rounded-full w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="link" placeholder="Enter Room Link" aria-label="Full name"></input>
+                    className="mt-2 mb-2 pl-4 appearance-none bg-transparent border-none rounded-full w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="link"
+                    placeholder="Enter Room Code"
+                    aria-label="Full name"></input>
                 </div>
-                <footer className="flex justify-center">
+                <footer className="flex justify-center mt-4">
                   <button
                     onClick={submitHandler}
                     className="bg-indigo-600 flex items-center px-4 py-3 text-xl font-bold text-gray-100 rounded-xl mt-3">
@@ -304,7 +315,7 @@ function Header(props) {
         </div>
       </div>
       <ToastContainer />
-    </div>
+    </Loader>
   );
 }
 
