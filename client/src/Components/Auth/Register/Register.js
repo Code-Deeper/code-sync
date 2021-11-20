@@ -8,8 +8,6 @@ import Icon from './Icon'
 import { registerUser } from '../../../Action/UserAction';
 import { useHistory } from 'react-router-dom'
 import AXIOS from '../../../API'
-import { ToastContainer, toast } from 'react-toastify';
-
 
 const initialState = {
     firstname: "",
@@ -24,29 +22,16 @@ function Register() {
     const dispatch = useDispatch();
     const [isLogin, setIsLogin] = useState(false)
     const [formData, setFormData] = useState(initialState)
-    const [errorHandler, setErrorHandler] = useState(null);
     const submitHandler = (e) => {
         ///TODO:
         e.preventDefault()
-        // console.log({ formData })
+        console.log({ formData })
         AXIOS.post('/api/user/register', formData).then((response) => {
-            // console.log({ response })
-            // response.data.code
-            if (response.data.code == 201) {
-                setErrorHandler(response?.data?.message)
-                toast.error(response?.data?.message)
-            } else if (response.data.code == 202) {
-                setErrorHandler(response?.data?.message)
-                toast.error(response?.data?.message)
-            } else {
-                localStorage.setItem('authUser', JSON.stringify(response.data))
-                dispatch(registerUser(response.data, history));
-            }
-
+            localStorage.setItem('authUser', JSON.stringify(response.data))
+            dispatch(registerUser(response.data, history));
         }).catch((error) => {
-            console.log(error)
-            toast.error("Something went to wrong!!")
-        })
+           console.log(error)
+       })
 
     }
     const handleChange = (e) => {
@@ -59,6 +44,64 @@ function Register() {
     }
     return (
         <div>
+            {/* <div>
+                <div className="login-container">
+                    < onSubmit={submitHandler}>
+                        <Grid container spacing={2}>
+                            <Input
+                                name="firstname"
+                                label="firstname"
+                                handleChange={handleChange}
+                                autoFocus={true}
+                                half
+                            />
+                            <Input
+                                name="lastname"
+                                label="lastname"
+                                handleChange={handleChange}
+                                autoFocus={true}
+                                half
+                            />
+
+                            <Input
+                                name="email"
+                                label='Email Address'
+                                handleChange={handleChange}
+                                type="email"
+
+                            />
+                            <Input
+                                name="password"
+                                label='Password'
+                                handleChange={handleChange}
+                                type={showPassword ? 'text' : 'password'}
+                                handleShowPassword={handleShowPassword}
+                            />
+                            <Input
+                                name="confirmpassword"
+                                label='Repeat Password'
+                                handleChange={handleChange}
+                                type="password"
+                            />
+                            <div className="submit-buttons">
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+
+                                >
+                                    Register User
+                                </Button>
+                            </div>
+
+                        </Grid>
+                        <div> Already Registered? account !! <Link to='/login'>Login Here</Link></div>
+                    </
+                    >
+
+                </div>
+            </div> */}
             <form onSubmit={submitHandler}>
                 <div className="min-w-screen min-h-screen bg-indigo-100 flex items-center justify-center px-5 py-5" >
                     <div className="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden" style={{ maxWidth: "1000px" }} >
@@ -81,13 +124,9 @@ function Register() {
                                                     name='firstname'
                                                     // label="firstname"
                                                     type="text"
-                                                    className={errorHandler ? "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-red-500 outline-none focus:border-indigo-500" : "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"}
+                                                    className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                                                     placeholder="Vivek"
-                                                    onChange={(props) => {
-                                                        setErrorHandler(null)
-                                                        handleChange(props)
-                                                    }
-                                                    }
+                                                    onChange={handleChange}
                                                 />
                                             </div>
                                         </div>
@@ -98,13 +137,9 @@ function Register() {
                                                 <input
                                                     name="lastname"
                                                     type="text"
-                                                    className={errorHandler ? "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-red-500 outline-none focus:border-indigo-500" : "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"}
+                                                    className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                                                     placeholder="Javiya"
-                                                    onChange={(props) => {
-                                                        setErrorHandler(null)
-                                                        handleChange(props)
-                                                    }
-                                                    }
+                                                    onChange={handleChange}
                                                 />
                                             </div>
                                         </div>
@@ -117,13 +152,9 @@ function Register() {
                                                 <input
                                                     name="email"
                                                     type="email"
-                                                    className={errorHandler ? "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-red-500 outline-none focus:border-indigo-500": "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"}
+                                                    className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                                                     placeholder="vivekjaviya@example.com"
-                                                    onChange={(props) => {
-                                                        setErrorHandler(null)
-                                                        handleChange(props)
-                                                    }
-                                                    }
+                                                    onChange={handleChange}
                                                 />
                                             </div>
                                         </div>
@@ -136,13 +167,9 @@ function Register() {
                                                 <input
                                                     name="password"
                                                     type="password"
-                                                    className={errorHandler ? "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-red-500 outline-none focus:border-indigo-500" : "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"}
+                                                    className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                                                     placeholder="************"
-                                                    onChange={(props) => {
-                                                        setErrorHandler(null)
-                                                        handleChange(props)
-                                                    }
-                                                    }
+                                                    onChange={handleChange}
                                                 />
                                             </div>
                                         </div>
@@ -153,21 +180,18 @@ function Register() {
                                                 <input
                                                     name="confirmpassword"
                                                     type="password"
-                                                    className={errorHandler ? "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-red-500 outline-none focus:border-indigo-500": "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"}
+                                                    className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                                                     placeholder="************"
-                                                    onChange={(props) => {
-                                                        setErrorHandler(null)
-                                                        handleChange(props)
-                                                    }}
+                                                    onChange={handleChange}
                                                 />
                                             </div>
                                         </div>
-
+                                        
                                     </div>
-
+                                    
                                     <div className="flex -mx-5 mt-4">
                                         <div className="w-full px-3 mb-5">
-                                            <button type="submit" className="block  max-w-xl	w-96	 mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-gray-100 rounded-lg px-3 py-3 font-semibold">REGISTER NOW</button>
+                                            <button type="submit" className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-gray-100 rounded-lg px-3 py-3 font-semibold">REGISTER NOW</button>
                                         </div>
                                     </div>
                                     <div className='right-0	 ml-1 mb-6 right-0	' >
@@ -179,7 +203,6 @@ function Register() {
                     </div>
                 </div>
             </form>
-            <ToastContainer />
         </div>
     )
 }

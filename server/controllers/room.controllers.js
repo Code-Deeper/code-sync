@@ -53,7 +53,7 @@ const updateRoomById = asyncHandler(async (req, res) => {
   }
   const newRoomData = req.body;
   const rm_id = req.params.id;
-  // console.log({newRoomData})
+  console.log({newRoomData})
   const updateRoomData = await Room.findOneAndUpdate(
     { room_id: rm_id },
     newRoomData
