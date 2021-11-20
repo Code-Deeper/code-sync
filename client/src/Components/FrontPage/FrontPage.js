@@ -25,6 +25,29 @@ function FrontPage(props) {
 
     return (
         <div>
+            {/* <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div className="container-fluid">
+                    <Link className="navbar-brand" to="/">
+                        CodeSync
+                    </Link>
+                    {props.authUser?
+                        <div>
+                            <Link to='/login' >
+                            <button className="btn btn-outline-success" type="submit"
+                                to={"/login"}
+                            >
+                                Sing In
+                            </button>
+                            </Link>
+                        </div>
+                        :
+                        <div>
+                            <Avatar src={props?.authUser?.profileUrl} name={props.authUser.name} alt={"U"} size={"35px"} round={true} ></Avatar>
+                        </div>
+                    }
+
+                </div>
+            </nav> */}
             <nav className="bg-gray-200	 border-opacity-60	border-black	">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">

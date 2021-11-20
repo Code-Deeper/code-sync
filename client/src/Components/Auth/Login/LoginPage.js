@@ -16,7 +16,7 @@ import AXIOS from '../../../API'
 import Bounce from "react-activity/dist/Bounce";
 import "react-activity/dist/Bounce.css";
 import Loader from 'react-loader-advanced';
-import { ToastContainer, toast } from 'react-toastify';
+
 const initialState = {
     email: "",
     password: "",
@@ -33,47 +33,27 @@ function LoginPage(props) {
     const [formData, setFormData] = useState(initialState)
     const [redComp, setRedComp] = useState(false);
     const [loader, setLoader] = useState(false);
-    const [errorHandler, setErrorHandler] = useState(false);
+
     useEffect(() => {
-        // console.log(redComp)
+        console.log(redComp)
         if (redComp) {
             props.history.push('/room')
             window.location.reload();
-
+            
         }
     }, [redComp])
     const submitHandler = async (e) => {
         ///TODO:
-
-
         e.preventDefault()
-        if (formData?.email === "" || formData?.password === "") {
-            toast.error("Please Enter Username And Password")
-            setErrorHandler("Email or Password is empty")
-        } else {
-            setLoader(true);
-            // console.log({ formData })
-            AXIOS.post('/api/user/login', formData).then((response) => {
-                // console.log(response)
-                if (response?.data?.code == 202) {
-                    // response?.data?.message
-                    setErrorHandler(response?.data?.message);
-                    toast.error(response?.data?.message)
-                } else if (response?.data?.code == 201) {
-                    setErrorHandler(response?.data?.message);
-                    toast.error(response?.data?.message)
-                } else {
-                    dispatch(loginUser(response.data, props.history.push));
-                    setRedComp(true);
-                }
-
-                setLoader(false);
-            }).catch((res, error) => {
-                setErrorHandler("Error occurred during login process");
-                setLoader(false);
-                toast.error("Error occurred during login process")
-            })
-        }
+        setLoader(true);
+        console.log({ formData })
+        AXIOS.post('/api/user/login', formData).then((response) => {
+            dispatch(loginUser(response.data, props.history.push));
+            setRedComp(true);
+            setLoader(false);
+        }).catch((error) => {
+            console.log(error)
+         })
     }
     const handleChange = (e) => {
         e.preventDefault()
@@ -84,8 +64,8 @@ function LoginPage(props) {
     }
     const googleSuccess = async (res) => {
         // TODO:
-        // console.log(res)
-        setLoader(true);
+        console.log(res)
+        // setLoader(true);
 
         let passData = {
             googleLogin: true,
@@ -97,18 +77,33 @@ function LoginPage(props) {
         AXIOS.post('/api/user/gauth', passData).then((response) => {
             dispatch(loginUser(response.data, props.history.push));
             setRedComp(true);
-            setLoader(false);
+            // setLoader(false);
         }).catch((error) => {
             console.log(error)
         })
+
+        // const result = res?.profileObj
+        // const token = res?.tokenId
+
+        // try {
+        //     dispatch(addUser({ result, token }))
+        //     // setLoader(false);
+        //     // history.push('/room')
+        //     // window.location.reload();
+        // } catch (err) {
+        //     console.log(err)
+        // }
     }
+    useEffect(() => {
+        console.log({formData})
+    }, [formData])
     const googleFailure = (res) => {
-        toast.error("Google Login was failed for some reason")
-        console.log('Failed while google login!!!')
+        // TODO: Toast Message
+        console.log('Failed while google login!!!' ,res)
     }
 
     return (
-        <Loader show={loader} message={<div className="">
+        <Loader  show={loader} message={<div className="">
             <Bounce size={55} />
         </div>}>
             <form onSubmit={submitHandler}>
@@ -131,13 +126,10 @@ function LoginPage(props) {
                                                 <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
                                                 <input
                                                     type="email"
-                                                    className={errorHandler ? "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-red-500 outline-none focus:border-indigo-500" : "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"}
+                                                    class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                                                     placeholder="vivekjaviya@gmail.com"
                                                     name="email"
-                                                    onChange={(props) => {
-                                                        setErrorHandler(null);
-                                                        handleChange(props)
-                                                    }}
+                                                    onChange={handleChange}
                                                 />
                                             </div>
                                         </div>
@@ -150,20 +142,15 @@ function LoginPage(props) {
                                                 <input
                                                     name="password"
                                                     type="password"
-                                                    className={errorHandler ? "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-red-500 outline-none focus:border-indigo-500" : "w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"}
+                                                    class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                                                     placeholder="************"
-                                                    onChange={(props) => {
-                                                        setErrorHandler(null)
-                                                        handleChange(props)
-                                                    }
-                                                    }
+                                                    onChange={handleChange}
                                                 />
 
                                             </div>
                                         </div>
                                     </div>
-                                    {errorHandler && <div className='-mb-3 mt-2 ml-4 text-red-600'>{errorHandler} </div>}
-
+                                    
                                     <div class="flex-col -mx-5 mt-10">
                                         <div class="w-full px-3 mb-5">
                                             <button
@@ -210,8 +197,6 @@ function LoginPage(props) {
 
                 </div>
             </form>
-            <ToastContainer />
-
         </Loader>
     )
 }
