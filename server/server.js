@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
   let CentralUserName = "";
   let UserIdForRemove = '';
   socket.on('joinroom', async ({ roomId, userName, userImg }, callback) => {
-    console.log("Join ROom")
+    // console.log("Join ROom")
     const { error, user } = await addUser({ id: socket.id, name: userName, room: roomId, userImg });
     if (error) return callback(error);
     CentralRoomId = roomId;
@@ -65,7 +65,7 @@ io.on('connection', (socket) => {
     socket.join(roomId);
 
     let users = getUsersInRoom(roomId)
-    console.log("users", users)
+    // console.log("users", users)
     io.to(roomId).emit('numberOfUser', users);
 
     callback();
@@ -87,7 +87,7 @@ io.on('connection', (socket) => {
     socket.broadcast.to(roomId).emit('updateInput', value);
   });
   socket.on('updateLanguage', ({ value, roomId }) => {
-    console.log({ value, roomId })
+    // console.log({ value, roomId })
     socket.broadcast.to(roomId).emit('updateLanguage', value);
   });
   socket.on('updateOutput', ({ value, roomId }) => {
@@ -98,7 +98,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('joinAudioRoom', (roomId, userId) => {
-    console.log({ roomId, userId });
+    // console.log({ roomId, userId });
     socket.broadcast.to(roomId).emit('userJoinedAudio', userId);
 
     socket.on('leaveAudioRoom', () => {
@@ -108,9 +108,9 @@ io.on('connection', (socket) => {
   socket.on('disconnect', ({ userName }) => {
     const user = removeUser(UserIdForRemove)
     let users = getUsersInRoom(CentralRoomId)
-    console.log("users", users)
+    // console.log("users", users)
     io.to(CentralRoomId).emit('numberOfUser', users);
-    console.log("User disconnect", user);
+    // console.log("User disconnect", user);
   })
 });
 

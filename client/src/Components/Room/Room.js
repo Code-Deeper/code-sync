@@ -98,12 +98,11 @@ function Room(props) {
   const [msg, setMsg] = useState('')
   const [activeUserInRoom, setActiveUserInRoom] = useState([]);
   const [loader, setLoader] = useState(false);
-  // Draft
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
-  useEffect(() => {
-    console.log({ openChat })
-  }, [openChat])
+  // useEffect(() => {
+  //   console.log({ openChat })
+  // }, [openChat])
 
 
 
@@ -118,28 +117,28 @@ function Room(props) {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  useEffect(() => {
-    console.log({ loader })
-  }, [loader])
+  // useEffect(() => {
+  //   console.log({ loader })
+  // }, [loader])
   useEffect(() => {
     localStorage.setItem("language", language);
   }, [language]);
   // Once room will be created then this effect will triggered when ever props id changed
   // Props id means router id example /room/:id
-  useEffect(() => {
-    console.log(editorState);
-  }, [editorState])
+  // useEffect(() => {
+  //   console.log(editorState);
+  // }, [editorState])
   useEffect(() => {
 
     socket.on("updateBody", (roomBody) => {
-      console.log("we", roomBody);
+      // console.log("we", roomBody);
       setRoomBody(roomBody);
     });
     socket.on("updateInput", (input) => {
       setInput(input);
     });
     socket.on("updateLanguage", (language) => {
-      console.log("FL", language);
+      // console.log("FL", language);
       setLanguage(language);
     });
     socket.on("updateOutput", (output) => {
@@ -153,13 +152,11 @@ function Room(props) {
     });
     // TODO:
     socket.on("message", (message) => {
-      console.log({ message });
-      // const new_arr = msgs;
-      // new_arr.push(message);
+      // console.log({ message });
       setMsgs(msgs => [...msgs, message]);
     })
     socket.on("numberOfUser", (users) => {
-      console.log({ users });
+      // console.log({ users });
       setActiveUserInRoom(users)
     })
     setLoader(true);
@@ -170,7 +167,6 @@ function Room(props) {
       console.log(err)
     });
 
-    // console.log({ user})
     const url = `/api/room/${id}`;
     const fetchData = async () => {
       const { data } = await AXIOS.get(url, {
@@ -187,13 +183,12 @@ function Room(props) {
       if (language) setLanguage(room_language);
       if (room_body) setRoomBody(room_body);
       setLoader(false)
-      // console.log('Room Data '+ data.room_body);
     };
     fetchData();
     return () => {
-      console.log("called");
+      // console.log("called");
       socket.off("updateBody", (roomBody) => {
-        console.log(roomBody);
+        // console.log(roomBody);
         setRoomBody(roomBody);
       });
       socket.off("updateInput", (input) => {
@@ -218,9 +213,9 @@ function Room(props) {
     setInAudio(false);
   }, [roomId]);
 
-  useEffect(() => {
-    console.log({ activeUserInRoom })
-  }, [activeUserInRoom])
+  // useEffect(() => {
+  //   console.log({ activeUserInRoom })
+  // }, [activeUserInRoom])
 
   const GiveMeLanguageCode = () => {
     switch (language) {
@@ -257,7 +252,6 @@ function Room(props) {
       })
       .then((res) => {
         // TODO:
-        // console.log({ res });
         const { data } = res;
         setRoomTitle(data.room_title);
         setRoomBody(data.room_body);
@@ -267,11 +261,10 @@ function Room(props) {
       .catch((err) => {
         console.log("handler error");
         setSubmissionState(errorState);
-        // setLoader(false)
         return;
       });
     let language_code = parseInt(GiveMeLanguageCode(language));
-    console.log("lag", language_code, language);
+    // console.log("lag", language_code, language);
     const encode_input = base64_encode(input);
     const encode_body = base64_encode(roomBody);
     var options = {
@@ -292,9 +285,9 @@ function Room(props) {
     axios
       .request(options)
       .then(function (response) {
-        console.log("res", response.data);
+        // console.log("res", response.data);
         let token = response.data.token;
-        console.log("url", `${JAUDGE_API_URL}/submissions/${token}`);
+        // console.log("url", `${JAUDGE_API_URL}/submissions/${token}`);
         setTimeout(() => {
           const ipString = `${JAUDGE_API_URL}/submissions/${token}`.toString();
           var ip = {
@@ -309,15 +302,15 @@ function Room(props) {
           axios
             .request(ip)
             .then(function (res) {
-              console.log(res.data);
+              // console.log(res.data);
               if (res.data.status.description == "Accepted") {
                 let decoded = base64_decode(res.data.stdout);
-                console.log("decoded", decoded);
+                // console.log("decoded", decoded);
                 socket.emit("updateOutput", { value: decoded, roomId: roomId });
                 setOutput(decoded);
               } else {
                 let decoded = base64_decode(res.data.compile_output);
-                console.log("decoded", decoded);
+                // console.log("decoded", decoded);
                 socket.emit("updateOutput", { value: decoded, roomId: roomId });
                 setOutput(decoded);
               }
@@ -355,35 +348,30 @@ function Room(props) {
       SOCKET_SPEED
     )();
   };
-  // Draft
   const onEditorStateChange = (editorState) => {
 
     setEditorState(editorState)
     var contentRaw = convertToRaw(editorState.getCurrentContent());
-    console.log(contentRaw)
+    // console.log(contentRaw)
 
     debounce(
       () => socket.emit("updateRichText", { value: JSON.stringify(contentRaw), roomId }),
       SOCKET_SPEED
     )();
 
-    // debounce(
-    //   () => socket.emit("updateRichText", { value: JSON.stringify(editorState) , roomId }),
-    //   SOCKET_SPEED
-    // )();
   };
 
   const SendMessage = (event) => {
     event.preventDefault();
     if (msg) {
-      console.log({ msgs })
+      // console.log({ msgs })
       socket.emit('sendMessage', msg, roomId);
       setMsg('')
     }
   }
-  useEffect(() => {
-    console.log({ msgs })
-  }, [msgs])
+  // useEffect(() => {
+  //   console.log({ msgs })
+  // }, [msgs])
 
   const chatOpenHandler = (val) => {
     setOpenChat(!openChat)
@@ -429,7 +417,7 @@ function Room(props) {
   };
 
   const removeAudio = (id) => {
-    console.log({ id });
+    // console.log({ id });
     delete audios[id];
     const audio = document.getElementById(id);
     if (audio) audio.remove();
@@ -447,7 +435,7 @@ function Room(props) {
       });
     }
     // if (myPeer) myPeer.destroy();
-    console.log("distroyed", audios, myPeer.id);
+    // console.log("distroyed", audios, myPeer.id);
   };
 
   const setPeersListeners = (stream) => {
@@ -488,7 +476,7 @@ function Room(props) {
     if (inAudio) {
       myPeer = new Peer();
       myPeer.on("open", (userId) => {
-        console.log("opened");
+        // console.log("opened");
         getAudioStream().then((stream) => {
           socket.emit("joinAudioRoom", roomId, userId);
           stream.getAudioTracks()[0].enabled = !isMuted;
@@ -502,7 +490,7 @@ function Room(props) {
         if (!myPeer.destroyed) myPeer.reconnect();
       });
       socket.on("userLeftAudio", (userId) => {
-        console.log("user left aiudio:", userId);
+        // console.log("user left aiudio:", userId);
         if (peers[userId]) peers[userId].close();
         removeAudio(userId);
       });
@@ -536,7 +524,7 @@ function Room(props) {
   };
   // const
   useEffect(() => {
-    console.log(language);
+    // console.log(language);
   }, [language]);
   return (
     <Loader show={loader} message={<div className="">
@@ -576,10 +564,7 @@ function Room(props) {
                   onClick={() => setInAudio(!inAudio)}
                 >
                   <FaTimes />
-                  {/* <span><svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M24 2.47339e-06C19.2533 2.47339e-06 14.6131 1.40758 10.6663 4.04473C6.71954 6.68189 3.64341 10.4302 1.8269 14.8156C0.010399 19.201 -0.464881 24.0266 0.461164 28.6822C1.38721 33.3377 3.67299 37.6141 7.02945 40.9706C10.3859 44.327 14.6623 46.6128 19.3178 47.5388C23.9734 48.4649 28.799 47.9896 33.1844 46.1731C37.5698 44.3566 41.3181 41.2805 43.9553 37.3337C46.5924 33.3869 48 28.7468 48 24C48.0029 20.8475 47.3841 17.7253 46.179 14.8122C44.9739 11.8991 43.2062 9.25217 40.977 7.02299C38.7478 4.7938 36.101 3.02609 33.1878 1.821C30.2747 0.615912 27.1525 -0.00289133 24 2.47339e-06ZM36 32.616L32.616 36L24 27.384L15.384 36L12 32.616L20.616 24L12 15.384L15.384 12L24 20.616L32.616 12L36 15.384L27.384 24L36 32.616Z" fill="#FF7171" />
-                  </svg>
-                  </span> */}
+                  
                 </button>
                 <button
                   className={`${isMuted ? "  " : " "}text-white-100 font-bold py-2 px-4 rounded mic-handler-btn`}
@@ -596,7 +581,7 @@ function Room(props) {
             <Avatar className=" float-right mr-4" src={user?.result?.imageUrl} name={user?.result?.name} alt={user?.result?.name || "codesync"}></Avatar>
            
             <div className="mr-4  " style={{ float: "right" }}>
-              {/* <br /> */}
+             
               <button
                 className="flex bg-transparent hover:bg-red-400  text-gray-100 font-bold py-2 px-4 bg-red-600	  rounded-full border-solid border-2 border-red-500	 "
                 onClick={() => {
@@ -614,60 +599,15 @@ function Room(props) {
               <button
                 className="flex bg-transparent hover:bg-gray-200  text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600	 "
                 onClick={() => {
-                  navigator.clipboard.writeText(`${BaseURL}/room/${roomTitle}`);
+                  navigator.clipboard.writeText(roomId);
                   toast.success(`🔥 Room Link has been Copied 🔥`)
                 }}
               // 
               >
-                <img style={{ width: "18px", height: "18px" }} src='/image/icons/copy.svg' />  <span style={{ marginLeft: "3px", fontSize: "14px" }}>Room Link </span>
+                <img style={{ width: "18px", height: "18px" }} src='/image/icons/copy.svg' />  <span style={{ marginLeft: "3px", fontSize: "14px" }}>Room Code </span>
               </button>
             </div>
-          </div>
-          {/* <div className="ml-3 mt-5">
-            <label>Status: {submissionState}</label>
-          </div> */}
-          {/* <div className='mt-2 ml-2'>
-            <svg width="33" height="38" viewBox="0 0 33 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10.3132 13.721H0.750167V35.497C0.714209 35.9825 0.871368 36.4625 1.18747 36.8327C1.50357 37.203 1.95305 37.4334 2.43817 37.474H30.5632C31.0488 37.4334 31.4988 37.2025 31.815 36.8317C32.1312 36.4608 32.288 35.98 32.2512 35.494V2.50399C32.288 2.01817 32.1313 1.53749 31.8153 1.16664C31.4994 0.795787 31.0497 0.564801 30.5642 0.523987H12.0002V11.742C12.034 12.227 11.8763 12.706 11.5609 13.0761C11.2455 13.4461 10.7975 13.6777 10.3132 13.721V13.721ZM1.24217 9.18499L8.13317 1.10099C8.27868 0.922752 8.4616 0.778682 8.66897 0.678973C8.87634 0.579264 9.10309 0.526353 9.33317 0.523987H9.75017V11.082H0.750167V10.582C0.744312 10.0729 0.918573 9.57807 1.24217 9.18499V9.18499Z" fill="#CBCBCB" />
-            </svg>
-          </div>
-          <div className="idesvg flex mt-3">
-            <div className="copy-for-ide">
-              <img src='/image/icons/copy.svg' style={{ color: "white", width: "22px", height: "22px" }} />
-            </div>
-            <div>
-              <img src='/image/icons/download.svg' style={{ color: "white", width: "22px", height: "22px" }} />
-            </div>
-            <div>
-              <img src='/image/icons/share.svg' style={{ color: "white", width: "22px", height: "22px" }} />
-            </div>
-          </div>
-          <div className=' flex mt-3 svg-for-whiteboard-top'>
-            
-            <div class="pen">
-            <svg width="22" height="22" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14.6401 5.13397L20.8581 11.352L7.35807 24.852L1.81407 25.464C1.64038 25.4832 1.4646 25.4631 1.29973 25.4052C1.13485 25.3473 0.985096 25.2531 0.861533 25.1295C0.73797 25.006 0.64376 24.8562 0.585867 24.6913C0.527975 24.5264 0.507882 24.3507 0.527073 24.177L1.14407 18.63L14.6441 5.12997L14.6401 5.13397ZM24.7041 4.20497L21.7841 1.28897C21.5675 1.07212 21.3103 0.900086 21.0272 0.78271C20.744 0.665335 20.4406 0.604919 20.1341 0.604919C19.8276 0.604919 19.5241 0.665335 19.241 0.78271C18.9579 0.900086 18.7007 1.07212 18.4841 1.28897L15.7391 4.03497L21.9571 10.253L24.7041 7.50497C24.9209 7.28839 25.093 7.03118 25.2103 6.74806C25.3277 6.46494 25.3881 6.16146 25.3881 5.85497C25.3881 5.54849 25.3277 5.24501 25.2103 4.96189C25.093 4.67876 24.9209 4.42156 24.7041 4.20497Z" fill="black" />
-              </svg>
-            </div>
-            <div
-              className='chat'
-            >
-              <svg width="27" height="27" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5.05003 0.0410156H39.628C40.771 0.0452516 41.8656 0.502664 42.6717 1.31291C43.4778 2.12316 43.9296 3.22007 43.928 4.36302L43.95 43.263L35.306 34.619H5.05003C3.9043 34.6156 2.80652 34.1587 1.99664 33.3483C1.18677 32.5378 0.730665 31.4397 0.728027 30.294V4.36302C0.731457 3.2178 1.18791 2.12048 1.9977 1.31069C2.80749 0.500898 3.90482 0.0444448 5.05003 0.0410156ZM35.303 15.168H9.37203V19.49H35.303V15.168ZM18.016 25.968H35.303V21.65H18.015L18.016 25.968ZM9.37203 13.007H35.303V8.68502H9.37203V13.007Z" fill="black" />
-              </svg>
-
-            </div>
-            <div className='eraser'>
-              <svg width="27" height="24" viewBox="0 0 27 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M26.0819 12.919C26.3103 12.6908 26.4914 12.4197 26.615 12.1214C26.7386 11.8231 26.8023 11.5034 26.8023 11.1805C26.8023 10.8576 26.7386 10.5379 26.615 10.2396C26.4914 9.9413 26.3103 9.67027 26.0819 9.44201L17.8899 1.24801C17.6616 1.01964 17.3906 0.838472 17.0923 0.71487C16.794 0.591267 16.4743 0.527649 16.1514 0.527649C15.8285 0.527649 15.5088 0.591267 15.2105 0.71487C14.9122 0.838472 14.6412 1.01964 14.4129 1.24801L1.30191 14.359C1.07353 14.5873 0.892366 14.8583 0.768764 15.1566C0.645161 15.4549 0.581543 15.7746 0.581543 16.0975C0.581543 16.4204 0.645161 16.7401 0.768764 17.0384C0.892366 17.3367 1.07353 17.6077 1.30191 17.836L6.21891 22.753C6.6799 23.2139 7.30504 23.4729 7.95691 23.473H26.1889C26.352 23.473 26.5084 23.4082 26.6238 23.2929C26.7391 23.1775 26.8039 23.0211 26.8039 22.858V20.809C26.8039 20.6459 26.7391 20.4895 26.6238 20.3741C26.5084 20.2588 26.352 20.194 26.1889 20.194H18.8079L26.0819 12.919ZM10.5819 9.71201L17.6179 16.748L14.1709 20.195H8.29591L4.19591 16.095L10.5819 9.71201Z" fill="#CBCBCB" />
-              </svg>
-
-            </div>
-
-
-          </div> */}
-
-          {/* <div></div> */}
+          </div> 
         </div>
         <hr className="mt-1" />
         <div className="grid grid-flow-row grid-cols-2 m0 room-body">
@@ -685,7 +625,6 @@ function Room(props) {
                           <svg class="ide-selectarrow pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="13.819" height="7.9" viewBox="0 0 13.819 7.9">
                             <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M2.382,6.911,7.61,12.136a.988.988,0,1,1-1.4,1.395L.288,7.611A.986.986,0,0,1,.259,6.249L6.207.288a.988.988,0,0,1,1.4,1.395Z" transform="translate(0 7.9) rotate(-90)" fill="#828282" />
                           </svg>
-                          {/* <label>Choose Language</label> */}
                           <select
                             className="ide-selectbox appearance-none"
                             defaultValue={language}
@@ -707,7 +646,6 @@ function Room(props) {
                             <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M2.382,6.911,7.61,12.136a.988.988,0,1,1-1.4,1.395L.288,7.611A.986.986,0,0,1,.259,6.249L6.207.288a.988.988,0,0,1,1.4,1.395Z" transform="translate(0 7.9) rotate(-90)" fill="#828282" />
                           </svg>
 
-                          {/* <label>Choose Theme</label> */}
                           <select
                             className="ide-selectbox appearance-none"
                             defaultValue={theme}
@@ -727,7 +665,6 @@ function Room(props) {
                         </div>
                       </div>
                       <div className="ml-2 mr-5 mt-2 inline-block">
-                        {/* <label>Font Size</label> */}
                         <div className="relative inline-flex">
                           <svg class="ide-selectarrow pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="13.819" height="7.9" viewBox="0 0 13.819 7.9">
                             <path id="Icon_ionic-ios-arrow-back" data-name="Icon ionic-ios-arrow-back" d="M2.382,6.911,7.61,12.136a.988.988,0,1,1-1.4,1.395L.288,7.611A.986.986,0,0,1,.259,6.249L6.207.288a.988.988,0,0,1,1.4,1.395Z" transform="translate(0 7.9) rotate(-90)" fill="#828282" />
@@ -749,26 +686,7 @@ function Room(props) {
                         </div>
                       </div>
                     </div>
-
-
-                    {/* <button
-                      className="btn btn-primary btn-save-run"
-                      onClick={submitHandler}
-                      disabled={submissionState === runningState}
-                    >
-                      Save and Run
-                    </button>
-                    <button
-                      className="btn btn-secondary btn-copy"
-                      onClick={() => {
-                        navigator.clipboard.writeText(roomBody);
-                      }}
-                    >
-                      Copy Code
-                    </button> */}
                   </div>
-                  {/* {console.log("language" + languageToEditorMode[language])} */}
-                  {/* {console.log('room body is ' + output)} */}
                   <div className="ide-textarea">
                     <Editor
                       theme={theme}
@@ -799,13 +717,7 @@ function Room(props) {
                               </svg>
                             </button>
                           </li>
-                          {/* <li>
-                            <button>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="17.769" height="19.665" viewBox="0 0 17.769 19.665">
-                                <path id="Icon_material-share" data-name="Icon material-share" d="M19.308,16.9a2.875,2.875,0,0,0-1.935.76l-7.039-4.1a2.732,2.732,0,0,0,0-1.382l6.96-4.057a2.955,2.955,0,1,0-.948-2.162,3.232,3.232,0,0,0,.089.691L9.475,10.71a2.962,2.962,0,1,0,0,4.324L16.5,19.141a2.785,2.785,0,0,0-.079.642A2.883,2.883,0,1,0,19.308,16.9Z" transform="translate(-4.5 -3)" fill="#828282" />
-                              </svg>
-                            </button>
-                          </li> */}
+                         
                         </ul>
                       </div>
                       <div className="ide-bottom-run">
@@ -835,7 +747,7 @@ function Room(props) {
                       />
                     </div>
                     <div className="ip-op-container">
-                      {console.log(output)}
+                      {/* {console.log(output)} */}
                       <div className="header-ip-op">
                         <h5 className="Output">Output<svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M10.9101 15.85V13.668L2.18205 13.668L2.18205 2.75798L10.9101 2.75798V0.575975L5.53131e-05 0.575975L5.53131e-05 15.85L10.9101 15.85ZM13.0921 11.486L17.4561 8.21298L13.0921 4.93998L13.0921 7.12198L4.36405 7.12198L4.36405 9.30398L13.0921 9.30398V11.486Z" fill="#EDEDED" />
