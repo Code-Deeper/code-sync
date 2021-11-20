@@ -27,7 +27,7 @@ function Header(props) {
   const submitHandler = () => {
     // const {history} = props
     if (roomId) {
-      console.log(roomId);
+      // console.log(roomId);
       props.history.push(`/room/${roomId}`)
 
     } else {
@@ -55,20 +55,20 @@ function Header(props) {
     e.preventDefault()
     setLoader(true);
     const uID = await uuidv4();
-    console.log({uID});
+    // console.log({uID});
     AXIOS.post('/api/room', {
       room_id: uID,
       room_title: roomName || uID,
       room_body: "", room_language: "", room_input: ""
     }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       history.push(`/room/${res?.data?.room_id}`)
       toast.success("Room Has been Created!");
       setLoader(false)
     }).catch((err) => {
       setLoader(false)
       alert('Room Not Created!! axaError!!!');
-      console.log(err);
+      // console.log(err);
     })
   }
   return (

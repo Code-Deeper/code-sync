@@ -35,7 +35,7 @@ function LoginPage(props) {
     const [loader, setLoader] = useState(false);
     const [errorHandler, setErrorHandler] = useState(false);
     useEffect(() => {
-        console.log(redComp)
+        // console.log(redComp)
         if (redComp) {
             props.history.push('/room')
             window.location.reload();
@@ -52,9 +52,9 @@ function LoginPage(props) {
             setErrorHandler("Email or Password is empty")
         } else {
             setLoader(true);
-            console.log({ formData })
+            // console.log({ formData })
             AXIOS.post('/api/user/login', formData).then((response) => {
-                console.log(response)
+                // console.log(response)
                 if (response?.data?.code == 202) {
                     // response?.data?.message
                     setErrorHandler(response?.data?.message);
@@ -84,7 +84,7 @@ function LoginPage(props) {
     }
     const googleSuccess = async (res) => {
         // TODO:
-        console.log(res)
+        // console.log(res)
         setLoader(true);
 
         let passData = {
@@ -102,12 +102,9 @@ function LoginPage(props) {
             console.log(error)
         })
     }
-    useEffect(() => {
-        console.log({ formData })
-    }, [formData])
     const googleFailure = (res) => {
         toast.error("Google Login was failed for some reason")
-        console.log('Failed while google login!!!', res)
+        console.log('Failed while google login!!!')
     }
 
     return (

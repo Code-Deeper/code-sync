@@ -39,7 +39,7 @@ export const loginUser = (formData, push) =>
         try {
            
             // const { data } = await AXIOS.post('/api/user/login', formData);
-            console.log(formData)
+            // console.log(formData)
             dispatch({
                 type: AUTHORIZATION,
                 payload: formData

@@ -28,9 +28,9 @@ function Register() {
     const submitHandler = (e) => {
         ///TODO:
         e.preventDefault()
-        console.log({ formData })
+        // console.log({ formData })
         AXIOS.post('/api/user/register', formData).then((response) => {
-            console.log({ response })
+            // console.log({ response })
             // response.data.code
             if (response.data.code == 201) {
                 setErrorHandler(response?.data?.message)

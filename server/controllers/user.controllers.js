@@ -50,7 +50,7 @@ const googleAuthUser = async (req, res) => {
 
     try {
         const existingUser = await User.findOne({ email: email })
-        console.log({ existingUser })
+        // console.log({ existingUser })
         if (existingUser) {
             // Login Property
 
