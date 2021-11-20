@@ -28,7 +28,7 @@ with other room members & Many more things which smooth and attractive UI.
 - [x] Compiler Programe
 - [ ] Invitation On Email
 - [ ] Restirect User for enter room
-- [ ] Add LoadBlancer
+- [ ] Add load balancer
 <!--  <br/> -->
 ## Project Management
   - For Project Management we used Github Project section it self.You can watch [here](https://github.com/Code-Deeper/code-sync/projects/1)
