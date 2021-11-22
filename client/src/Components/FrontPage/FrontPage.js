@@ -32,7 +32,7 @@ function FrontPage(props) {
                             <div className="flex-shrink-0">
                                 <img
                                     className="h-8 w-8"
-                                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                                    src="/image/Logos/xyz.png"
                                     alt="Workflow"
                                 />
                             </div>

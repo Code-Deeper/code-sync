@@ -1,0 +1,44 @@
+.home-div-con{
+    display: flex;
+    justify-content: flex-start;
+    height: 100%;
+    align-items: center;
+
+
+
+}
+.home-child-1{
+    display: flex;
+    width: 50%;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.home-child-2{
+    display: flex;
+    width: 50%;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+.con-home-l {
+    padding-left: 15%;
+}
+.home-child-1 .con-home-l h1{ 
+    font-size: 57px;
+    line-height: 70px;
+    font-weight: 900;
+}
+.home-child-1 .con-home-l .home-cont-text{
+    font-size: 18px;
+    /* color: gray; */
+    /* color: rgba(243, 244, 246); */
+    --tw-text-opacity: 1;
+    color: rgba(107, 114, 128, var(--tw-text-opacity));
+    margin: 2% 0;
+    line-height: 26px;
+}
+.bt-home-screen{
+
+}

@@ -171,7 +171,7 @@ function Register() {
                                         </div>
                                     </div>
                                     <div className='right-0	 ml-1 mb-6 right-0	' >
-                                        Already have an account ?  <Link to="/login" >Login Here</Link>
+                                        Already have an account ?  <Link to="/login" className=" text-indigo-700" >Login Here</Link>
                                     </div>
                                 </div>
                             </div>

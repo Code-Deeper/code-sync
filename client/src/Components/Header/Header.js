@@ -31,8 +31,9 @@ function Header(props) {
       props.history.push(`/room/${roomId}`)
 
     } else {
-      alert('Please Enter Room Name');
-      props.history.push('/');
+      toast.error("Please Enter Room Name ");
+      // alert('Please Enter Room Name');
+      // props.history.push('/');
     }
   }
   const logoutHandler = () => {
@@ -54,22 +55,30 @@ function Header(props) {
   const CreatRoomHandler = async (e) => {
     e.preventDefault()
     setLoader(true);
-    const uID = await uuidv4();
-    // console.log({uID});
-    AXIOS.post('/api/room', {
-      room_id: uID,
-      room_title: roomName || uID,
-      room_body: "", room_language: "", room_input: ""
-    }).then((res) => {
-      // console.log(res.data);
-      history.push(`/room/${res?.data?.room_id}`)
-      toast.success("Room Has been Created!");
+    if (roomName.length <= 0) {
       setLoader(false)
-    }).catch((err) => {
-      setLoader(false)
-      alert('Room Not Created!! axaError!!!');
-      // console.log(err);
-    })
+      toast.error("Please Enter Room Name ");
+
+    } else {
+      const uID = await uuidv4();
+      // console.log({uID});
+      AXIOS.post('/api/room', {
+        room_id: uID,
+        room_title: roomName || uID,
+        room_body: "", room_language: "", room_input: ""
+      }).then((res) => {
+        // console.log(res.data);
+        history.push(`/room/${res?.data?.room_id}`)
+        toast.success("Room Has been Created!");
+        setLoader(false)
+      }).catch((err) => {
+        setLoader(false)
+        // alert('Room Not Created!! axaError!!!');
+        toast.error("Room Not Created!! ");
+        // console.log(err);
+      })
+    }
+    
   }
   return (
     <Loader show={loader} message={<div className="">
@@ -83,7 +92,7 @@ function Header(props) {
                 <div className="flex-shrink-0">
                   <img
                     className="h-8 w-8"
-                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                    src="/image/Logos/xyz.png"
                     alt="Workflow"
                   />
                 </div>

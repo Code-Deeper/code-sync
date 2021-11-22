@@ -1,7 +1,7 @@
 import React from 'react';
 import Board from '../Board/Board';
 import Draft from '../../Room/RichEditor/Draft'
-import { Avatar } from "@mui/material";
+// import { Avatar } from "@mui/material";
 import './Container.css';
 class Container extends React.Component {
     constructor(props) {
@@ -46,7 +46,7 @@ class Container extends React.Component {
         return (
             <div key={this.props.key} className="container">
                 <div className=' z-100'>
-                    <div class="board-container">
+                    <div className="board-container">
 
                         <div className="board-title">
                             <h2 style={{ display: 'flex' }}><span style={{ marginRight: "5px", marginTop: "2px" }}><svg width="22" height="22" viewBox="0 0 27 21" fill="none" xmlns="http://www.w3.org/2000/svg">

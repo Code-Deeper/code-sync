@@ -66,3 +66,16 @@
         transform: translateX(0) opacity(1);
       }
     }
+
+@media (max-width:1536px){
+    /*1536 x 750*/
+    .tools-section{padding: 10px 20px 0 20px;}
+}
+
+
+@media (max-width:1366px) {
+    /*1366 x 655*/
+
+    .tools-section{padding: 10px 10px 0 15px;}
+    .tools-section .brushsize-container{margin-left: 5px;}  
+}
