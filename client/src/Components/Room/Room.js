@@ -25,6 +25,7 @@ import Bounce from "react-activity/dist/Bounce";
 import "react-activity/dist/Bounce.css";
 import Loader from 'react-loader-advanced';
 import { FaTimes } from "react-icons/fa";
+import allLanguageDefaultCode from './Language/Default'
 var myPeer = Peer;
 var audios = {};
 var peers = {};
@@ -100,14 +101,27 @@ function Room(props) {
   const [loader, setLoader] = useState(false);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
-  // useEffect(() => {
-  //   console.log({ openChat })
-  // }, [openChat])
+  
+ 
 
+  useEffect(() => {
+    console.log({ language, roomBody })
+    if (language == "cpp") {
+      setRoomBody(allLanguageDefaultCode.cpp);
+    } else if (language == "c") {
+      setRoomBody(allLanguageDefaultCode.c);
+    } else if (language == "java") {
+      setRoomBody(allLanguageDefaultCode.java);
+    } else if (language == "python") {
+      setRoomBody(allLanguageDefaultCode.python);
+    } else if (language == "javascript") {
+      setRoomBody(allLanguageDefaultCode.javascript);
+    } else {
+      // Nothing
+      setRoomBody("")
+    }
+  }, [language])
 
-
-  // const [token , setToken] = useState(null)
-  // const API_KEY = "guest";
 
   const SOCKET_SPEED = 100;
   const JAUDGE_API_KEY = process.env.REACT_APP_JAUDGE_API_KEY;
@@ -117,17 +131,11 @@ function Room(props) {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // useEffect(() => {
-  //   console.log({ loader })
-  // }, [loader])
   useEffect(() => {
     localStorage.setItem("language", language);
   }, [language]);
   // Once room will be created then this effect will triggered when ever props id changed
   // Props id means router id example /room/:id
-  // useEffect(() => {
-  //   console.log(editorState);
-  // }, [editorState])
   useEffect(() => {
 
     socket.on("updateBody", (roomBody) => {
@@ -181,7 +189,9 @@ function Room(props) {
 
       // @edge case for value empty
       if (language) setLanguage(room_language);
-      if (room_body) setRoomBody(room_body);
+      
+      if (room_body.length > 0) setRoomBody(room_body);
+      else setRoomBody("// Change Language According to you and start writing code :))");
       setLoader(false)
     };
     fetchData();
@@ -213,9 +223,6 @@ function Room(props) {
     setInAudio(false);
   }, [roomId]);
 
-  // useEffect(() => {
-  //   console.log({ activeUserInRoom })
-  // }, [activeUserInRoom])
 
   const GiveMeLanguageCode = () => {
     switch (language) {
@@ -333,7 +340,7 @@ function Room(props) {
 
   };
   const handleDownloadForIDE = () => {
-    const new_file = new Blob([roomBody], {type: "text/plain;charset=utf-8"});
+    const new_file = new Blob([roomBody], { type: "text/plain;charset=utf-8" });
     const element = document.createElement("a");
     element.href = URL.createObjectURL(new_file);
     element.download = `${roomTitle}.${"txt"}`;
@@ -533,8 +540,8 @@ function Room(props) {
 
       <div style={{ margin: 0, height: "100%", overflow: "hidden" }}>
         <div className=" flex flex-row justify-content-center">
-          <div>
-            <img src='/image/codesynclogo.png' style={{ width: "50%" ,marginTop: "4%" , marginRight: "5%"}} />
+          <div style={{ width: "8%", marginTop: "6px", marginLeft: "1%" }}>
+            <img src='/image/Logos/xyz2.png'  style={{width : "100%"}} />
 
           </div>
           <div className=' hidden md:flex items-center justify-end md:flex-1 lg:w-0'>
@@ -543,7 +550,7 @@ function Room(props) {
                 <svg width="18" height="18" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M13 14.562C14.3906 14.562 15.75 14.1496 16.9062 13.3771C18.0625 12.6045 18.9636 11.5064 19.4958 10.2216C20.028 8.9369 20.1672 7.5232 19.8959 6.15932C19.6246 4.79544 18.955 3.54263 17.9717 2.55933C16.9884 1.57603 15.7356 0.906391 14.3717 0.635098C13.0078 0.363805 11.5941 0.503043 10.3094 1.0352C9.02461 1.56736 7.92651 2.46854 7.15394 3.62478C6.38136 4.78103 5.969 6.1404 5.969 7.531C5.96953 9.39557 6.71046 11.1836 8.02892 12.5021C9.34737 13.8205 11.1354 14.5615 13 14.562ZM19.25 16.125H16.56C15.4439 16.6397 14.2295 16.9062 13.0005 16.9062C11.7715 16.9062 10.5571 16.6397 9.441 16.125H6.75C5.0924 16.125 3.50269 16.7835 2.33058 17.9556C1.15848 19.1277 0.5 20.7174 0.5 22.375L0.5 23.156C0.5 23.7777 0.746956 24.3739 1.18654 24.8135C1.62613 25.253 2.22233 25.5 2.844 25.5H23.156C23.7777 25.5 24.3739 25.253 24.8135 24.8135C25.253 24.3739 25.5 23.7777 25.5 23.156V22.375C25.5 20.7174 24.8415 19.1277 23.6694 17.9556C22.4973 16.7835 20.9076 16.125 19.25 16.125Z" fill="black" />
                 </svg>
-                <span className='ml-1' style={{ fontSize: "14px" }}>{activeUserInRoom.length } Joined </span>
+                <span className='ml-1' style={{ fontSize: "14px" }}>{activeUserInRoom.length} Joined </span>
               </button>
             </div>
             <div className=" ml-2 ">
@@ -558,13 +565,13 @@ function Room(props) {
               }
             </div>
             {inAudio ? (
-              <div className="join-audio-btn " style={{ borderRadius: "40px"}}>
+              <div className="join-audio-btn " style={{ borderRadius: "40px" }}>
                 <button
                   className={`${inAudio ? " hover:bg-gray-100" : " hover:bg-gray-100 "}text-white-100 font-bold  rounded close-audio-btn `}
                   onClick={() => setInAudio(!inAudio)}
                 >
                   <FaTimes />
-                  
+
                 </button>
                 <button
                   className={`${isMuted ? "  " : " "}text-white-100 font-bold py-2 px-4 rounded mic-handler-btn`}
@@ -579,9 +586,9 @@ function Room(props) {
           </div>
           <div className="room-button-with-avtar pt-2" >
             <Avatar className=" float-right mr-4" src={user?.result?.imageUrl} name={user?.result?.name} alt={user?.result?.name || "codesync"}></Avatar>
-           
+
             <div className="mr-4  " style={{ float: "right" }}>
-             
+
               <button
                 className="flex bg-transparent hover:bg-red-400  text-gray-100 font-bold py-2 px-4 bg-red-600	  rounded-full border-solid border-2 border-red-500	 "
                 onClick={() => {
@@ -592,8 +599,8 @@ function Room(props) {
                 <span style={{ marginLeft: "3px", fontSize: "14px" }}>End Call </span>
               </button>
             </div>
-           
-           
+
+
             <div className="mr-4  " style={{ float: "right" }}>
               {/* <br /> */}
               <button
@@ -607,7 +614,7 @@ function Room(props) {
                 <img style={{ width: "18px", height: "18px" }} src='/image/icons/copy.svg' />  <span style={{ marginLeft: "3px", fontSize: "14px" }}>Room Code </span>
               </button>
             </div>
-          </div> 
+          </div>
         </div>
         <hr className="mt-1" />
         <div className="grid grid-flow-row grid-cols-2 m0 room-body">
@@ -717,7 +724,7 @@ function Room(props) {
                               </svg>
                             </button>
                           </li>
-                         
+
                         </ul>
                       </div>
                       <div className="ide-bottom-run">

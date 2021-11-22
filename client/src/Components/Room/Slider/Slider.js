@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Avatar } from "@mui/material";
 const Slider = ({  sliderOpen, setSliderOpen, activeUserInRoom}) => {

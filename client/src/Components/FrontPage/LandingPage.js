@@ -1,9 +1,41 @@
 import React from 'react'
-
+import './Landing.css'
 function LandingPage() {
     return (
         <>
-            <div class="w-full px-6 pb-12 antialiased bg-white mt-32	">
+            <div className="max-w-7xl mx-auto my-48">
+                <div className="home-div-con ">
+                    <div className="home-child-1">
+                        <div>
+                            <div className="con-home-l">
+                                <h1 >Start Writing Your <br /> Best Code.</h1>
+                                <div className='home-cont-text'>Crafting Your Code, Dry Run, Talk To Friends, Chat With Friend, Keep a notes of code & Many More!</div>
+                                <div className='mt-5'><a className=" bg-indigo-600 bt-home-screeninline-flex items-center justify-center w-full px-6 py-3  font-bold leading-6 text-white bg-indigo-600 border border-transparent md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 text-gray-100 rounded-xl" href="/room" type="button">Explore Now</a></div>
+                            </div>
+                            <div></div>
+                            {/* rgba(243, 244, 246,1) */}
+                            {/* <div class="w-full  pb-12 antialiased bg-white mt-32	">
+                            <div class=" max-w-7xl">
+                                <div class="container max-w-lg  py-32 text-left md:max-w-none md:text-center">
+                                    <h1 class="text-5xl font-extrabold leading-10 tracking-tight text-left text-gray-900 md:text-center sm:leading-none md:text-6xl lg:text-7xl"><span class="inline md:block">Start Writing Your</span> <span class="relative mt-2 text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 to-indigo-500 md:inline-block">Best Code.</span></h1>
+                                    <div class="mx-auto mt-5 text-gray-500 md:mt-12 md:max-w-lg md:text-center lg:text-lg">Crafting Your Code, Dry Run, Talk To Friends, Chat With Friend, Keep a notes of code & Many More!</div>
+                                    <div class="flex flex-col items-center mt-12 text-center">
+                                        <span class="relative inline-flex w-full md:w-auto">
+                                            <a href="/room" type="button" class="inline-flex items-center justify-center w-full px-8 py-4  font-bold leading-6 text-white bg-indigo-600 border border-transparent md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 text-gray-100 rounded-2xl">
+                                                Explore Now
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> */}
+                        </div>
+
+                    </div>
+                    <div className="home-child-2"><img src='/image/Logos/codesync-01.png' /></div>
+                </div>
+            </div>
+            {/* <div class="w-full px-6 pb-12 antialiased bg-white mt-32	">
                 <div class="mx-auto max-w-7xl">
                     <div class="container max-w-lg px-4 py-32 mx-auto text-left md:max-w-none md:text-center">
                         <h1 class="text-5xl font-extrabold leading-10 tracking-tight text-left text-gray-900 md:text-center sm:leading-none md:text-6xl lg:text-7xl"><span class="inline md:block">Start Writing Your</span> <span class="relative mt-2 text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 to-indigo-500 md:inline-block">Best Code.</span></h1>
@@ -13,13 +45,11 @@ function LandingPage() {
                                 <a href="/room" type="button" class="inline-flex items-center justify-center w-full px-8 py-4  font-bold leading-6 text-white bg-indigo-600 border border-transparent md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 text-gray-100 rounded-2xl">
                                     Explore Now
                                 </a>
-                                {/* <span class="absolute top-0 right-0 px-2 py-1 -mt-3 -mr-6 text-xs font-medium leading-tight text-white bg-green-400 rounded-full">only $15/mo</span> */}
                             </span>
-                            {/* <!-- <a href="#" class="mt-3 text-sm text-indigo-600">Learn More</a> --> */}
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div class="py-20 bg-white">
                 <div class="container max-w-6xl mx-auto">
@@ -36,7 +66,7 @@ function LandingPage() {
 
                         <div class="flex flex-col items-center justify-between col-span-4 px-8 py-12 space-y-4 bg-gray-100 rounded-2xl">
                             <div class="p-3 text-white bg-indigo-400 rounded-2xl">
-                                <img src='/image/icons/microphone-voice.svg' style={{width: "30px" , height : "30px"}}/>
+                                <img src='/image/icons/microphone-voice.svg' style={{ width: "30px", height: "30px" }} />
                             </div>
                             <h4 class="text-xl font-medium text-gray-700">Voice Chat</h4>
                             <p class="text-base text-center text-gray-500">Voice chat between the room that help room member to keep them engaged.</p>
@@ -76,7 +106,7 @@ function LandingPage() {
             <div class="text-gray-700 bg-white body-font mt-32">
                 <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
                     <a href="#_" class="text-xl font-black leading-none text-gray-900 select-none logo">CodeSync<span class="text-indigo-600">.</span></a>
-                    <p class="mt-4 text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l sm:border-gray-200 sm:mt-0">© 2021 CodeDeeper 
+                    <p class="mt-4 text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l sm:border-gray-200 sm:mt-0">© 2021 CodeDeeper
                     </p>
                     <span class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start">
                         <a href="https://github.com/Code-Deeper" class="text-gray-400 hover:text-gray-500">
@@ -106,9 +136,9 @@ function LandingPage() {
                             </svg>
                         </a> */}
 
-                        
 
-                        
+
+
                     </span>
                 </div>
             </div>
