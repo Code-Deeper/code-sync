@@ -1,4 +1,5 @@
 # CodeSync
+### ⚠️ Site Not responsive for all screen, May you need Zoom out with chrome  🛑
 
 [![Issues](https://img.shields.io/github/issues/Code-Deeper/code-sync)](#issues)
 [![forks](https://img.shields.io/github/forks/Code-Deeper/code-sync)](#forks)
