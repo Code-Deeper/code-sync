@@ -5,6 +5,7 @@ import App from './App';
 import { Provider } from 'react-redux'
 import store from './store'
 // import axios from 'axios'
+
 import './index.css'
 // import './bootstrap.min.css';
 // axios.interceptors.request.use((req) => {
@@ -13,7 +14,6 @@ import './index.css'
 //   }
 //   return req;
 // })
-
 
 ReactDOM.render(
   <Provider store={store}>

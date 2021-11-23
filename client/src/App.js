@@ -13,6 +13,8 @@ import Register from './Components/Auth/Register/Register';
 import Cookies from 'universal-cookie';
 import ProtectedRoute from './Protected'
 import Trial from './trial';
+import ReactGA from 'react-ga';
+import TeamPage from './Components/Team Page/TeamPage'
 import NotFound from './Components/NotFound/NotFound';
 const cookies = new Cookies();
 const history = createBrowserHistory();
@@ -22,6 +24,11 @@ function App() {
   // useEffect(() => {
   //   console.log({ authroot: isAuthenticated });
   // }, [isAuthenticated])
+  useEffect(() => {
+    ReactGA.initialize('UA-213485416-1');
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  },[])
+
   const [loginUser, setLoginUser] = useState(null)
 
 
@@ -40,6 +47,8 @@ function App() {
       <Route path='/newRoom' render={(props) => isAuthenticated ? <CreateRoom {...props} /> : <Redirect to="/login" />} exact />
       <Route path='/editor' render={Editor} exact />
       <Route path='/trial' render={(props) => <Trial {...props} />} exact />
+      <Route path="/team" component={TeamPage} exact />
+
     </Router>
   );
 }

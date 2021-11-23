@@ -52,10 +52,10 @@ function FrontPage(props) {
                                         Room
                                     </a>
                                     <a
-                                        href="/trial"
+                                        href="/team"
                                         className="hover:no-underline hover:text-gray-200 hover:bg-indigo-500 text-black px-3 py-2 rounded-md text-base font-semibold	"
                                     >
-                                        Trial
+                                        Our Team
                                     </a>
 
                                 </div>
@@ -147,17 +147,17 @@ function FrontPage(props) {
                                     Room
                                 </a>
                                 <a
-                                    href="/trial"
+                                    href="/team"
                                     className="hover:no-underline hover:text-gray-200 hover:bg-indigo-500 text-black block px-3 py-2 rounded-md text-base font-medium"
                                 >
-                                    Trial
+                                    Our Team
                                 </a>
                                 
 
                             </div>
                             <div>
                                 <a
-                                    href="/login"
+                                    href="/register"
                                     type='submit'
                                     className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                                 >
@@ -165,7 +165,7 @@ function FrontPage(props) {
                                 </a>
                                 <p className="mt-6 text-center text-base font-medium text-gray-500">
                                     Existing customer?{' '}
-                                    <a href="/register"
+                                    <a href="/login"
                                         type="submit"
                                         className="text-indigo-600 hover:text-indigo-500">
                                         Sign in
