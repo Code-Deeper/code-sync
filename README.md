@@ -11,7 +11,7 @@
 
 CodeSync is a Cloud Collaborative Platform for Competitive programmers, Educators & who like to code with friends.CodeSync Provide  Collebrative Code-Editor,
 Real-Time Audio Communication, Collaborative Drawing board for  explain idea, Collaborative text-editor for taking notes, Real-Time chat box for chatting 
-with other room members & Many more things which smooth and attractive UI.
+with other room members & Many more things with smooth and attractive UI.
  
  ## Tech Stack 🗃
   <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB"> <img src="https://img.shields.io/badge/webRTC-%23430098.svg?style=for-the-badge&logoColor=white&color=red"> <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white"> <img src="https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101" >   <img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB"> <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white"> <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white">
@@ -31,7 +31,7 @@ with other room members & Many more things which smooth and attractive UI.
 - [x] Collebrative Text-editor
 - [x] Compiler Programe
 - [ ] Invitation On Email
-- [ ] Restirect User for enter room
+- [ ] Restricted user for enter room
 - [ ] Add load balancer
 - [x] Template added when change language
 <!--  <br/> -->
