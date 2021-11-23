@@ -65,7 +65,7 @@ io.on('connection', (socket) => {
     socket.join(roomId);
 
     let users = getUsersInRoom(roomId)
-    // console.log("users", users)
+    console.log("users", users)
     io.to(roomId).emit('numberOfUser', users);
 
     callback();
@@ -77,7 +77,8 @@ io.on('connection', (socket) => {
   })
 
   socket.on('canvas-data', (data) => {
-    socket.broadcast.emit('canvas-data', data);
+    // console.log(data, CentralRoomId)
+    socket.broadcast.to(CentralRoomId).emit('canvas-data', data);
 
   })
   socket.on('updateBody', ({ value, roomId }) => {
@@ -108,7 +109,7 @@ io.on('connection', (socket) => {
   socket.on('disconnect', ({ userName }) => {
     const user = removeUser(UserIdForRemove)
     let users = getUsersInRoom(CentralRoomId)
-    // console.log("users", users)
+    console.log("users", users)
     io.to(CentralRoomId).emit('numberOfUser', users);
     // console.log("User disconnect", user);
   })
