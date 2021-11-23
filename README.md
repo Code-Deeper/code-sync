@@ -1,11 +1,12 @@
 # CodeSync
 ### ⚠️ Site Not responsive for all screen, May you need Zoom out with chrome, We are working on it  🛑
 
+
 [![Issues](https://img.shields.io/github/issues/Code-Deeper/code-sync)](#issues)
 [![forks](https://img.shields.io/github/forks/Code-Deeper/code-sync)](#forks)
 [![license](https://img.shields.io/github/license/Code-Deeper/code-sync)](#license)
 <!-- https://github.com/Code-Deeper/code-sync/blob/main -->
-<p align="center" width="400px"><img src="assets/codesync.png" width="1000"></p>
+[![Watch the video](https://github.com/Code-Deeper/media-repo/blob/main/CODESYNC.lIVE%20(1).png)](https://youtu.be/5IUfY_Pqj_s)
 <p align="center" width="400px"> <font size="9"> <b>👨🏾‍💻 A Cloud Collebrative Platform 🧑‍🏫 </b></font></p>
 
 CodeSync is a Cloud Collaborative Platform for Competitive programmers, Educators & who like to code with friends.CodeSync Provide  Collebrative Code-Editor,
@@ -32,7 +33,7 @@ with other room members & Many more things which smooth and attractive UI.
 - [ ] Invitation On Email
 - [ ] Restirect User for enter room
 - [ ] Add load balancer
-- [ ] Template added when change language
+- [x] Template added when change language
 <!--  <br/> -->
 ## Project Management
   - For Project Management we used Github Project section it self.You can watch [here](https://github.com/Code-Deeper/code-sync/projects/1)
