@@ -66,7 +66,7 @@ function TeamPage() {
                         <div class="w-full md:w-3/5 text-left p-4 md:p-4 space-y-2">
                             <p class="text-xl text-gray-700 font-bold">Harsh Nadiyapara</p>
                             <p class="text-base text-gray-400 font-normal">Designer</p>
-                            <p class="text-base leading-relaxed text-gray-500 font-normal">Harsh is a graphic designer & Freelancer as well. he made a preview of code sync design in adobe xd. He Created Logos, Background and helped by guiding us in the Design part.</p>
+                            <p class="text-base leading-relaxed text-gray-500 font-normal">Harsh is a designer & Freelancer as well. he made a preview of code sync design in adobe xd. He Created Logos, Background and helped by guiding us in the Design part.</p>
                             <div class="flex justify-start space-x-2">
                                 
                                 <a href="https://www.instagram.com/hn_studio__/" class="text-gray-500 hover:text-gray-600">
