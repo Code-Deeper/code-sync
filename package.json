@@ -1,7 +1,7 @@
 {
   "name": "code-sync",
   "version": "1.0.0",
-  "description": " ",
+  "description": "CodeSync is cloud collaborative tool for student , Teachers and Professional to enjoy coding!",
   "main": "server.js",
   "scripts": {
     "start": "node server/server",
@@ -14,9 +14,9 @@
     "type": "git",
     "url": "git+https://github.com/DE-PROJECT/code-sync.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["CodeSync" , "Coding tool" , "Cloud tool for coding"],
+  "author": "Vivekkumar Javiya",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/DE-PROJECT/code-sync/issues"
   },
