@@ -109,7 +109,7 @@ io.on('connection', (socket) => {
   socket.on('disconnect', ({ userName }) => {
     const user = removeUser(UserIdForRemove)
     let users = getUsersInRoom(CentralRoomId)
-    // console.log("users", users)
+    console.log("users", users)
     io.to(CentralRoomId).emit('numberOfUser', users);
     // console.log("User disconnect", user);
   })
