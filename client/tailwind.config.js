@@ -12,6 +12,7 @@ module.exports = {
             indigo: colors.indigo,
             green: colors.emerald,
             // white: colors.white,
+            yellow : colors.yellow
 
         },
         fontFamily: {

@@ -2,9 +2,8 @@ import React from 'react'
 
 function trial() {
     return (
-        <div>
-            
-        </div>
+        <>
+            </>
     )
 }
 
