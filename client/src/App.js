@@ -17,6 +17,8 @@ import ReactGA from 'react-ga';
 import TeamPage from './Components/Team Page/TeamPage'
 import NotFound from './Components/NotFound/NotFound';
 import { Helmet } from "react-helmet";
+import { useMediaQuery } from 'react-responsive'
+import Mobile from './Components/Mobile/Mobile';
 const cookies = new Cookies();
 const history = createBrowserHistory();
 
@@ -31,9 +33,14 @@ function App() {
   }, [])
 
   const [loginUser, setLoginUser] = useState(null)
+  const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-width: 1224px)'
+  })
+  const isBigScreen = useMediaQuery({ query: '(min-width: 1200px)' })
 
 
 
+  console.log({ isBigScreen})
 
 
   return (
@@ -41,8 +48,8 @@ function App() {
       <Helmet >
         <title>CodeSync</title>
         <meta name="description" content="Cloud collaborative tool for student , Teachers and Professional with real time code editor or IDE, Realtime drawing board , Real time chat app "/>
-        </Helmet>
-      <Router history={history}>
+      </Helmet>
+      {isBigScreen == true ? <Router history={history}>
         <Route path="/" component={FrontPage} exact />
         <Route path="/login" render={(props) => <LoginPage {...props} />} exact />
         <Route path="/register" component={Register} exact />
@@ -54,7 +61,8 @@ function App() {
         <Route path='/trial' render={(props) => <Trial {...props} />} exact />
         <Route path="/team" component={TeamPage} exact />
 
-      </Router>
+      </Router> : <Mobile />}
+      
     </>
   );
 }
