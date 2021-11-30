@@ -12,7 +12,7 @@ import LoginPage from './Components/Auth/Login/LoginPage';
 import Register from './Components/Auth/Register/Register';
 import Cookies from 'universal-cookie';
 import ProtectedRoute from './Protected'
-import Trial from './trial';
+import Trial from './Components/trial/trial';
 import ReactGA from 'react-ga';
 import TeamPage from './Components/Team Page/TeamPage'
 import NotFound from './Components/NotFound/NotFound';

@@ -26,6 +26,7 @@ import "react-activity/dist/Bounce.css";
 import Loader from 'react-loader-advanced';
 import { FaTimes } from "react-icons/fa";
 import allLanguageDefaultCode from './Language/Default'
+import Invite from "./Email/Invite";
 var myPeer = Peer;
 var audios = {};
 var peers = {};
@@ -100,9 +101,12 @@ function Room(props) {
   const [activeUserInRoom, setActiveUserInRoom] = useState([]);
   const [loader, setLoader] = useState(false);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+  const [showModal, setShowModal] = useState(false);
+  const [emailTextPop, setEmailTextPop] = useState("");
+
 
   
- 
+
 
   useEffect(() => {
     console.log({ language, roomBody })
@@ -189,7 +193,7 @@ function Room(props) {
 
       // @edge case for value empty
       if (language) setLanguage(room_language);
-      
+
       if (room_body.length > 0) setRoomBody(room_body);
       else setRoomBody("// Change Language According to you and start writing code :))");
       setLoader(false)
@@ -376,9 +380,6 @@ function Room(props) {
       setMsg('')
     }
   }
-  // useEffect(() => {
-  //   console.log({ msgs })
-  // }, [msgs])
 
   const chatOpenHandler = (val) => {
     setOpenChat(!openChat)
@@ -529,10 +530,33 @@ function Room(props) {
       SOCKET_SPEED
     )();
   };
-  // const
-  useEffect(() => {
-    // console.log(language);
-  }, [language]);
+
+
+
+  const sendInviteEmail = async () => {
+    // sendTo ,mailSubject , roomLink , userName ,userEmail
+    setLoader(true);
+    const data = {
+      sendTo: emailTextPop,
+      mailSubject: `Invitation from ${user?.result?.name} || CodeSync`,
+      roomLink: `${process.env.REACT_APP_BASE_URL}/room/${roomId}`,
+      userName: user?.result?.name,
+      userEmail: user?.result?.email
+    }
+    AXIOS.post("/sendMail", data).then((res) => {
+      setLoader(false);
+      setShowModal(false);
+      setEmailTextPop("")
+      toast.success(res.data)
+    }).catch((err) => {
+      setLoader(false);
+      console.error(err);
+      setShowModal(false);
+      setEmailTextPop("")
+      toast.error("Error While Sending Mail")
+   })
+    setLoader(false);
+  }
   return (
     <Loader show={loader} message={<div className="">
       <Bounce size={55} />
@@ -541,7 +565,7 @@ function Room(props) {
       <div style={{ margin: 0, height: "100%", overflow: "hidden" }}>
         <div className=" flex flex-row justify-content-center">
           <div style={{ width: "8%", marginTop: "6px", marginLeft: "1%" }}>
-            <img src='/image/Logos/xyz2.png'  style={{width : "100%"}} />
+            <img src='/image/Logos/xyz2.png' style={{ width: "100%" }} />
 
           </div>
           <div className=' hidden md:flex items-center justify-end md:flex-1 lg:w-0'>
@@ -599,7 +623,18 @@ function Room(props) {
                 <span style={{ marginLeft: "3px", fontSize: "14px" }}>End Call </span>
               </button>
             </div>
-
+            <div className="mr-4  " style={{ float: "right" }}>
+              {/* <br /> */}
+              <button
+                className="flex bg-transparent hover:bg-gray-200  text-white font-bold py-2 px-4   rounded-full border-solid border-2 border-gray-600	 "
+                onClick={() => {
+                  setShowModal(true);
+                }}
+              // 
+              >
+                <img style={{ width: "18px", height: "18px" }} src='/image/icons/send.svg' />  <span style={{ marginLeft: "3px", fontSize: "14px" }}>Invite </span>
+              </button>
+            </div>
 
             <div className="mr-4  " style={{ float: "right" }}>
               {/* <br /> */}
@@ -803,6 +838,13 @@ function Room(props) {
 
       </div>
       <Slider sliderOpen={sliderOpen} setSliderOpen={setSliderOpen} activeUserInRoom={activeUserInRoom} />
+      <Invite showModal={showModal}
+        setShowModal={setShowModal}
+        emailTextPop={emailTextPop}
+        setEmailTextPop={setEmailTextPop}
+        sendInviteEmail={sendInviteEmail}
+      
+      />
       <ToastContainer />
     </Loader>
   );
