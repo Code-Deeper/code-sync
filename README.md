@@ -30,7 +30,7 @@ with other room members & Many more things with smooth and attractive UI.
 - [x] Real Time Chat Messaging
 - [x] Collebrative Text-editor
 - [x] Compiler Programe
-- [ ] Invitation On Email
+- [x] Invitation On Email
 - [ ] Restricted user for enter room
 - [ ] Add load balancer
 - [x] Template added when change language
