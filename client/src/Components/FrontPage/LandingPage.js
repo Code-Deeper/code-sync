@@ -1,4 +1,6 @@
 import React from 'react'
+import Iframe from 'react-iframe'
+
 import './Landing.css'
 function LandingPage() {
     return (
@@ -101,6 +103,14 @@ function LandingPage() {
                         </div>
                     </div>
                 </div>
+                <div className='container max-w-6xl mx-auto mt-72 center '>
+                    <div>
+                    <Iframe url="https://cards.producthunt.com/cards/posts/320629?v=1"
+                        width="1150" height="850" frameborder="0" scrolling="no"
+                        />
+                    </div>
+
+                </div>
             </div>
 
             <div class="text-gray-700 bg-white body-font mt-32">
@@ -142,7 +152,7 @@ function LandingPage() {
                     </span>
                 </div>
             </div>
-
+            
         </>
     )
 }
