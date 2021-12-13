@@ -9,7 +9,7 @@
 [![Watch the video](https://github.com/Code-Deeper/media-repo/blob/main/CODESYNC.lIVE%20(1).png)](https://youtu.be/5IUfY_Pqj_s)
 <p align="center" width="400px"> <font size="9"> <b>👨🏾‍💻 A Cloud Collebrative Platform 🧑‍🏫 </b></font></p>
 
-CodeSync is a Cloud Collaborative Platform for Competitive programmers, Educators & who like to code with friends.CodeSync Provide  Collebrative Code-Editor,
+CodeSync is a Cloud Collaborative Platform for Competitive programmers, Educators & who like to code with friends. CodeSync Provide  Collebrative Code-Editor,
 Real-Time Audio Communication, Collaborative Drawing board for  explain idea, Collaborative text-editor for taking notes, Real-Time chat box for chatting 
 with other room members & Many more things with smooth and attractive UI.
  
@@ -36,5 +36,5 @@ with other room members & Many more things with smooth and attractive UI.
 - [x] Template added when change language
 <!--  <br/> -->
 ## Project Management
-  - For Project Management we used Github Project section it self.You can watch [here](https://github.com/Code-Deeper/code-sync/projects/1)
+  - For Project Management we used Github Project section it self. You can watch [here](https://github.com/Code-Deeper/code-sync/projects/1)
   - For Any Query / Improvement You can mail on ```work.vivekjaviya@gmail.com```.
