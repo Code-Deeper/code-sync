@@ -38,3 +38,7 @@ with other room members & Many more things with smooth and attractive UI.
 ## Project Management
   - For Project Management we used Github Project section it self. You can watch [here](https://github.com/Code-Deeper/code-sync/projects/1)
   - For Any Query / Improvement You can mail on ```work.vivekjaviya@gmail.com```.
+
+## License & copyright
+ - © 2021, Code-Deeper
+ - Licensed under the [MIT License](LICENSE).
