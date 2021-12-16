@@ -14,9 +14,7 @@ module.exports.forgotPwdController = asyncHandler(async (req, res, next) => {
   }
 
   const token = await user.createPWDresetToken();
-  const resetURL = `${req.protocol}://${req.get(
-    'host'
-  )}/api/_reset_password/${token}`;
+  const resetURL = `${process.env.FRONTEND_URL}/_reset_password/${token}`;
 
   var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -32,35 +30,27 @@ module.exports.forgotPwdController = asyncHandler(async (req, res, next) => {
     to: user.email,
     cc: 'codedeeper.work@gmail.com',
     subject: 'Codedeeper password reset Token',
-    html: `<p>Hello , ${user.name} here is your token link. <a href="${resetURL}">${resetURL}</a> to reset the password</p>`,
-    text: `<p>Hello , ${user.name} here is your token link. <a href="${resetURL}">${resetURL}</a> to reset the password</p>`,
+    html: `<p>Hello , ${user.name} here is your token link. <a href="${resetURL}">Click Here</a> to reset the password</p>`,
+    text: `<p>Hello , ${user.name} here is your token link. <a href="${resetURL}">Click Here</a> to reset the password</p>`,
   };
 
-  // transporter.sendMail(mailOptions, function (error, info) {
-  //   if (error) {
-  //     console.log(error);
-  //     res.status(200).send({
-  //       status: 'failed',
-  //     });
-  //   } else {
-  //     console.log('Email sent: ' + info.response);
-  //     if (process.env.NODE_ENV == 'development') {
-  //       res.status(200).send({
-  //         status: 'success',
-  //         resetURL,
-  //       });
-  //     } else {
-  //       res.status(200);
-  //     }
-  //   }
-  // });
-
-  /**
-   * @TODO: check nodemailer authentication and
-   * test this in development before building for production
-   */
-  res.status(200).send({
-    resetURL,
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+      res.status(200).send({
+        status: 'failed',
+      });
+    } else {
+      console.log('Email sent: ' + info.response);
+      if (process.env.NODE_ENV == 'development') {
+        res.status(200).send({
+          status: 'success',
+          resetURL,
+        });
+      } else {
+        res.status(200).send({status:"mail sent successfully"});
+      }
+    }
   });
 });
 
@@ -86,10 +76,8 @@ module.exports.resetPasswordController = asyncHandler(async (req, res) => {
     user.set({ password: newPassword, passwordChangedAt: new Date() });
     await user.save();
 
-    return res.send({
-      payload,
-      user,
-      elapsed_time: payload.exp - parseInt(Date.now() / 1000),
+    return res.status(200).send({
+      status: 'password changed successfully',
     });
   } catch (err) {
     res.status(400).send({
