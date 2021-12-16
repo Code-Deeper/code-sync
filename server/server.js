@@ -163,12 +163,6 @@ app.post('/sendMail', (req, res) => {
 //   })
 
 // }
-
-// app.use("*",(error,req,res,next)=>{
-//   res.send({
-//     error:error.message
-//   })
-// })
 server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
