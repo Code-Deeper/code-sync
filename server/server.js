@@ -35,6 +35,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("API IS RUNNING")
 })
+
+app.use('/api',require('./routes/pwd.route'))
 app.use('/api/room/', require('./routes/room.route'));
 app.use('/api/user/', require('./routes/user.route'));
 
@@ -161,6 +163,12 @@ app.post('/sendMail', (req, res) => {
 //   })
 
 // }
+
+// app.use("*",(error,req,res,next)=>{
+//   res.send({
+//     error:error.message
+//   })
+// })
 server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
