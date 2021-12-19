@@ -2,7 +2,7 @@
   <img src="main.png">
   <h3>User Authentication 🔗</h3>
   <img src="user-auth.png">
-  <h3> Join room with ID 🂠</h3>
+  <h3> Join room with ID or Create room and share the link to your peers🂠</h3>
   <img src="join.png">
   <h3> Choose your language to code ☞</h3>
   <img src="head.png">
@@ -18,3 +18,4 @@
   <img src="chat-room.png">
   <h3> Use Collaborative White-Board for Visualization🔖</h3>
   <img src="white-board.png">
+  <h2>Hope you enjoyed, Thanks for Watching!🌻</h2>
