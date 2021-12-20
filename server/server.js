@@ -6,7 +6,7 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 var morgan = require('morgan')
 const path = require('path')
-
+var nodemailer = require('nodemailer');
 
 const app = express()
 dotenv.config('../.env');
@@ -35,6 +35,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("API IS RUNNING")
 })
+
+app.use('/api',require('./routes/pwd.route'))
 app.use('/api/room/', require('./routes/room.route'));
 app.use('/api/user/', require('./routes/user.route'));
 
@@ -114,6 +116,42 @@ io.on('connection', (socket) => {
     // console.log("User disconnect", user);
   })
 });
+
+
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.OUR_EMAIL,
+    pass: process.env.EMAIL_PASS
+  },
+  from : "codesync.live"
+});
+
+
+
+app.post('/sendMail', (req, res) => {
+  const { sendTo ,mailSubject , roomLink , userName ,userEmail} = req.body
+  console.log(req.body)
+  var mailOptions = {
+    from: process.env.OUR_EMAIL,
+    to: sendTo,
+    cc: "codedeeper.work@gmail.com",
+    subject: mailSubject,
+    html: `<p>Hello Dear, ${userName} is invite you on CodeSync for write collaboration code.<br />Click <a href="${roomLink}">here</a> to Join the room</p>`,
+    text: `<p>Hello Dear, ${userName} is invite you on CodeSync for write collaboration code.<br />Click <a href="${roomLink}">here</a> to Join the room</p>`,
+  };
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+      res.status(200).send("error")
+    } else {
+      res.status(200).send("Email sent")
+      console.log('Email sent: ' + info.response);
+    }
+  });
+})
+
 
 // Production Settings
 // if (process.env.NODE_ENV === 'production') {
