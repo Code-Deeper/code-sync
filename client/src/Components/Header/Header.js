@@ -117,12 +117,12 @@ function Header(props) {
                     >
                       Join Room
                     </a>
-                    <a
+                    {/* <a
                       href="/team"
                       className="hover:no-underline hover:text-gray-200 hover:bg-indigo-500 text-black px-3 py-2 rounded-md text-base font-semibold	"
                     >
                       Our Team
-                    </a>
+                    </a> */}
                   </div>
                 </div>
               </div>
@@ -217,12 +217,12 @@ function Header(props) {
                   >
                     Join Room
                   </a>
-                  <a
+                  {/* <a
                     href="/team"
                     className="hover:no-underline hover:text-gray-200 hover:bg-indigo-500 text-black block px-3 py-2 rounded-md text-base font-medium"
                   >
                     Our Team
-                  </a>
+                  </a> */}
                 </div>
                 <div>
                   <button
