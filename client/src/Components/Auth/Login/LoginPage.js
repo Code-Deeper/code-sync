@@ -203,6 +203,9 @@ function LoginPage(props) {
                                     <div className='right-0	mt-4 ml-6 mb-2'>
                                         don't have an account ?  <Link to="/register" className="text-indigo-700" >Register here</Link>
                                     </div>
+                                    <div className='right-0	mt-4 ml-6 mb-2'>
+                                        Forgot Password ? <Link to="/forgot_password" className="text-indigo-700">Click here</Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
