@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { push } from 'react-router-redux';
-
-// import './LoginPage.css';
-import { Grid, TextField, Button, Stack } from '@mui/material';
-import Input from '../../Input/Input';
-import { Link } from 'react-router-dom';
-import GoogleLogin from 'react-google-login';
-import Icon from '../Register/Icon';
 import dotenv from 'dotenv';
 import { useDispatch } from 'react-redux';
-import { addUser, loginUser } from '../../../Action/UserAction';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import AXIOS from '../../../API';
 import Bounce from 'react-activity/dist/Bounce';
 import 'react-activity/dist/Bounce.css';
 import Loader from 'react-loader-advanced';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 const initialState = {
   email: '',
   password: '',
@@ -43,7 +33,7 @@ function LoginPage(props) {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/_forgot_password', {
+      await AXIOS.post('/api/_forgot_password', {
         email: formData.email,
       });
     } catch (err) {
