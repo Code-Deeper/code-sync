@@ -55,7 +55,7 @@ function App() {
         <Router history={history}>
           <Route path='/' component={FrontPage} exact />
           <Route path='/forgot_password' exact component={ForgotPassword} />
-          <Route path='/reset_password/:id' exact component={ResetPassword} />
+          <Route path='/_reset_password/:id' exact component={ResetPassword} />
 
           <Route
             path='/login'
