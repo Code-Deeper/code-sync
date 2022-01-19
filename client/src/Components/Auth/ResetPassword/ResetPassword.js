@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import dotenv from 'dotenv';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+import AXIOS from '../../../API';
 import Bounce from 'react-activity/dist/Bounce';
 import 'react-activity/dist/Bounce.css';
 import Loader from 'react-loader-advanced';
@@ -38,7 +38,10 @@ function LoginPage(props) {
       setErrorHandler('Password doesn"t match');
     } else {
       try {
-        await axios.post(`/api/_reset_password/${JWT_KEY}`);
+        await AXIOS.post(`/api/_reset_password/${JWT_KEY}`, {
+          password,
+          confirmpassword: confirmPassword,
+        });
       } catch (err) {
         setErrorHandler('Something went Wrong!!');
         // @TODO: Handle error pop ups
