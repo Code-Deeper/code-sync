@@ -48,7 +48,7 @@ module.exports.forgotPwdController = asyncHandler(async (req, res, next) => {
           resetURL,
         });
       } else {
-        res.status(200).send({status:"mail sent successfully"});
+        res.status(200).send({ status: 'mail sent successfully' });
       }
     }
   });
