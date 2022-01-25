@@ -6,7 +6,7 @@ import AXIOS from '../../../API';
 import Bounce from 'react-activity/dist/Bounce';
 import 'react-activity/dist/Bounce.css';
 import Loader from 'react-loader-advanced';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer  , toast} from 'react-toastify';
 const initialState = {
   email: '',
   password: '',
@@ -33,11 +33,25 @@ function LoginPage(props) {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      await AXIOS.post('/api/_forgot_password', {
+      setLoader(true)
+      const res = await AXIOS.post('/api/_forgot_password', {
         email: formData.email,
       });
+      console.log({res})
+      if(res.data.status === 'success'){
+        props.history.push('/login');
+        toast.success("Forgot password mail has been send sucessfully")
+      }else{
+        props.history.push('/login');
+        toast.error("Something wrong happened!")
+      }
+      setLoader(false)
     } catch (err) {
-      setErrorHandler('Something went Wrong');
+      // setErrorHandler('Something went Wrong');
+      setLoader(false)
+
+      props.history.push('/login');
+      toast.error("Something wrong happened!")
       // @TODO: Handle error pop ups
     }
   };

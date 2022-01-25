@@ -14,7 +14,7 @@ const {
 
 const router = express.Router();
 
-router.get('/_reset_password/:JWT_TOKEN', resetPasswordController);
+router.post('/_reset_password/:JWT_TOKEN', resetPasswordController);
 router.post('/_forgot_password', forgotPasswordRateLimit, forgotPwdController);
 
 module.exports = router;
