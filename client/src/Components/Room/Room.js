@@ -535,7 +535,8 @@ function Room(props) {
 
   const sendInviteEmail = async () => {
     // sendTo ,mailSubject , roomLink , userName ,userEmail
-    setLoader(true);
+    // e.preventDefault();
+  await setLoader(true);
     const data = {
       sendTo: emailTextPop,
       mailSubject: `Invitation from ${user?.result?.name} || CodeSync`,
@@ -555,7 +556,7 @@ function Room(props) {
       setEmailTextPop("")
       toast.error("Error While Sending Mail")
    })
-    setLoader(false);
+    // setLoader(false);
   }
   return (
     <Loader show={loader} message={<div className="">
@@ -841,8 +842,10 @@ function Room(props) {
       <Invite showModal={showModal}
         setShowModal={setShowModal}
         emailTextPop={emailTextPop}
+        setLoader={setLoader}
         setEmailTextPop={setEmailTextPop}
         sendInviteEmail={sendInviteEmail}
+        loader={loader}
       
       />
       <ToastContainer />
