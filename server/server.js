@@ -7,7 +7,7 @@ const dotenv = require('dotenv')
 var morgan = require('morgan')
 const path = require('path')
 var nodemailer = require('nodemailer');
-
+const axios = require('axios');
 const app = express()
 dotenv.config('../.env');
 const server = http.createServer(app);
@@ -132,23 +132,27 @@ var transporter = nodemailer.createTransport({
 
 app.post('/sendMail', (req, res) => {
   const { sendTo ,mailSubject , roomLink , userName ,userEmail} = req.body
-  console.log(req.body)
-  var mailOptions = {
-    from: process.env.OUR_EMAIL,
-    to: sendTo,
-    cc: "codedeeper.work@gmail.com",
-    subject: mailSubject,
-    html: `<p>Hello Dear, ${userName} is invite you on CodeSync for write collaboration code.<br />Click <a href="${roomLink}">here</a> to Join the room</p>`,
-    text: `<p>Hello Dear, ${userName} is invite you on CodeSync for write collaboration code.<br />Click <a href="${roomLink}">here</a> to Join the room</p>`,
-  };
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-      res.status(200).send("error")
-    } else {
-      res.status(200).send("Email sent")
-      console.log('Email sent: ' + info.response);
+  var options = {
+    method: 'POST',
+    url: process.env.EMAIL_API_URL,
+    headers: {
+      'content-type': 'application/json',
+      'x-rapidapi-host': process.env.EMAIL_API_HOST,
+      'x-rapidapi-key': process.env.EMAIL_API_KEY
+    },
+    data: {
+      personalizations: [{to: [{email: sendTo}], subject: mailSubject}],
+      from: {email: 'codesync.live@gmail.com'},
+      content: [{type: 'text/html', value: `<p>Hello Dear, ${userName} is invite you on CodeSync for write collaboration code.<br />Click <a href="${roomLink}">here</a> to Join the room</p>`}]
     }
+  };
+
+  axios.request(options).then(function (response) {
+    // console.log();
+    res.status(200).send("Mail sent successfully.")
+  }).catch(function (error) {
+    console.error(error);
+    res.send("Something went wrong")
   });
 })
 
