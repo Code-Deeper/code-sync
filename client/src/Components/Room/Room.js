@@ -141,6 +141,11 @@ function Room(props) {
   // Once room will be created then this effect will triggered when ever props id changed
   // Props id means router id example /room/:id
   useEffect(() => {
+    const { id } = props.match.params;
+    setRoomId(id);
+    socket.emit("joinroom", { roomId: id, userName: user.result.familyName || user.result.name, userImg: user.result.imageUrl || user.result.name }, (err) => {
+      console.log(err)
+    });
 
     socket.on("updateBody", (roomBody) => {
       // console.log("we", roomBody);
@@ -173,12 +178,7 @@ function Room(props) {
     })
     setLoader(true);
 
-    const { id } = props.match.params;
-    setRoomId(id);
-    socket.emit("joinroom", { roomId: id, userName: user.result.familyName || user.result.name, userImg: user.result.imageUrl || user.result.name }, (err) => {
-      console.log(err)
-    });
-
+    
     const url = `/api/room/${id}`;
     const fetchData = async () => {
       const { data } = await AXIOS.get(url, {
@@ -201,6 +201,9 @@ function Room(props) {
     fetchData();
     return () => {
       // console.log("called");
+      // socket.off("disconnect", {userName: user.result.familyName || user.result.name} , (err) => {
+      //   console.log(err);
+      // })
       socket.off("updateBody", (roomBody) => {
         // console.log(roomBody);
         setRoomBody(roomBody);
@@ -220,6 +223,8 @@ function Room(props) {
         destroyConnection();
       }
       myAudio = null;
+      socket.disconnect();
+
     };
   }, [props]);
 
@@ -616,8 +621,14 @@ function Room(props) {
 
               <button
                 className="flex bg-transparent hover:bg-red-400  text-gray-100 font-bold py-2 px-4 bg-red-600	  rounded-full border-solid border-2 border-red-500	 "
-                onClick={() => {
+                onClick={async() => {
+                  
+                 
                   props.history.push('/room');
+
+
+
+
                 }}
               // 
               >
