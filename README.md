@@ -1,5 +1,5 @@
 # CodeSync
-### ⚠️ Site Not responsive for all screen, May you need Zoom out with chrome, We are working on it  🛑
+### ⚠️ The site is no longer live, but you can watch the video to learn more 🛑
 <a href="https://www.producthunt.com/posts/codesync?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-codesync" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=320629&theme=light" alt="CodeSync - Collaborative cloud platform for students & teachers | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
 [![Issues](https://img.shields.io/github/issues/Code-Deeper/code-sync)](#issues)
@@ -31,8 +31,6 @@ with other room members & Many more things with smooth and attractive UI.
 - [x] Collebrative Text-editor
 - [x] Compiler Programe
 - [x] Invitation On Email
-- [ ] Restricted user for enter room
-- [ ] Add load balancer
 - [x] Template added when change language
 <!--  <br/> -->
 ## Project Management
